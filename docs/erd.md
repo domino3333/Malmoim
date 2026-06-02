@@ -36,16 +36,17 @@ FOREIGN KEY (room_no) REFERENCES room(no)
 
 ### 2.3 room
 
-| 컬럼명 | 타입 | 키 | 제약 | 설명 |
-| --- | --- | --- | --- | --- |
-| no | BIGINT | PK |  | 방 번호 |
-| host_no | BIGINT | FK | NOT NULL | 방을 생성한 회원 번호 |
-| title | VARCHAR(100) |  | NOT NULL | 방 제목 |
-| code | VARCHAR(20) |  | NOT NULL | 방 입장 코드 |
-| capacity | INT |  | NOT NULL | 최대 참가 인원 |
-| password | VARCHAR(100) |  |  | 방 비밀번호 |
-| created_at | DATETIME |  | NOT NULL DEFAULT CURRENT_TIMESTAMP | 생성일시 |
-| status | VARCHAR(20) |  | NOT NULL DEFAULT 'closed' | 방 상태 |
+| 컬럼명       | 타입 | 키 | 제약 | 설명          |
+|-----------| --- | --- | --- |-------------|
+| no        | BIGINT | PK |  | 방 번호        |
+| host_no   | BIGINT | FK | NOT NULL | 방을 생성한 회원 번호 |
+| title     | VARCHAR(100) |  | NOT NULL | 방 제목        |
+| code      | VARCHAR(20) |  | NOT NULL | 방 입장 코드     |
+| capacity  | INT |  | NOT NULL | 최대 참가 인원    |
+| password  | VARCHAR(100) |  |  | 방 비밀번호      |
+| created_at | DATETIME |  | NOT NULL DEFAULT CURRENT_TIMESTAMP | 생성일시        |
+| status    | VARCHAR(20) |  | NOT NULL DEFAULT 'closed' | 방 상태        |
+| type      | VARCHAR(20) |  |  | 방 타입        |
 
 ```sql
 CONSTRAINT room_member_fk
@@ -53,6 +54,9 @@ FOREIGN KEY (host_no) REFERENCES member(no)
 
 CONSTRAINT room_status_ck
 CHECK (status IN ('opened', 'closed'))
+
+
+
 ```
 
 ### 2.4 question
