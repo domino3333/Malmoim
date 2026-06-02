@@ -12,22 +12,22 @@
 
 ### 2.1 member
 
-| 컬럼명 | 타입 | 키 | 설명 |
-| --- | --- | --- | --- |
-| no | BIGINT | PK | 회원 번호 |
-| email | VARCHAR(50) | UK | 회원 이메일 |
-| password | VARCHAR(100) |  | 비밀번호 |
-| name | VARCHAR(20) |  | 회원 이름 |
-| created_at | DATETIME |  | 생성일시 |
+| 컬럼명 | 타입 | 키 | 제약 | 설명 |
+| --- | --- | --- | --- | --- |
+| no | BIGINT | PK |  | 회원 번호 |
+| email | VARCHAR(50) | UK | NOT NULL | 회원 이메일 |
+| password | VARCHAR(100) |  | NOT NULL | 비밀번호 |
+| name | VARCHAR(20) |  | NOT NULL | 회원 이름 |
+| created_at | DATETIME |  | NOT NULL DEFAULT CURRENT_TIMESTAMP | 생성일시 |
 
 ### 2.2 participant
 
-| 컬럼명 | 타입 | 키 | 설명 |
-| --- | --- | --- | --- |
-| no | BIGINT | PK | 참가자 번호 |
-| nickname | VARCHAR(20) |  | 참가자 닉네임 |
-| created_at | DATETIME |  | 생성일시 |
-| room_no | BIGINT | FK | 참가자가 입장한 방 번호 |
+| 컬럼명 | 타입 | 키 | 제약 | 설명 |
+| --- | --- | --- | --- | --- |
+| no | BIGINT | PK |  | 참가자 번호 |
+| nickname | VARCHAR(20) |  | NOT NULL | 참가자 닉네임 |
+| created_at | DATETIME |  | NOT NULL DEFAULT CURRENT_TIMESTAMP | 생성일시 |
+| room_no | BIGINT | FK |  | 참가자가 입장한 방 번호 |
 
 ```sql
 CONSTRAINT participant_room_fk
@@ -36,16 +36,16 @@ FOREIGN KEY (room_no) REFERENCES room(no)
 
 ### 2.3 room
 
-| 컬럼명 | 타입 | 키 | 설명 |
-| --- | --- | --- | --- |
-| no | BIGINT | PK | 방 번호 |
-| host_no | BIGINT | FK | 방을 생성한 회원 번호 |
-| title | VARCHAR(100) |  | 방 제목 |
-| code | VARCHAR(20) |  | 방 입장 코드 |
-| capacity | INT |  | 최대 참가 인원 |
-| password | VARCHAR(100) |  | 방 비밀번호 |
-| created_at | DATETIME |  | 생성일시 |
-| status | VARCHAR(20) |  | 방 상태 |
+| 컬럼명 | 타입 | 키 | 제약 | 설명 |
+| --- | --- | --- | --- | --- |
+| no | BIGINT | PK |  | 방 번호 |
+| host_no | BIGINT | FK | NOT NULL | 방을 생성한 회원 번호 |
+| title | VARCHAR(100) |  | NOT NULL | 방 제목 |
+| code | VARCHAR(20) |  | NOT NULL | 방 입장 코드 |
+| capacity | INT |  | NOT NULL | 최대 참가 인원 |
+| password | VARCHAR(100) |  |  | 방 비밀번호 |
+| created_at | DATETIME |  | NOT NULL DEFAULT CURRENT_TIMESTAMP | 생성일시 |
+| status | VARCHAR(20) |  | NOT NULL DEFAULT 'closed' | 방 상태 |
 
 ```sql
 CONSTRAINT room_member_fk
@@ -57,15 +57,15 @@ CHECK (status IN ('opened', 'closed'))
 
 ### 2.4 question
 
-| 컬럼명 | 타입 | 키 | 설명 |
-| --- | --- | --- | --- |
-| no | BIGINT | PK | 질문 번호 |
-| participant_no | BIGINT | FK | 질문 작성 참가자 번호 |
-| content | TEXT |  | 질문 내용 |
-| room_no | BIGINT | FK | 질문이 등록된 방 번호 |
-| vote_count | INT |  | 추천 수 |
-| created_at | DATETIME |  | 생성일시 |
-| status | VARCHAR(20) |  | 질문 상태 |
+| 컬럼명 | 타입 | 키 | 제약 | 설명 |
+| --- | --- | --- | --- | --- |
+| no | BIGINT | PK |  | 질문 번호 |
+| participant_no | BIGINT | FK | NOT NULL | 질문 작성 참가자 번호 |
+| content | TEXT |  | NOT NULL | 질문 내용 |
+| room_no | BIGINT | FK | NOT NULL | 질문이 등록된 방 번호 |
+| vote_count | INT |  | NOT NULL DEFAULT 0 | 추천 수 |
+| created_at | DATETIME |  | NOT NULL DEFAULT CURRENT_TIMESTAMP | 생성일시 |
+| status | VARCHAR(20) |  |  | 질문 상태 |
 
 ```sql
 CONSTRAINT question_status_ck
@@ -80,12 +80,12 @@ FOREIGN KEY (participant_no) REFERENCES participant(no)
 
 ### 2.5 vote
 
-| 컬럼명 | 타입 | 키 | 설명 |
-| --- | --- | --- | --- |
-| no | BIGINT | PK | 추천 번호 |
-| participant_no | BIGINT | FK | 추천한 참가자 번호 |
-| created_at | DATETIME |  | 생성일시 |
-| question_no | BIGINT | FK | 추천 대상 질문 번호 |
+| 컬럼명 | 타입 | 키 | 제약 | 설명 |
+| --- | --- | --- | --- | --- |
+| no | BIGINT | PK |  | 추천 번호 |
+| participant_no | BIGINT | FK | NOT NULL | 추천한 참가자 번호 |
+| created_at | DATETIME |  | NOT NULL DEFAULT CURRENT_TIMESTAMP | 생성일시 |
+| question_no | BIGINT | FK | NOT NULL | 추천 대상 질문 번호 |
 
 ```sql
 CONSTRAINT vote_uk
