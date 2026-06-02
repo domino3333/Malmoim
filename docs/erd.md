@@ -1,61 +1,109 @@
-﻿# 말모임
+﻿# 말모임 ERD
 
-## 1. table
+## 1. 테이블 목록
 
-member
--no (pk)
--email varchar2(50) (uk)
--password varchar2(100)
--name varchar2(20)
--created_at
+- `member`: 방을 생성하고 관리하는 진행자 회원
+- `participant`: 특정 방에 입장한 익명 참가자
+- `room`: Q&A가 진행되는 방
+- `question`: 참가자가 방에 등록한 질문
+- `vote`: 참가자가 질문에 누른 추천
 
+## 2. 테이블 상세
 
-participant
--no
--nickname
--created_at
--room_no
+### 2.1 member
 
-constraint participant_room_fk foreign key (room_no) references room(no)
+| 컬럼명 | 타입 | 키 | 설명 |
+| --- | --- | --- | --- |
+| no | BIGINT | PK | 회원 번호 |
+| email | VARCHAR(50) | UK | 회원 이메일 |
+| password | VARCHAR(100) |  | 비밀번호 |
+| name | VARCHAR(20) |  | 회원 이름 |
+| created_at | DATETIME |  | 생성일시 |
 
-room
--no
--host_no
--title
--code
--capacity
--password
--created_at
--status
+### 2.2 participant
 
-constraint room_member_fk foreign key (host_no) references member(no)
-constraint room_status_ck check (status IN ('opened','closed'))
+| 컬럼명 | 타입 | 키 | 설명 |
+| --- | --- | --- | --- |
+| no | BIGINT | PK | 참가자 번호 |
+| nickname | VARCHAR(20) |  | 참가자 닉네임 |
+| created_at | DATETIME |  | 생성일시 |
+| room_no | BIGINT | FK | 참가자가 입장한 방 번호 |
 
+```sql
+CONSTRAINT participant_room_fk
+FOREIGN KEY (room_no) REFERENCES room(no)
+```
 
+### 2.3 room
 
+| 컬럼명 | 타입 | 키 | 설명 |
+| --- | --- | --- | --- |
+| no | BIGINT | PK | 방 번호 |
+| host_no | BIGINT | FK | 방을 생성한 회원 번호 |
+| title | VARCHAR(100) |  | 방 제목 |
+| code | VARCHAR(20) |  | 방 입장 코드 |
+| capacity | INT |  | 최대 참가 인원 |
+| password | VARCHAR(100) |  | 방 비밀번호 |
+| created_at | DATETIME |  | 생성일시 |
+| status | VARCHAR(20) |  | 방 상태 |
 
-question
--no
--participant_no
--content
--room_no
--vote_count
--created_at
--status
+```sql
+CONSTRAINT room_member_fk
+FOREIGN KEY (host_no) REFERENCES member(no)
 
-constraint question_status_ck check (status IN ('WAITING','ANSWERED','REJECTED','HIDDEN'))
-constraint question_room_fk foreign key (room_no) references room(no)
-constraint question_member_fk foreign key (participant_no) references participant(no)
+CONSTRAINT room_status_ck
+CHECK (status IN ('opened', 'closed'))
+```
 
+### 2.4 question
 
-vote
--no
--participant_no
--created_at
--question_no
+| 컬럼명 | 타입 | 키 | 설명 |
+| --- | --- | --- | --- |
+| no | BIGINT | PK | 질문 번호 |
+| participant_no | BIGINT | FK | 질문 작성 참가자 번호 |
+| content | TEXT |  | 질문 내용 |
+| room_no | BIGINT | FK | 질문이 등록된 방 번호 |
+| vote_count | INT |  | 추천 수 |
+| created_at | DATETIME |  | 생성일시 |
+| status | VARCHAR(20) |  | 질문 상태 |
 
-constraint vote_uk unique (participant_no,question_no) // 한 참가자는 한 질문에 한 번만 추천 가능
+```sql
+CONSTRAINT question_status_ck
+CHECK (status IN ('WAITING', 'ANSWERED', 'REJECTED', 'HIDDEN'))
 
-constraint question_fk foreign key (question_no) references question(no) on delete cascade
-constraint vote_member_fk foreign key (participant_no) references participant(no)
+CONSTRAINT question_room_fk
+FOREIGN KEY (room_no) REFERENCES room(no)
 
+CONSTRAINT question_participant_fk
+FOREIGN KEY (participant_no) REFERENCES participant(no)
+```
+
+### 2.5 vote
+
+| 컬럼명 | 타입 | 키 | 설명 |
+| --- | --- | --- | --- |
+| no | BIGINT | PK | 추천 번호 |
+| participant_no | BIGINT | FK | 추천한 참가자 번호 |
+| created_at | DATETIME |  | 생성일시 |
+| question_no | BIGINT | FK | 추천 대상 질문 번호 |
+
+```sql
+CONSTRAINT vote_uk
+UNIQUE (participant_no, question_no)
+
+CONSTRAINT vote_question_fk
+FOREIGN KEY (question_no) REFERENCES question(no) ON DELETE CASCADE
+
+CONSTRAINT vote_participant_fk
+FOREIGN KEY (participant_no) REFERENCES participant(no)
+```
+
+## 3. 관계 요약
+
+- `member` 1명은 여러 개의 `room`을 생성할 수 있다.
+- `room` 1개에는 여러 명의 `participant`가 입장할 수 있다.
+- `room` 1개에는 여러 개의 `question`이 등록될 수 있다.
+- `participant` 1명은 여러 개의 `question`을 작성할 수 있다.
+- `participant` 1명은 여러 개의 `vote`를 생성할 수 있다.
+- `question` 1개는 여러 개의 `vote`를 받을 수 있다.
+- 같은 참가자는 같은 질문에 한 번만 추천할 수 있다.
