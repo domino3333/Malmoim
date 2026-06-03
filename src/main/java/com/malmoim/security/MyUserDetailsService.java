@@ -26,7 +26,7 @@ public class MyUserDetailsService implements UserDetailsService {
 
         Member member = memberMapper.getMemberByEmail(email);
         if (member == null){
-            throw new RuntimeException("loadUserByUsername: member 없음");
+            throw new UsernameNotFoundException("loadUserByUsername: member 없음");
         }
 
         //권한이 하나뿐이라 스트림을 돌릴 필요 x

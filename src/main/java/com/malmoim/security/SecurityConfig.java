@@ -22,6 +22,7 @@ public class SecurityConfig {
         return http
                 .formLogin(fr->fr.disable())
                 .httpBasic(hb->hb.disable())
+                .csrf(csrf->csrf.disable())
                 .authorizeHttpRequests(auth->auth
                                 .requestMatchers("/api/member/").permitAll()
 
