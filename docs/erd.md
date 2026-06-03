@@ -12,12 +12,13 @@
 
 ### 2.1 member
 
-| 컬럼명 | 타입 | 키 | 제약 | 설명 |
-| --- | --- | --- | --- | --- |
-| no | BIGINT | PK |  | 회원 번호 |
-| email | VARCHAR(50) | UK | NOT NULL | 회원 이메일 |
-| password | VARCHAR(100) |  | NOT NULL | 비밀번호 |
-| name | VARCHAR(20) |  | NOT NULL | 회원 이름 |
+| 컬럼명        | 타입 | 키 | 제약 | 설명 |
+|------------| --- | --- | --- |  |
+| no         | BIGINT | PK |  | 회원 번호 |
+| email      | VARCHAR(50) | UK | NOT NULL | 회원 이메일 |
+| password   | VARCHAR(100) |  | NOT NULL | 비밀번호 |
+| name       | VARCHAR(20) |  | NOT NULL | 회원 이름 |
+| role       | VARCHAR(20) |  | NOT NULL | 권한 |
 | created_at | DATETIME |  | NOT NULL DEFAULT CURRENT_TIMESTAMP | 생성일시 |
 
 ### 2.2 participant
