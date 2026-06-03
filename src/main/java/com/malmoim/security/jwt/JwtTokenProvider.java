@@ -10,6 +10,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
+import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import java.util.stream.Collectors;
 
@@ -23,11 +24,11 @@ public class JwtTokenProvider {
 
 
     public JwtTokenProvider(
-            @Value("${jwt.secret}") String secretKey
-            , @Value("${jwt.expiration}") Long expiration) {
-        this.key = Keys.hmacShaKeyFor(Decoders.BASE64.decode(secretKey));
-        this.expiration = expiration;
+            @Value("${jwt.secret}") String secretKey,
+            @Value("${jwt.expiration}") Long expiration) {
 
+        this.key = Keys.hmacShaKeyFor(secretKey.getBytes(StandardCharsets.UTF_8));
+        this.expiration = expiration;
     }
 
     public boolean validateToken(String token){
@@ -56,7 +57,7 @@ public class JwtTokenProvider {
     public String createToken(Authentication authentication){
         String email = authentication.getName();
 
-        String role = authentication.getAuthorities().stream()
+        String roles = authentication.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .filter(role->role.startsWith("ROLE_"))
                 .collect(Collectors.joining(","));
@@ -67,7 +68,7 @@ public class JwtTokenProvider {
 
         return Jwts.builder()
                 .subject(email)
-                .claim("roles",role)
+                .claim("roles",roles)
                 .issuedAt(now)
                 .expiration(expiry)
                 .signWith(key)

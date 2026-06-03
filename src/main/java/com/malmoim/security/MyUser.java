@@ -24,8 +24,6 @@ public class MyUser implements UserDetails {
     private String role;
     private LocalDateTime createdAt;
 
-    private SimpleGrantedAuthority authority;
-    //모든 유저는 권한이 하나뿐이라 리스트가 필요없지만 일단은 만들어놓음
     private List<SimpleGrantedAuthority> authorities;
 
     @Override
