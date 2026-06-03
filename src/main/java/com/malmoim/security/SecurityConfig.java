@@ -9,6 +9,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.crypto.password4j.BcryptPassword4jPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
@@ -31,6 +32,11 @@ public class SecurityConfig {
     @Bean
     public AuthenticationManager provideAuthManager(AuthenticationConfiguration ac) {
         return ac.getAuthenticationManager();
+    }
+
+    @Bean
+    BcryptPassword4jPasswordEncoder providePasswordEncoder(){
+        return new BcryptPassword4jPasswordEncoder();
     }
 
 
