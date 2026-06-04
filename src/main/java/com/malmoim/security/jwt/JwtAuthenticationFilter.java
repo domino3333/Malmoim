@@ -33,6 +33,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         String header = request.getHeader("Authorization");
 
+        //로그인 때는 토큰이 당연히 null 값이므로 여길 스킵하고 바로 다음 필터로 넘어가짐
         if(header!=null && header.startsWith("Bearer ")){
             String token = header.substring(7);
 
