@@ -1,16 +1,14 @@
 package com.malmoim.controller;
 
 
-import com.malmoim.dto.LoginDto;
+import com.malmoim.dto.auth.LoginDto;
+import com.malmoim.dto.auth.LoginResponse;
 import com.malmoim.security.jwt.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
-import org.apache.coyote.Response;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,9 +32,9 @@ public class AuthController {
 
         Authentication authentication = authenticationManager.authenticate(token);
 
-        String jsonWebToken = jwtTokenProvider.createToken(authentication);
+        String accessToken = jwtTokenProvider.createToken(authentication);
 
 
-        return ResponseEntity.ok(jsonWebToken);
+        return ResponseEntity.ok(new LoginResponse(accessToken));
     }
 }

@@ -1,4 +1,4 @@
-package com.malmoim.dto;
+package com.malmoim.dto.auth;
 
 
 import lombok.Data;
