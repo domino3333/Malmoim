@@ -4,6 +4,11 @@
 
 
     <select id="getMemberByEmail" resultType="Member">
-        select * from member where email=#{email};
+        select * from member where email=#{email}
     </select>
+
+
+    <insert id="signUp">
+        insert into member(email,password,name,role) values(#{email},#{password},#{name},"NORMAL")
+    </insert>
 </mapper>

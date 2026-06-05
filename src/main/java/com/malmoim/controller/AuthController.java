@@ -3,7 +3,9 @@ package com.malmoim.controller;
 
 import com.malmoim.dto.auth.LoginDto;
 import com.malmoim.dto.auth.LoginResponse;
+import com.malmoim.dto.auth.SignUpDto;
 import com.malmoim.security.jwt.JwtTokenProvider;
+import com.malmoim.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +24,8 @@ public class AuthController {
 
     private final AuthenticationManager authenticationManager;
     private final JwtTokenProvider jwtTokenProvider;
+    private final MemberService memberService;
+
 
 
 
@@ -33,12 +37,25 @@ public class AuthController {
         log.info("password:{}",dto.getPassword());
 
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(dto.getEmail(),dto.getPassword());
-
         Authentication authentication = authenticationManager.authenticate(token);
-
         String accessToken = jwtTokenProvider.createToken(authentication);
-
 
         return ResponseEntity.ok(new LoginResponse(accessToken));
     }
+
+
+    @PostMapping("/signUp")
+    public ResponseEntity<?> signUp(@RequestBody SignUpDto dto){
+
+        log.info("signUp 진입");
+        log.info("email:{}",dto.getEmail());
+        log.info("password:{}",dto.getPassword());
+
+        memberService.signUp(dto);
+
+        return ResponseEntity.ok("가입완료");
+    }
+
+
+
 }
