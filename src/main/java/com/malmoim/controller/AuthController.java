@@ -33,7 +33,6 @@ public class AuthController {
 
         log.info("login 진입");
         log.info("email:{}",dto.getEmail());
-        log.info("password:{}",dto.getPassword());
 
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(dto.getEmail(),dto.getPassword());
         Authentication authentication = authenticationManager.authenticate(token);
@@ -48,8 +47,7 @@ public class AuthController {
 
         log.info("signUp 진입");
         log.info("email:{}",dto.getEmail());
-        log.info("password:{}",dto.getPassword());
-
+        
         memberService.signUp(dto);
 
         return ResponseEntity.ok("가입완료");
