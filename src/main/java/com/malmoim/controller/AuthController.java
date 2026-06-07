@@ -47,7 +47,7 @@ public class AuthController {
 
         log.info("signUp 진입");
         log.info("email:{}",dto.getEmail());
-        
+
         memberService.signUp(dto);
 
         return ResponseEntity.ok("가입완료");
