@@ -25,7 +25,7 @@ public class RoomController {
     public ResponseEntity<?> createQnARoom(Authentication authentication, @RequestBody CreateQnaRoomDto dto){
 
         String hostEmail = authentication.getName();
-
+        log.info("ischecked:{}",dto.getIsChecked());
         roomService.createQnARoom(dto,hostEmail);
 
         return null;

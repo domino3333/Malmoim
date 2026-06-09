@@ -45,7 +45,7 @@ public class RoomServiceImpl implements RoomService {
                 .password(dto.getPassword())
                 .code(code)
                 .type("QnA")
-                .status(dto.getIsChecked() ? "opened":"closed")
+                .status(dto.getIsChecked() ? "closed":"opened") //체크됨(true => 비공개방)
                 .build());
     }
 }
