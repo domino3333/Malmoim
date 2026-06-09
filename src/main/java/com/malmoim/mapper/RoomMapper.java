@@ -1,8 +1,10 @@
 package com.malmoim.mapper;
 
 
+import com.malmoim.domain.Room;
+
 public interface RoomMapper {
 
 
-    void CreateQnARoom();
+    void CreateQnARoom(Room room);
 }

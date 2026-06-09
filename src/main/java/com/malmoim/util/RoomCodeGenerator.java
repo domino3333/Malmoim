@@ -1,6 +1,8 @@
 package com.malmoim.util;
 
 
+import org.springframework.stereotype.Component;
+
 import java.security.SecureRandom;
 
 public class RoomCodeGenerator {
@@ -9,6 +11,7 @@ public class RoomCodeGenerator {
     private static final SecureRandom RANDOM = new SecureRandom();
 
     private RoomCodeGenerator() {
+
     }
 
     public static String generate() {

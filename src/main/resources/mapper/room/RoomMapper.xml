@@ -4,7 +4,8 @@
 
 
     <insert id="CreateQnARoom">
-
+        insert into room(host_no,title,code,capacity,password,status,type)
+        values(#{hostNo},#{title},#{code},#{capacity},#{password},#{status},#{type})
     </insert>
 
 </mapper>
