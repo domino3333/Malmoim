@@ -9,7 +9,7 @@
     </insert>
 
     <select id="getMyRooms">
-        select * from room where no =#{no}
+        select * from room where host_no =#{no}
     </select>
 
 </mapper>

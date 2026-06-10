@@ -38,6 +38,8 @@ public class RoomController {
         String hostEmail = authentication.getName();
         List<Room> list = roomService.getMyRooms(hostEmail);
 
+        log.info("list:{}",list);
+
         return ResponseEntity.ok(list);
     }
 
