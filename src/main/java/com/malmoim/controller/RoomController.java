@@ -1,16 +1,16 @@
 package com.malmoim.controller;
 
 
+import com.malmoim.domain.Room;
 import com.malmoim.dto.room.CreateQnaRoomDto;
 import com.malmoim.service.RoomService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -29,6 +29,16 @@ public class RoomController {
         roomService.createQnARoom(dto,hostEmail);
 
         return null;
+    }
+
+
+    @GetMapping
+    public ResponseEntity<?> getMyRoom(Authentication authentication){
+
+        String hostEmail = authentication.getName();
+        List<Room> list = roomService.getMyRooms(hostEmail);
+
+        return ResponseEntity.ok(list);
     }
 
 }

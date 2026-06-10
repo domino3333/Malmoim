@@ -12,6 +12,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.GetMapping;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -36,8 +39,6 @@ public class RoomServiceImpl implements RoomService {
         if (host == null) {
             throw new UsernameNotFoundException("host가 없습니다.");
         }
-
-
         roomMapper.CreateQnARoom(Room.builder()
                 .hostNo(host.getNo())
                 .title(dto.getTitle())
@@ -47,5 +48,13 @@ public class RoomServiceImpl implements RoomService {
                 .type("QnA")
                 .status(dto.getIsChecked() ? "closed":"opened") //체크됨(true => 비공개방)
                 .build());
+    }
+
+    @Override
+    public List<Room> getMyRooms(String hostEmail) {
+
+        Member host = memberMapper.getMemberByEmail(hostEmail);
+
+        return roomMapper.getMyRooms(host.getNo());
     }
 }

@@ -8,4 +8,8 @@
         values(#{hostNo},#{title},#{code},#{capacity},#{password},#{status},#{type})
     </insert>
 
+    <select id="getMyRooms">
+        select * from room where no =#{no}
+    </select>
+
 </mapper>
