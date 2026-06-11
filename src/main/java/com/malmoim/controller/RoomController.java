@@ -33,10 +33,11 @@ public class RoomController {
 
 
     @GetMapping
-    public ResponseEntity<?> getMyRoom(Authentication authentication){
+    public ResponseEntity<?> getMyRoom(Authentication authentication,@RequestParam int page ,@RequestParam int size){
+
 
         String hostEmail = authentication.getName();
-        List<Room> list = roomService.getMyRooms(hostEmail);
+        List<Room> list = roomService.getMyRooms(hostEmail,page,size);
 
         log.info("list:{}",list);
 

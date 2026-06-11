@@ -51,10 +51,10 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
-    public List<Room> getMyRooms(String hostEmail) {
+    public List<Room> getMyRooms(String hostEmail,int page, int size) {
 
         Member host = memberMapper.getMemberByEmail(hostEmail);
 
-        return roomMapper.getMyRooms(host.getNo());
+        return roomMapper.getMyRooms(host.getNo(),page,size);
     }
 }

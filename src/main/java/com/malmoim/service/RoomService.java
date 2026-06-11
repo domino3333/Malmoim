@@ -9,5 +9,5 @@ public interface RoomService {
 
     void createQnARoom(CreateQnaRoomDto dto,String hostEmail);
 
-    List<Room> getMyRooms(String hostEmail);
+    List<Room> getMyRooms(String hostEmail, int page, int size);
 }

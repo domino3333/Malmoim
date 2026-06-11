@@ -9,7 +9,9 @@
     </insert>
 
     <select id="getMyRooms">
-        select * from room where host_no =#{no}
+        select * from room where host_no =#{no} order by create_at desc
+        limit #{size} offset #{page}
+
     </select>
 
 </mapper>

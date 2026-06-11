@@ -10,5 +10,5 @@ public interface RoomMapper {
 
     void CreateQnARoom(Room room);
 
-    List<Room> getMyRooms(Long no);
+    List<Room> getMyRooms(Long no,int page, int size);
 }
