@@ -8,10 +8,14 @@
         values(#{hostNo},#{title},#{code},#{capacity},#{password},#{status},#{type})
     </insert>
 
-    <select id="getMyRooms">
+    <select id="getMyRooms" resultType="Room">
         select * from room where host_no =#{no} order by created_at desc
-        limit #{size} offset #{page}
+        limit #{size} offset #{offset}
 
+    </select>
+
+    <select id="countMyRooms" resultType="integer">
+        select count(*) from room where host_no =#{no}
     </select>
 
 </mapper>

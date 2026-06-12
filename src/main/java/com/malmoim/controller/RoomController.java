@@ -3,6 +3,7 @@ package com.malmoim.controller;
 
 import com.malmoim.domain.Room;
 import com.malmoim.dto.room.CreateQnaRoomDto;
+import com.malmoim.dto.room.MyRoomsResponseDto;
 import com.malmoim.service.RoomService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,7 +29,7 @@ public class RoomController {
         log.info("ischecked:{}",dto.getIsChecked());
         roomService.createQnARoom(dto,hostEmail);
 
-        return null;
+        return ResponseEntity.ok("방 생성 완료");
     }
 
 
@@ -37,11 +38,11 @@ public class RoomController {
 
 
         String hostEmail = authentication.getName();
-        List<Room> list = roomService.getMyRooms(hostEmail,page,size);
+        MyRoomsResponseDto dto = roomService.getMyRooms(hostEmail,page,size);
 
-        log.info("list:{}",list);
+        log.info("MyRoomsResponseDto:{}",dto);
 
-        return ResponseEntity.ok(list);
+        return ResponseEntity.ok(dto);
     }
 
 }

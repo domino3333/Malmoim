@@ -3,6 +3,7 @@ package com.malmoim.service.impl;
 import com.malmoim.domain.Member;
 import com.malmoim.domain.Room;
 import com.malmoim.dto.room.CreateQnaRoomDto;
+import com.malmoim.dto.room.MyRoomsResponseDto;
 import com.malmoim.mapper.MemberMapper;
 import com.malmoim.mapper.RoomMapper;
 import com.malmoim.service.RoomService;
@@ -51,10 +52,19 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
-    public List<Room> getMyRooms(String hostEmail,int page, int size) {
+    @Transactional
+    public MyRoomsResponseDto getMyRooms(String hostEmail,int page, int size) {
 
         Member host = memberMapper.getMemberByEmail(hostEmail);
 
-        return roomMapper.getMyRooms(host.getNo(),page,size);
+        MyRoomsResponseDto dto = new MyRoomsResponseDto();
+
+        int offset = (page-1) *size;
+
+        dto.setRooms(roomMapper.getMyRooms(host.getNo(),offset,size));
+        dto.setTotalCount(roomMapper.countMyRooms(host.getNo()));
+
+
+        return dto;
     }
 }
