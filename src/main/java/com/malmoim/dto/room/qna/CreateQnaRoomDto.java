@@ -1,4 +1,4 @@
-package com.malmoim.dto.room;
+package com.malmoim.dto.room.qna;
 
 
 import lombok.Data;

@@ -2,7 +2,7 @@ package com.malmoim.service.impl;
 
 import com.malmoim.domain.Member;
 import com.malmoim.domain.Room;
-import com.malmoim.dto.room.CreateQnaRoomDto;
+import com.malmoim.dto.room.qna.CreateQnaRoomDto;
 import com.malmoim.dto.room.MyRoomsResponseDto;
 import com.malmoim.mapper.MemberMapper;
 import com.malmoim.mapper.RoomMapper;
@@ -13,9 +13,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.GetMapping;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
