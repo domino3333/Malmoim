@@ -11,13 +11,13 @@ import org.springframework.stereotype.Controller;
 @RequiredArgsConstructor
 public class QnaWebSocketController {
 
-    private final SimpMessagingTemplate messagingTemplate;
+    private final SimpMessagingTemplate simpMessagingTemplate;
 
-    @MessageMapping("/qna/test")
-    public void test(QnaMessageDto dto){
-        messagingTemplate.convertAndSend(
-                "/topic/qna/" + dto.getRoomNo(),
-                dto
-        );
+    @MessageMapping("/qna/register")
+    public void registerQuestion(QnaMessageDto dto) {
+        simpMessagingTemplate.convertAndSend("/topic/qna/" + dto.getRoomNo(), dto);
+
     }
+
+
 }
