@@ -1,4 +1,4 @@
-package com.malmoim.controller;
+package com.malmoim.config;
 
 
 import org.springframework.context.annotation.Configuration;
