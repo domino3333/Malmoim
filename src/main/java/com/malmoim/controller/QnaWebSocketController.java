@@ -19,7 +19,7 @@ public class QnaWebSocketController {
     @MessageMapping("/qna/register")
     public void registerQuestion(QnaQuestionDto dto) {
 
-      log.info("websocket server dto: ",dto.getQuestion());
+        log.info("websocket server dto:{} ", dto.getQuestion());
 
         simpMessagingTemplate.convertAndSend("/topic/qna/" + dto.getRoomNo(), dto);
 
