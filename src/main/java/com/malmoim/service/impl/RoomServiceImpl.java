@@ -64,4 +64,11 @@ public class RoomServiceImpl implements RoomService {
 
         return dto;
     }
+
+    @Override
+    public Room getMyOneRoom(long no, String hostEmail) {
+        Member host = memberMapper.getMemberByEmail(hostEmail);
+
+        return roomMapper.getMyOneRoom(no,host.getNo());
+    }
 }

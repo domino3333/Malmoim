@@ -14,4 +14,6 @@ public interface RoomMapper {
     List<Room> getMyRooms(@Param("no") Long no,@Param("offset") int offset,@Param("size") int size);
 
     Integer countMyRooms(Long no);
+
+    Room getMyOneRoom(Long no, Long hostNo);
 }

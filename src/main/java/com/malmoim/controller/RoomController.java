@@ -19,16 +19,6 @@ public class RoomController {
 
     private final RoomService roomService;
 
-    @PostMapping("/create")
-    public ResponseEntity<?> createQnARoom(Authentication authentication, @RequestBody CreateQnaRoomDto dto){
-
-        String hostEmail = authentication.getName();
-        log.info("ischecked:{}",dto.getIsChecked());
-        roomService.createQnARoom(dto,hostEmail);
-
-        return ResponseEntity.ok("방 생성 완료");
-    }
-
 
     @GetMapping
     public ResponseEntity<?> getMyRoom(Authentication authentication,@RequestParam int page ,@RequestParam int size){

@@ -18,4 +18,8 @@
         select count(*) from room where host_no =#{no}
     </select>
 
+    <select id="getMyOneRoom">
+        select * from room where no=#{no} and host_no=#{hostNo}
+    </select>
+
 </mapper>
