@@ -9,7 +9,7 @@ import java.util.List;
 public interface RoomMapper {
 
 
-    Room CreateRoom(Room room);
+    void CreateRoom(Room room);
 
     List<Room> getMyRooms(@Param("no") Long no,@Param("offset") int offset,@Param("size") int size);
 
