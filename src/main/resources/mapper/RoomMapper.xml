@@ -4,8 +4,8 @@
 
 
     <insert id="CreateQnARoom">
-        insert into room(host_no,title,code,capacity,password,status,type)
-        values(#{hostNo},#{title},#{code},#{capacity},#{password},#{status},#{type})
+        insert into room(host_no,title,code,capacity,password,visibility,type)
+        values(#{hostNo},#{title},#{code},#{capacity},#{password},#{visibility},#{type})
     </insert>
 
     <select id="getMyRooms" resultType="Room">
