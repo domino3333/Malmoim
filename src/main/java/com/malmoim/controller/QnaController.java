@@ -31,8 +31,9 @@ public class QnaController {
     }
 
     @GetMapping("/{no}")
-    public ResponseEntity<?> getMyOneRoom(Authentication authentication,@PathVariable Long no){
+    public ResponseEntity<?> getMyOneQnaRoom(Authentication authentication,@PathVariable Long no){
 
+        //todo 시작시간, 종료시간 보여줄거면 room과 qna_room을 조인해서 보여주기
         String hostEmail = authentication.getName();
         Room room = roomService.getMyOneRoom(no,hostEmail);
 
