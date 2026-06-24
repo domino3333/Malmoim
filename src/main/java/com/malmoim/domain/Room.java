@@ -17,4 +17,5 @@ public class Room {
     private LocalDateTime createdAt;
     private String status;
     private String type;
+    private String visibility;
 }
