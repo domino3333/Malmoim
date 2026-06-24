@@ -42,7 +42,7 @@ public class RoomServiceImpl implements RoomService {
         }
 
         // room 생성
-        Room room = roomMapper.CreateRoom(Room.builder()
+        Room room = Room.builder()
                 .hostNo(host.getNo())
                 .title(dto.getTitle())
                 .capacity(dto.getCapacity())
@@ -50,7 +50,9 @@ public class RoomServiceImpl implements RoomService {
                 .code(code)
                 .type("QnA")
                 .visibility(dto.getIsChecked() ? "PRIVATE" : "PUBLIC") //체크됨(true => 비공개방)
-                .build());
+                .build();
+
+        roomMapper.CreateRoom(room);
 
         // room을 상속받는 1:1 구조의 qna_room 생성
         qnaRoomMapper.createQnaRoom(QnaRoom.builder()
