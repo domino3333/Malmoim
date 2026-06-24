@@ -18,4 +18,7 @@ public class Room {
     private String status;
     private String type;
     private String visibility;
+    private LocalDateTime questionStartedAt;
+    private LocalDateTime questionEndedAt;
+
 }
