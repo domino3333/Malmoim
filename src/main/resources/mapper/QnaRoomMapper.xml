@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.malmoim.mapper.QnaRoomMapper">
+
+
+    <insert id="createQnaRoom">
+        insert into qna_room(room_no,question_started_at,question_ended_at) values(#{roomNo},null,null)
+    </insert>
+
+</mapper>

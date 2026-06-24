@@ -1,10 +1,12 @@
 package com.malmoim.service.impl;
 
 import com.malmoim.domain.Member;
+import com.malmoim.domain.QnaRoom;
 import com.malmoim.domain.Room;
 import com.malmoim.dto.room.qna.CreateQnaRoomDto;
 import com.malmoim.dto.room.MyRoomsResponseDto;
 import com.malmoim.mapper.MemberMapper;
+import com.malmoim.mapper.QnaRoomMapper;
 import com.malmoim.mapper.RoomMapper;
 import com.malmoim.service.RoomService;
 import com.malmoim.util.RoomCodeGenerator;
@@ -21,6 +23,7 @@ public class RoomServiceImpl implements RoomService {
 
     private final RoomMapper roomMapper;
     private final MemberMapper memberMapper;
+    private final QnaRoomMapper qnaRoomMapper;
 
 
     @Override
@@ -37,28 +40,37 @@ public class RoomServiceImpl implements RoomService {
         if (host == null) {
             throw new UsernameNotFoundException("host가 없습니다.");
         }
-        roomMapper.CreateQnARoom(Room.builder()
+
+        // room 생성
+        Room room = roomMapper.CreateRoom(Room.builder()
                 .hostNo(host.getNo())
                 .title(dto.getTitle())
                 .capacity(dto.getCapacity())
                 .password(dto.getPassword())
                 .code(code)
                 .type("QnA")
-                .visibility(dto.getIsChecked() ? "PRIVATE":"PUBLIC") //체크됨(true => 비공개방)
+                .visibility(dto.getIsChecked() ? "PRIVATE" : "PUBLIC") //체크됨(true => 비공개방)
                 .build());
+
+        // room을 상속받는 1:1 구조의 qna_room 생성
+        qnaRoomMapper.createQnaRoom(QnaRoom.builder()
+                .roomNo(room.getNo())
+                .build());
+
+
     }
 
     @Override
     @Transactional
-    public MyRoomsResponseDto getMyRooms(String hostEmail,int page, int size) {
+    public MyRoomsResponseDto getMyRooms(String hostEmail, int page, int size) {
 
         Member host = memberMapper.getMemberByEmail(hostEmail);
 
         MyRoomsResponseDto dto = new MyRoomsResponseDto();
 
-        int offset = (page-1) *size;
+        int offset = (page - 1) * size;
 
-        dto.setRooms(roomMapper.getMyRooms(host.getNo(),offset,size));
+        dto.setRooms(roomMapper.getMyRooms(host.getNo(), offset, size));
         dto.setTotalCount(roomMapper.countMyRooms(host.getNo()));
 
 
@@ -69,6 +81,6 @@ public class RoomServiceImpl implements RoomService {
     public Room getMyOneRoom(long no, String hostEmail) {
         Member host = memberMapper.getMemberByEmail(hostEmail);
 
-        return roomMapper.getMyOneRoom(no,host.getNo());
+        return roomMapper.getMyOneRoom(no, host.getNo());
     }
 }

@@ -3,7 +3,7 @@
 <mapper namespace="com.malmoim.mapper.RoomMapper">
 
 
-    <insert id="CreateQnARoom">
+    <insert id="CreateRoom" useGeneratedKeys="true" keyProperty="no">
         insert into room(host_no,title,code,capacity,password,visibility,type)
         values(#{hostNo},#{title},#{code},#{capacity},#{password},#{visibility},#{type})
     </insert>
