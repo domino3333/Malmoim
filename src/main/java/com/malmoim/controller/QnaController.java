@@ -5,6 +5,7 @@ import com.malmoim.domain.Member;
 import com.malmoim.domain.Room;
 import com.malmoim.dto.room.MyRoomsResponseDto;
 import com.malmoim.dto.room.qna.CreateQnaRoomDto;
+import com.malmoim.security.StartTimerRequest;
 import com.malmoim.service.QnaRoomService;
 import com.malmoim.service.RoomService;
 import lombok.RequiredArgsConstructor;
@@ -46,10 +47,10 @@ public class QnaController {
 
 
     @PostMapping("/{roomNo}/start-timer")
-    public ResponseEntity<?> startTimer(Authentication authentication, @RequestBody long durationSeconds,@PathVariable long roomNo){
+    public ResponseEntity<?> startTimer(Authentication authentication, @RequestBody StartTimerRequest dto, @PathVariable long roomNo){
 
         String hostEmail = authentication.getName();
-        qnaRoomService.updateQuestionStartedAt(hostEmail,durationSeconds,roomNo);
+        qnaRoomService.updateQuestionStartedAt(hostEmail,dto.getDurationSeconds(),roomNo);
 
 
         return null;
