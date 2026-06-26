@@ -1,12 +1,15 @@
 package com.malmoim.controller;
 
 
+import com.malmoim.domain.Member;
 import com.malmoim.domain.Room;
 import com.malmoim.dto.room.MyRoomsResponseDto;
 import com.malmoim.dto.room.qna.CreateQnaRoomDto;
+import com.malmoim.service.QnaRoomService;
 import com.malmoim.service.RoomService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.coyote.Response;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +22,7 @@ public class QnaController {
 
 
     private final RoomService roomService;
+    private final QnaRoomService qnaRoomService;
 
     @PostMapping("/create")
     public ResponseEntity<?> createQnARoom(Authentication authentication, @RequestBody CreateQnaRoomDto dto){
@@ -38,6 +42,17 @@ public class QnaController {
         Room room = roomService.getMyOneRoom(no,hostEmail);
 
         return ResponseEntity.ok(room);
+    }
+
+
+    @PostMapping("/{roomNo}/start-timer")
+    public ResponseEntity<?> startTimer(Authentication authentication, @RequestBody long durationSeconds,@PathVariable long roomNo){
+
+        String hostEmail = authentication.getName();
+        qnaRoomService.insertQuestionStartedAt(hostEmail,durationSeconds,roomNo);
+
+
+        return null;
     }
 
 

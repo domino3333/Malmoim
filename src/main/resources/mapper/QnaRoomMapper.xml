@@ -7,4 +7,8 @@
         insert into qna_room(room_no,question_started_at,question_ended_at) values(#{roomNo},null,null)
     </insert>
 
+    <update id="insertQuestionStartedAt">
+        update qna_room set question_started_at=#{startedAt},question_ended_at=#{endedAt}  where room_no =#{roomNo}
+    </update>
+
 </mapper>
