@@ -5,6 +5,7 @@ import com.malmoim.domain.QnaRoom;
 import com.malmoim.domain.Room;
 import com.malmoim.dto.room.MyRoomsResponseDto;
 import com.malmoim.dto.room.qna.CreateQnaRoomDto;
+import com.malmoim.dto.room.qna.timer.StartTimerResponse;
 import com.malmoim.mapper.MemberMapper;
 import com.malmoim.mapper.QnaRoomMapper;
 import com.malmoim.mapper.RoomMapper;
@@ -32,7 +33,7 @@ public class QnaRoomServiceImpl implements QnaRoomService {
 
     @Override
     @Transactional
-    public void updateQuestionStartedAt(String hostEmail, long durationSeconds, long roomNo) {
+    public StartTimerResponse updateQuestionStartedAt(String hostEmail, long durationSeconds, long roomNo) {
 
         Member host = memberMapper.getMemberByEmail(hostEmail);
 
@@ -51,6 +52,13 @@ public class QnaRoomServiceImpl implements QnaRoomService {
 
         //동시에 그 방의 종료,시작 시간 가져오기
         QnaRoom qnaRoom = qnaRoomMapper.selectStEndedAtOfTheRoom(roomNo);
+
+
+        return StartTimerResponse.builder()
+                .roomNo(qnaRoom.getRoomNo())
+                .questionStartedAt(qnaRoom.getQuestionStartedAt())
+                .questionEndedAt(qnaRoom.getQuestionEndedAt()).build();
+
 
 
     }
