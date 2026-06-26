@@ -13,7 +13,7 @@
 
 
     <select id="getTimerInfo" resultType="com.malmoim.dto.room.qna.timer.StartTimerResponse">
-        select R.status,R.no,Q.question_ended_at ,Q.question_started_at
+        select R.no as room_no,R.status,Q.question_ended_at ,Q.question_started_at
         from room R join qna_room Q
         on R.no = Q.room_no
         where Q.room_no = #{roomNo}
