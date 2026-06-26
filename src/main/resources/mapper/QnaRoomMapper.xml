@@ -12,7 +12,7 @@
     </update>
 
 
-    <select id="selectStEndedAtOfTheRoom">
+    <select id="selectStEndedAtOfTheRoom" resultType="QnaRoom">
         select * from qna_room where room_no =#{roomNo}
     </select>
 </mapper>

@@ -50,7 +50,7 @@ public class QnaRoomServiceImpl implements QnaRoomService {
         qnaRoomMapper.updateQuestionStartedAt(roomNo,startedAt,endedAt);
 
         //동시에 그 방의 종료,시작 시간 가져오기
-        qnaRoomMapper.selectStEndedAtOfTheRoom(roomNo);
+        QnaRoom qnaRoom = qnaRoomMapper.selectStEndedAtOfTheRoom(roomNo);
 
 
     }
