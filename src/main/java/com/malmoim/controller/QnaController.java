@@ -53,7 +53,7 @@ public class QnaController {
         qnaRoomService.updateQuestionStartedAt(hostEmail,dto.getDurationSeconds(),roomNo);
 
 
-        return null;
+        return ResponseEntity.ok("타이머 시작 완료");
     }
 
 
