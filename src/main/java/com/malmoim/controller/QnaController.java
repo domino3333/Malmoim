@@ -49,7 +49,7 @@ public class QnaController {
     public ResponseEntity<?> startTimer(Authentication authentication, @RequestBody long durationSeconds,@PathVariable long roomNo){
 
         String hostEmail = authentication.getName();
-        qnaRoomService.insertQuestionStartedAt(hostEmail,durationSeconds,roomNo);
+        qnaRoomService.updateQuestionStartedAt(hostEmail,durationSeconds,roomNo);
 
 
         return null;

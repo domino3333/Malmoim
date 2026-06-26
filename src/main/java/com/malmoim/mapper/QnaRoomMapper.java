@@ -11,5 +11,5 @@ public interface QnaRoomMapper {
 
     void createQnaRoom(QnaRoom qnaRoom);
 
-    void insertQuestionStartedAt(@Param("roomNo") long roomNo, @Param("startedAt") LocalDateTime startedAt, @Param("endedAt") LocalDateTime endedAt);
+    void updateQuestionStartedAt(@Param("roomNo") long roomNo, @Param("startedAt") LocalDateTime startedAt, @Param("endedAt") LocalDateTime endedAt);
 }

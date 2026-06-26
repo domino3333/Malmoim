@@ -32,7 +32,7 @@ public class QnaRoomServiceImpl implements QnaRoomService {
 
     @Override
     @Transactional
-    public void insertQuestionStartedAt(String hostEmail, long durationSeconds, long roomNo) {
+    public void updateQuestionStartedAt(String hostEmail, long durationSeconds, long roomNo) {
 
         Member host = memberMapper.getMemberByEmail(hostEmail);
 
@@ -47,6 +47,6 @@ public class QnaRoomServiceImpl implements QnaRoomService {
         }
 
 
-        qnaRoomMapper.insertQuestionStartedAt(roomNo,startedAt,endedAt);
+        qnaRoomMapper.updateQuestionStartedAt(roomNo,startedAt,endedAt);
     }
 }

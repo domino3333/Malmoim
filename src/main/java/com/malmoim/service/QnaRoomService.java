@@ -6,5 +6,5 @@ import com.malmoim.dto.room.qna.CreateQnaRoomDto;
 
 public interface QnaRoomService {
 
-    void insertQuestionStartedAt(String hostEmail,long durationSeconds,long roomNo);
+    void updateQuestionStartedAt(String hostEmail,long durationSeconds,long roomNo);
 }
