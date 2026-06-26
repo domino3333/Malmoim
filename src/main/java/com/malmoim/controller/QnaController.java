@@ -49,8 +49,7 @@ public class QnaController {
         String hostEmail = authentication.getName();
         qnaRoomService.updateQuestionStartedAt(hostEmail,dto.getDurationSeconds(),roomNo);
 
-
-        return ResponseEntity.ok("타이머 시작 완료");
+        return ResponseEntity.ok(new StartTimerRequest());
     }
 
 

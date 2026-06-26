@@ -46,7 +46,12 @@ public class QnaRoomServiceImpl implements QnaRoomService {
             throw new RuntimeException("호스트의 방을 찾을 수 없습니다.");
         }
 
-
+        // 종료/시작 시간을 db에 업데이트
         qnaRoomMapper.updateQuestionStartedAt(roomNo,startedAt,endedAt);
+
+        //동시에 그 방의 종료,시작 시간 가져오기
+        qnaRoomMapper.selectStEndedAtOfTheRoom(roomNo);
+
+
     }
 }
