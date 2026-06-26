@@ -1,4 +1,4 @@
-package com.malmoim.security;
+package com.malmoim.dto.room.qna.timer;
 
 
 import lombok.Data;

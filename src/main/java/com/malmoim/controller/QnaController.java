@@ -1,16 +1,13 @@
 package com.malmoim.controller;
 
 
-import com.malmoim.domain.Member;
 import com.malmoim.domain.Room;
-import com.malmoim.dto.room.MyRoomsResponseDto;
 import com.malmoim.dto.room.qna.CreateQnaRoomDto;
-import com.malmoim.security.StartTimerRequest;
+import com.malmoim.dto.room.qna.timer.StartTimerRequest;
 import com.malmoim.service.QnaRoomService;
 import com.malmoim.service.RoomService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.coyote.Response;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
