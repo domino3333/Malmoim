@@ -5,6 +5,7 @@ import com.malmoim.domain.Room;
 import com.malmoim.dto.room.qna.CreateQnaRoomDto;
 import com.malmoim.dto.room.qna.timer.StartTimerRequest;
 import com.malmoim.dto.room.qna.timer.StartTimerResponse;
+import com.malmoim.dto.room.qna.timer.UpdateRoomStatusRequest;
 import com.malmoim.service.QnaRoomService;
 import com.malmoim.service.RoomService;
 import lombok.RequiredArgsConstructor;
@@ -51,6 +52,17 @@ public class QnaController {
         StartTimerResponse response = qnaRoomService.updateQuestionStartedAt(hostEmail,dto.getDurationSeconds(),roomNo);
 
         return ResponseEntity.ok(response);
+    }
+
+
+    @PostMapping("/{roomNo}/update-status")
+    public ResponseEntity<?> updateStatus(Authentication authentication,@PathVariable long roomNo ,@RequestBody UpdateRoomStatusRequest request){
+
+        String hostEmail = authentication.getName();
+        qnaRoomService.updateRoomStatus(hostEmail,roomNo,request.getStatus());
+
+
+        return ResponseEntity.ok("업데이트 완료");
     }
 
 

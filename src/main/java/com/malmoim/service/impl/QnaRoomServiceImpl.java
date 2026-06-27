@@ -59,4 +59,17 @@ public class QnaRoomServiceImpl implements QnaRoomService {
 
 
     }
+
+    @Override
+    public void updateRoomStatus(String hostEmail, long roomNo, String status) {
+
+        Member host = memberMapper.getMemberByEmail(hostEmail);
+
+        if(roomMapper.countMyRooms(host.getNo())<1){
+            throw new RuntimeException("%s 에 해당하는 방이 없습니다.".formatted(hostEmail));
+        }
+
+
+        roomMapper.updateRoomStatus(host.getNo(),roomNo,status);
+    }
 }

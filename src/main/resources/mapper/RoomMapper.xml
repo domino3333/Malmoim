@@ -22,4 +22,8 @@
         select * from room where no=#{no} and host_no=#{hostNo}
     </select>
 
+    <update id="updateRoomStatus">
+        update room set status=#{status} where no = #{roomNo} and host_no =#{hostNo}
+    </update>
+
 </mapper>

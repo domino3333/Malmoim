@@ -16,4 +16,6 @@ public interface RoomMapper {
     Integer countMyRooms(Long no);
 
     Room getMyOneRoom(Long no, Long hostNo);
+
+    void updateRoomStatus(Long hostNo, Long roomNo, String status);
 }
