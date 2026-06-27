@@ -18,4 +18,10 @@
         on R.no = Q.room_no
         where Q.room_no = #{roomNo}
     </select>
+
+    <update id="updateRoomStatus">
+        update room
+        set status=#{status}
+        where no = #{roomNo}
+    </update>
 </mapper>

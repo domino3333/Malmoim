@@ -15,4 +15,6 @@ public interface QnaRoomMapper {
     void updateQuestionStartedAt(@Param("roomNo") long roomNo, @Param("startedAt") LocalDateTime startedAt, @Param("endedAt") LocalDateTime endedAt);
 
     StartTimerResponse getTimerInfo(long roomNo);
+
+    void updateRoomStatus(long roomNo, String status);
 }

@@ -47,10 +47,8 @@ public class QnaController {
     @PostMapping("/{roomNo}/start-timer")
     public ResponseEntity<?> startTimer(Authentication authentication, @RequestBody StartTimerRequest dto, @PathVariable long roomNo){
 
-        log.info("진입:");
         String hostEmail = authentication.getName();
         StartTimerResponse response = qnaRoomService.updateQuestionStartedAt(hostEmail,dto.getDurationSeconds(),roomNo);
-        log.info("리스폰스:{}",response.getStatus());
 
         return ResponseEntity.ok(response);
     }

@@ -40,6 +40,7 @@ public class QnaRoomServiceImpl implements QnaRoomService {
         //시작시간과 종료시간
         LocalDateTime startedAt = LocalDateTime.now();
         LocalDateTime endedAt = startedAt.plusSeconds(durationSeconds);
+        log.info("스타튼엣:{}",startedAt);
 
         //hostEmail과 roomNo 로 일단 방이 있는지 확인
         Integer hostsRoomCount = roomMapper.countMyRooms(host.getNo());
@@ -49,6 +50,8 @@ public class QnaRoomServiceImpl implements QnaRoomService {
 
         // 종료/시작 시간을 db에 업데이트
         qnaRoomMapper.updateQuestionStartedAt(roomNo,startedAt,endedAt);
+        // 방 상태 변경
+        qnaRoomMapper.updateRoomStatus(roomNo,"QUESTION_OPEN");
 
         //동시에 그 방의 종료,시작 시간 내려주기
         return qnaRoomMapper.getTimerInfo(roomNo);
