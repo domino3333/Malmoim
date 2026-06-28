@@ -35,6 +35,13 @@ public class RoomServiceImpl implements RoomService {
         String code = RoomCodeGenerator.generate();
         log.info("random code:{}", code);
 
+        // code가 이미 존재한다면 다시 발급
+        while(roomMapper.countByCode(code)>=1){
+            code = RoomCodeGenerator.generate();
+        }
+
+
+
         //로그인한 사용자(host)의 정보 가져오기
         Member host = memberMapper.getMemberByEmail(hostEmail);
         if (host == null) {

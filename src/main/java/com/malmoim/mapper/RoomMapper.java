@@ -18,4 +18,6 @@ public interface RoomMapper {
     Room getMyOneRoom(Long no, Long hostNo);
 
     void updateRoomStatus(Long hostNo, Long roomNo, String status);
+
+    Integer countByCode(String code);
 }

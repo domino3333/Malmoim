@@ -26,4 +26,8 @@
         update room set status=#{status} where no = #{roomNo} and host_no =#{hostNo}
     </update>
 
+    <select id="countByCode" resultType="integer">
+        select COUNT(*) from room where code = #{code}
+    </select>
+
 </mapper>
