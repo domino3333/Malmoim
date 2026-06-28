@@ -40,8 +40,6 @@ public class RoomServiceImpl implements RoomService {
             code = RoomCodeGenerator.generate();
         }
 
-
-
         //로그인한 사용자(host)의 정보 가져오기
         Member host = memberMapper.getMemberByEmail(hostEmail);
         if (host == null) {
