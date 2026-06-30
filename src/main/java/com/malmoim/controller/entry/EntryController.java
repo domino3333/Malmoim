@@ -1,4 +1,4 @@
-package com.malmoim.service.impl;
+package com.malmoim.controller.entry;
 
 
 import com.malmoim.dto.entry.CheckCodeResponse;
