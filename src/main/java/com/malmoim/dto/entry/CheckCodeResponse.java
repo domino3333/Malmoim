@@ -16,5 +16,6 @@ public class CheckCodeResponse {
 
     private long roomNo;
     private String title;
+    private Boolean hasPassword;
 
 }
