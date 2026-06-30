@@ -1,6 +1,7 @@
 package com.malmoim.controller.entry;
 
 
+import com.malmoim.dto.entry.CheckCodeRequest;
 import com.malmoim.dto.entry.CheckCodeResponse;
 import com.malmoim.service.EntryService;
 import lombok.RequiredArgsConstructor;
@@ -20,9 +21,9 @@ public class EntryController {
     private final EntryService entryService;
 
     @PostMapping("/check-code")
-    public ResponseEntity<?> checkRoomCode(@RequestBody String code){
+    public ResponseEntity<?> checkRoomCode(@RequestBody CheckCodeRequest dto){
 
-        CheckCodeResponse response = entryService.checkRoomCode(code);
+        CheckCodeResponse response = entryService.checkRoomCode(dto.getCode());
         return ResponseEntity.ok(response);
 
     }
