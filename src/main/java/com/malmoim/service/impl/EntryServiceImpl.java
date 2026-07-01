@@ -37,6 +37,7 @@ public class EntryServiceImpl implements EntryService {
         return CheckCodeResponse.builder()
                 .roomNo(room.getNo())
                 .title(room.getTitle())
+                .code(room.getCode())
                 .hasPassword(room.getPassword() != null)
                 .build();
 
