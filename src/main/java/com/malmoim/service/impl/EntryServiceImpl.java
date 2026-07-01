@@ -38,6 +38,7 @@ public class EntryServiceImpl implements EntryService {
                 .roomNo(room.getNo())
                 .title(room.getTitle())
                 .code(room.getCode())
+                .capacity(room.getCapacity())
                 .hasPassword(room.getPassword() != null)
                 .build();
 
