@@ -7,5 +7,5 @@ import com.malmoim.dto.entry.CheckPasswordResponse;
 public interface EntryService {
     CheckCodeResponse checkRoomCode(String code);
 
-    CheckPasswordResponse checkRoomPassword(String hostEmail,CheckPasswordRequest dto);
+    CheckPasswordResponse checkRoomPassword(CheckPasswordRequest dto);
 }

@@ -33,10 +33,9 @@ public class EntryController {
 
 
     @PostMapping("/check-password")
-    public ResponseEntity<?> checkRoomPassword(Authentication authentication, @RequestBody CheckPasswordRequest dto){
+    public ResponseEntity<?> checkRoomPassword(@RequestBody CheckPasswordRequest dto){
 
-        String hostEmail = authentication.getName();
-        CheckPasswordResponse response = entryService.checkRoomPassword(hostEmail,dto);
+        CheckPasswordResponse response = entryService.checkRoomPassword(dto);
         return null;
 
     }

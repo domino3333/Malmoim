@@ -23,8 +23,6 @@ public class EntryServiceImpl implements EntryService {
 
 
     private final EntryMapper entryMapper;
-    private final RoomMapper roomMapper;
-    private final MemberMapper memberMapper;
     private final BCryptPasswordEncoder passwordEncoder;
 
 
@@ -58,11 +56,9 @@ public class EntryServiceImpl implements EntryService {
     }
 
     @Override
-    public CheckPasswordResponse checkRoomPassword(String hostEmail, @RequestBody CheckPasswordRequest dto) {
+    public CheckPasswordResponse checkRoomPassword(@RequestBody CheckPasswordRequest dto) {
 
-        Member host = memberMapper.getMemberByEmail(hostEmail);
-        Room room = roomMapper.getMyOneRoom(dto.getRoomNo(),host.getNo());
-
+        Room room = entryMapper.getOneRoomWithOnlyRoomNo(dto.getRoomNo());
 
         if(passwordEncoder.matches(dto.getPassword(),room.getPassword())){
             return new CheckPasswordResponse("방의 비밀번호가 일치하지 않습니다.");

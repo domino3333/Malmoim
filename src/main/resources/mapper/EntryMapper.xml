@@ -10,4 +10,8 @@
     <select id="getRoomInfoByCode" resultType="Room">
         select * from room where code = #{code}
     </select>
+
+    <select id="getOneRoomWithOnlyRoomNo" resultType="Room">
+        select * from room where code = #{roomNo}
+    </select>
 </mapper>
