@@ -9,6 +9,7 @@ import com.malmoim.service.EntryService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,9 +33,10 @@ public class EntryController {
 
 
     @PostMapping("/check-password")
-    public ResponseEntity<?> checkRoomPassword(@RequestBody CheckPasswordRequest dto){
+    public ResponseEntity<?> checkRoomPassword(Authentication authentication, @RequestBody CheckPasswordRequest dto){
 
-        CheckPasswordResponse response = entryService.checkRoomPassword(dto.getPassword());
+        String hostEmail = authentication.getName();
+        CheckPasswordResponse response = entryService.checkRoomPassword(hostEmail,dto);
         return null;
 
     }

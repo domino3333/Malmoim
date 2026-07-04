@@ -1,14 +1,20 @@
 package com.malmoim.service.impl;
 
+import com.malmoim.domain.Member;
 import com.malmoim.domain.Room;
 import com.malmoim.dto.entry.CheckCodeResponse;
+import com.malmoim.dto.entry.CheckPasswordRequest;
 import com.malmoim.dto.entry.CheckPasswordResponse;
 import com.malmoim.mapper.EntryMapper;
+import com.malmoim.mapper.MemberMapper;
+import com.malmoim.mapper.RoomMapper;
 import com.malmoim.service.EntryService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
 
 @Service
 @RequiredArgsConstructor
@@ -17,6 +23,8 @@ public class EntryServiceImpl implements EntryService {
 
 
     private final EntryMapper entryMapper;
+    private final RoomMapper roomMapper;
+    private final MemberMapper memberMapper;
     private final BCryptPasswordEncoder passwordEncoder;
 
 
@@ -50,10 +58,16 @@ public class EntryServiceImpl implements EntryService {
     }
 
     @Override
-    public CheckPasswordResponse checkRoomPassword(String password) {
+    public CheckPasswordResponse checkRoomPassword(String hostEmail, @RequestBody CheckPasswordRequest dto) {
+
+        Member host = memberMapper.getMemberByEmail(hostEmail);
+        Room room = roomMapper.getMyOneRoom(dto.getRoomNo(),host.getNo());
 
 
+        if(passwordEncoder.matches(dto.getPassword(),room.getPassword())){
+            return new CheckPasswordResponse("방의 비밀번호가 일치하지 않습니다.");
+        }
 
-        return null;
+        return new CheckPasswordResponse("비밀번호 일치");
     }
 }
