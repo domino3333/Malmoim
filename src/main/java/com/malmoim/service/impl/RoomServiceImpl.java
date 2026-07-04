@@ -13,6 +13,7 @@ import com.malmoim.util.RoomCodeGenerator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,6 +25,7 @@ public class RoomServiceImpl implements RoomService {
     private final RoomMapper roomMapper;
     private final MemberMapper memberMapper;
     private final QnaRoomMapper qnaRoomMapper;
+    private final BCryptPasswordEncoder passwordEncoder;
 
 
     @Override
@@ -34,6 +36,9 @@ public class RoomServiceImpl implements RoomService {
 
         String code = RoomCodeGenerator.generate();
         log.info("random code:{}", code);
+
+        String enCodedPassword = passwordEncoder.encode(dto.getPassword());
+
 
         // code가 이미 존재한다면 다시 발급
         while(roomMapper.countByCode(code)>=1){
@@ -51,7 +56,7 @@ public class RoomServiceImpl implements RoomService {
                 .hostNo(host.getNo())
                 .title(dto.getTitle())
                 .capacity(dto.getCapacity())
-                .password(dto.getPassword())
+                .password(enCodedPassword)
                 .code(code)
                 .type("QnA")
                 .visibility(dto.getIsChecked() ? "PRIVATE" : "PUBLIC") //체크됨(true => 비공개방)
