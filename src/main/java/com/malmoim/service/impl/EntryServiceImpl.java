@@ -65,7 +65,8 @@ public class EntryServiceImpl implements EntryService {
         }
 
         if(!passwordEncoder.matches(dto.getPassword(),room.getPassword())){
-            return new CheckPasswordResponse("방의 비밀번호가 일치하지 않습니다.");
+            log.info("checkRoomPassword service 방 비밀번호 불일치");
+            throw new RuntimeException("방의 비밀번호가 일치하지 않습니다.");
         }
 
         return new CheckPasswordResponse("비밀번호 일치");
