@@ -4,6 +4,7 @@ package com.malmoim.controller.entry;
 import com.malmoim.dto.entry.CheckCodeRequest;
 import com.malmoim.dto.entry.CheckCodeResponse;
 import com.malmoim.dto.entry.CheckPasswordRequest;
+import com.malmoim.dto.entry.CheckPasswordResponse;
 import com.malmoim.service.EntryService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -33,7 +34,7 @@ public class EntryController {
     @PostMapping("/check-password")
     public ResponseEntity<?> checkRoomPassword(@RequestBody CheckPasswordRequest dto){
 
-        //CheckCodeResponse response = entryService.(dto.getPassword());
+        //CheckPasswordResponse response = entryService.checkRoomPassword(dto.getPassword());
         return null;
 
     }
