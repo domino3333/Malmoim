@@ -60,7 +60,11 @@ public class EntryServiceImpl implements EntryService {
 
         Room room = entryMapper.getOneRoomWithOnlyRoomNo(dto.getRoomNo());
 
-        if(passwordEncoder.matches(dto.getPassword(),room.getPassword())){
+        if (room == null) {
+            throw new RuntimeException("방을 찾을 수 없습니다.");
+        }
+
+        if(!passwordEncoder.matches(dto.getPassword(),room.getPassword())){
             return new CheckPasswordResponse("방의 비밀번호가 일치하지 않습니다.");
         }
 

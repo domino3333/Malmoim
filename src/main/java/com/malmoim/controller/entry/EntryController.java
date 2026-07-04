@@ -36,7 +36,7 @@ public class EntryController {
     public ResponseEntity<?> checkRoomPassword(@RequestBody CheckPasswordRequest dto){
 
         CheckPasswordResponse response = entryService.checkRoomPassword(dto);
-        return null;
+        return ResponseEntity.ok(response);
 
     }
 
