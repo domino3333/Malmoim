@@ -2,10 +2,12 @@ package com.malmoim.service.impl;
 
 import com.malmoim.domain.Room;
 import com.malmoim.dto.entry.CheckCodeResponse;
+import com.malmoim.dto.entry.CheckPasswordResponse;
 import com.malmoim.mapper.EntryMapper;
 import com.malmoim.service.EntryService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -15,6 +17,7 @@ public class EntryServiceImpl implements EntryService {
 
 
     private final EntryMapper entryMapper;
+    private final BCryptPasswordEncoder passwordEncoder;
 
 
 
@@ -44,5 +47,13 @@ public class EntryServiceImpl implements EntryService {
 
 
 
+    }
+
+    @Override
+    public CheckPasswordResponse checkRoomPassword(String password) {
+
+
+
+        return null;
     }
 }

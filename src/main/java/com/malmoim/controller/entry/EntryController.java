@@ -34,7 +34,7 @@ public class EntryController {
     @PostMapping("/check-password")
     public ResponseEntity<?> checkRoomPassword(@RequestBody CheckPasswordRequest dto){
 
-        //CheckPasswordResponse response = entryService.checkRoomPassword(dto.getPassword());
+        CheckPasswordResponse response = entryService.checkRoomPassword(dto.getPassword());
         return null;
 
     }
