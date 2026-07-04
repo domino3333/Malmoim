@@ -12,6 +12,6 @@
     </select>
 
     <select id="getOneRoomWithOnlyRoomNo" resultType="Room">
-        select * from room where code = #{roomNo}
+        select * from room where no = #{roomNo}
     </select>
 </mapper>
