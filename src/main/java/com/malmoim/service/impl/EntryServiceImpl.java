@@ -56,7 +56,7 @@ public class EntryServiceImpl implements EntryService {
     }
 
     @Override
-    public CheckPasswordResponse checkRoomPassword(@RequestBody CheckPasswordRequest dto) {
+    public CheckPasswordResponse checkRoomPassword(CheckPasswordRequest dto) {
 
         Room room = entryMapper.getOneRoomWithOnlyRoomNo(dto.getRoomNo());
 
