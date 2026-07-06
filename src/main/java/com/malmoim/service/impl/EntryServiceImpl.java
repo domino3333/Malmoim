@@ -1,18 +1,13 @@
 package com.malmoim.service.impl;
 
-import com.malmoim.domain.Member;
 import com.malmoim.domain.Room;
 import com.malmoim.dto.entry.*;
 import com.malmoim.mapper.EntryMapper;
-import com.malmoim.mapper.MemberMapper;
-import com.malmoim.mapper.RoomMapper;
 import com.malmoim.service.EntryService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 
 @Service
 @RequiredArgsConstructor
