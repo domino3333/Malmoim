@@ -2,9 +2,7 @@ package com.malmoim.service.impl;
 
 import com.malmoim.domain.Member;
 import com.malmoim.domain.Room;
-import com.malmoim.dto.entry.CheckCodeResponse;
-import com.malmoim.dto.entry.CheckPasswordRequest;
-import com.malmoim.dto.entry.CheckPasswordResponse;
+import com.malmoim.dto.entry.*;
 import com.malmoim.mapper.EntryMapper;
 import com.malmoim.mapper.MemberMapper;
 import com.malmoim.mapper.RoomMapper;
@@ -70,5 +68,13 @@ public class EntryServiceImpl implements EntryService {
         }
 
         return new CheckPasswordResponse("비밀번호 일치");
+    }
+
+    @Override
+    public InsertNickResponse insertNickname(InsertNickRequest dto) {
+
+        entryMapper.insertNickname(dto.getRoomNo(),dto.getNickname());
+
+        return new InsertNickResponse("참여자의 닉네임 Insert 완료");
     }
 }

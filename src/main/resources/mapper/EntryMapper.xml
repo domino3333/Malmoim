@@ -14,4 +14,8 @@
     <select id="getOneRoomWithOnlyRoomNo" resultType="Room">
         select * from room where no = #{roomNo}
     </select>
+
+    <insert id="insertNickname">
+        insert into participant(nickname,room_no) values(#{nickname},#{roomNo})
+    </insert>
 </mapper>
