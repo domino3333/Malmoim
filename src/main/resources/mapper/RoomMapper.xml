@@ -30,7 +30,7 @@
         select COUNT(*) from room where code = #{code}
     </select>
 
-    <select id="getOneRoomWithOnlyNo">
+    <select id="getOneRoomWithOnlyNo" resultType="Room">
         select * from room where no =#{no}
     </select>
 
