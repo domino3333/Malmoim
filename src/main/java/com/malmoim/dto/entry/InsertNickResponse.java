@@ -8,4 +8,5 @@ import lombok.Data;
 @AllArgsConstructor
 public class InsertNickResponse {
     private String message;
+    private Long no;
 }

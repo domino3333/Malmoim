@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -66,11 +67,14 @@ public class EntryServiceImpl implements EntryService {
     }
 
     @Override
+    @Transactional
     public InsertNickResponse insertNickname(InsertNickRequest dto) {
 
         entryMapper.insertNickname(dto.getRoomNo(),dto.getNickname());
+        entryMapper.getParticipantNoRightBefore();
 
-        return new InsertNickResponse("참여자의 닉네임 Insert 완료");
+
+        return new InsertNickResponse();
     }
 
     @Override
