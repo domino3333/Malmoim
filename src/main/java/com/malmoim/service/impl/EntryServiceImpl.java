@@ -72,4 +72,14 @@ public class EntryServiceImpl implements EntryService {
 
         return new InsertNickResponse("참여자의 닉네임 Insert 완료");
     }
+
+    @Override
+    public EnterQnaResponse enterQnaAsParticipant(EnterQnaRequest dto) {
+
+
+
+        entryMapper.updateParticipantTime(dto.getNo());
+
+        return null;
+    }
 }

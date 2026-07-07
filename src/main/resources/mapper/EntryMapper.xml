@@ -18,4 +18,8 @@
     <insert id="insertNickname">
         insert into participant(nickname,room_no) values(#{nickname},#{roomNo})
     </insert>
+
+    <update id="updateParticipantTime">
+        update participant set create_at = CURRENT_TIMESTAMP where no =#{no}
+    </update>
 </mapper>

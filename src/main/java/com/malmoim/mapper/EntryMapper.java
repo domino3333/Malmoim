@@ -9,4 +9,6 @@ public interface EntryMapper {
     Room getRoomInfoByCode(String code);
     Room getOneRoomWithOnlyRoomNo(Long roomNo);
     void insertNickname(Long roomNo,String nickname);
+
+    void updateParticipantTime(Long no);
 }

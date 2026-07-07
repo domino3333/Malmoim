@@ -49,7 +49,7 @@ public class EntryController {
     @PostMapping("/enter-qna")
     public ResponseEntity<?> enterQnaAsParticipant(@RequestBody EnterQnaRequest dto){
         //todo participant 생성 시간을 기록
-        InsertNickResponse response = entryService.enterQnaAsParticipant(dto);
+        EnterQnaResponse response = entryService.enterQnaAsParticipant(dto);
         return ResponseEntity.ok(response);
 
     }
