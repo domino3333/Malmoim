@@ -4,19 +4,29 @@
 
 
     <select id="countRoomByCode" resultType="integer">
-        select COUNT(*) from room where code = #{code}
+        select COUNT(*)
+        from room
+        where code = #{code}
     </select>
 
     <select id="getRoomInfoByCode" resultType="Room">
-        select * from room where code = #{code}
+        select *
+        from room
+        where code = #{code}
     </select>
 
     <select id="getOneRoomWithOnlyRoomNo" resultType="Room">
-        select * from room where no = #{roomNo}
+        select *
+        from room
+        where no = #{roomNo}
     </select>
 
-    <insert id="insertParticipant">
-        insert into participant(nickname,room_no,created_at) values(#{nickname},#{roomNo},NOW())
+    <insert id="insertParticipant"
+            useGeneratedKeys="true"
+            keyProperty="no"
+            keyColumn="no">
+        insert into participant(nickname, room_no, created_at)
+        values (#{nickname}, #{roomNo}, NOW())
     </insert>
 
 </mapper>

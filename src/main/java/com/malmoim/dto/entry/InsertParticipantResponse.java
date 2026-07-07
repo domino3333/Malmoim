@@ -7,6 +7,6 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class InsertParticipantResponse {
-    private String message;
     private Long no;
+    private String message;
 }

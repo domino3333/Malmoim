@@ -78,10 +78,10 @@ public class EntryServiceImpl implements EntryService {
 
 
         entryMapper.insertParticipant(participant);
+        Long participantNo = participant.getNo();
 
 
-
-        return null;
+        return new InsertParticipantResponse(participantNo,"참여자 insert 완료");
     }
 
 
