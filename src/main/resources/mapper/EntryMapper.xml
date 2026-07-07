@@ -15,11 +15,8 @@
         select * from room where no = #{roomNo}
     </select>
 
-    <insert id="insertNickname">
-        insert into participant(nickname,room_no) values(#{nickname},#{roomNo})
+    <insert id="insertParticipant">
+        insert into participant(nickname,room_no,created_at) values(#{nickname},#{roomNo},NOW())
     </insert>
 
-    <update id="updateParticipantTime">
-        update participant set create_at = CURRENT_TIMESTAMP where no =#{no}
-    </update>
 </mapper>

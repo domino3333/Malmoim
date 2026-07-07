@@ -6,7 +6,6 @@ import com.malmoim.service.EntryService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -38,18 +37,10 @@ public class EntryController {
     }
 
 
-    @PostMapping("/insert-nickname")
-    public ResponseEntity<?> insertNickname(@RequestBody InsertNickRequest dto){
+    @PostMapping("/insert-and-enter")
+    public ResponseEntity<?> insertParticipant(@RequestBody InsertParticipantRequest dto){
 
-        InsertNickResponse response = entryService.insertNickname(dto);
-        return ResponseEntity.ok(response);
-
-    }
-
-    @PostMapping("/enter-qna")
-    public ResponseEntity<?> enterQnaAsParticipant(@RequestBody EnterQnaRequest dto){
-
-        EnterQnaResponse response = entryService.enterQnaAsParticipant(dto);
+        InsertParticipantResponse response = entryService.insertParticipant(dto);
         return ResponseEntity.ok(response);
 
     }

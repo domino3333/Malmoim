@@ -6,7 +6,7 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class InsertNickResponse {
+public class InsertParticipantResponse {
     private String message;
     private Long no;
 }

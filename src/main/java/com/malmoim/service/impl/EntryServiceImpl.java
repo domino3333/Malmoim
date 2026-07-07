@@ -1,5 +1,6 @@
 package com.malmoim.service.impl;
 
+import com.malmoim.domain.Participant;
 import com.malmoim.domain.Room;
 import com.malmoim.dto.entry.*;
 import com.malmoim.mapper.EntryMapper;
@@ -68,20 +69,20 @@ public class EntryServiceImpl implements EntryService {
 
     @Override
     @Transactional
-    public InsertNickResponse insertNickname(InsertNickRequest dto) {
+    public InsertParticipantResponse insertParticipant(InsertParticipantRequest dto) {
 
-        entryMapper.insertNickname(dto.getRoomNo(),dto.getNickname());
-        entryMapper.getParticipantNoRightBefore();
+        Participant participant = Participant.builder()
+                .roomNo(dto.getRoomNo())
+                .nickname(dto.getNickname())
+                .build();
 
 
-        return new InsertNickResponse();
+        entryMapper.insertParticipant(participant);
+
+
+
+        return null;
     }
 
-    @Override
-    public EnterQnaResponse enterQnaAsParticipant(EnterQnaRequest dto) {
 
-        entryMapper.updateParticipantTime(dto.getNo());
-
-        return new EnterQnaResponse("참여자의 created_at 업데이트 완료");
-    }
 }

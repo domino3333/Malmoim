@@ -7,7 +7,5 @@ public interface EntryService {
 
     CheckPasswordResponse checkRoomPassword(CheckPasswordRequest dto);
 
-    InsertNickResponse insertNickname(InsertNickRequest dto);
-
-    EnterQnaResponse enterQnaAsParticipant(EnterQnaRequest dto);
+    InsertParticipantResponse insertParticipant(InsertParticipantRequest dto);
 }
