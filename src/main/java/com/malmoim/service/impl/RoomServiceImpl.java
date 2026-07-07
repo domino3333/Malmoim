@@ -95,4 +95,9 @@ public class RoomServiceImpl implements RoomService {
 
         return roomMapper.getMyOneRoom(no, host.getNo());
     }
+
+    @Override
+    public Room getOneRoomWithOnlyNo(Long no) {
+        return roomMapper.getOneRoomWithOnlyNo(no);
+    }
 }

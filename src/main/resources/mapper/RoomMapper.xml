@@ -30,4 +30,8 @@
         select COUNT(*) from room where code = #{code}
     </select>
 
+    <select id="getOneRoomWithOnlyNo">
+        select * from room where no =#{no}
+    </select>
+
 </mapper>
