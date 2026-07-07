@@ -37,7 +37,7 @@ public class EntryController {
     }
 
 
-    @PostMapping("/insert-and-enter")
+    @PostMapping("/insert-participant")
     public ResponseEntity<?> insertParticipant(@RequestBody InsertParticipantRequest dto){
 
         InsertParticipantResponse response = entryService.insertParticipant(dto);
