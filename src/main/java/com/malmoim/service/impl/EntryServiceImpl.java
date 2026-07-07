@@ -76,10 +76,8 @@ public class EntryServiceImpl implements EntryService {
     @Override
     public EnterQnaResponse enterQnaAsParticipant(EnterQnaRequest dto) {
 
-
-
         entryMapper.updateParticipantTime(dto.getNo());
 
-        return null;
+        return new EnterQnaResponse("참여자의 created_at 업데이트 완료");
     }
 }
