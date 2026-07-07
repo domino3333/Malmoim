@@ -46,4 +46,12 @@ public class EntryController {
 
     }
 
+    @PostMapping("/enter-qna")
+    public ResponseEntity<?> insertNickname(@RequestBody EnterQnaRequest dto){
+        //todo participant 생성 시간을 기록
+        InsertNickResponse response = entryService.insertNickname(dto);
+        return ResponseEntity.ok(response);
+
+    }
+
 }
