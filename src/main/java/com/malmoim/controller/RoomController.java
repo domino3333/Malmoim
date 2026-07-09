@@ -21,7 +21,7 @@ public class RoomController {
 
 
     @GetMapping
-    public ResponseEntity<?> getMyRoom(Authentication authentication,@RequestParam int page ,@RequestParam int size){
+    public ResponseEntity<?> getMyRooms(Authentication authentication,@RequestParam int page ,@RequestParam int size){
 
 
         String hostEmail = authentication.getName();

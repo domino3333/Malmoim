@@ -43,8 +43,8 @@ public class QnaRoomServiceImpl implements QnaRoomService {
         log.info("스타튼엣:{}",startedAt);
 
         //hostEmail과 roomNo 로 일단 방이 있는지 확인
-        Integer hostsRoomCount = roomMapper.countMyRooms(host.getNo());
-        if (hostsRoomCount < 1) {
+        Integer hostRoomCount = roomMapper.countMyRooms(host.getNo());
+        if (hostRoomCount < 1) {
             throw new RuntimeException("호스트의 방을 찾을 수 없습니다.");
         }
 

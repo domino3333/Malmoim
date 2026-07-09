@@ -25,10 +25,10 @@ public class QnaController {
     private final QnaRoomService qnaRoomService;
 
     @PostMapping("/create")
-    public ResponseEntity<?> createQnARoom(Authentication authentication, @RequestBody CreateQnaRoomDto dto){
+    public ResponseEntity<?> createQnaRoom(Authentication authentication, @RequestBody CreateQnaRoomDto dto){
 
         String hostEmail = authentication.getName();
-        roomService.createQnARoom(dto,hostEmail);
+        roomService.createQnaRoom(dto,hostEmail);
 
         return ResponseEntity.ok("방 생성 완료");
     }

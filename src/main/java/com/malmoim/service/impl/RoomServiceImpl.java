@@ -30,14 +30,14 @@ public class RoomServiceImpl implements RoomService {
 
     @Override
     @Transactional
-    public void createQnARoom(CreateQnaRoomDto dto, String hostEmail) {
+    public void createQnaRoom(CreateQnaRoomDto dto, String hostEmail) {
 
         //코드 발급,패스워드 null여부
 
         String code = RoomCodeGenerator.generate();
         log.info("random code:{}", code);
 
-        String enCodedPassword = passwordEncoder.encode(dto.getPassword());
+        String encodedPassword = passwordEncoder.encode(dto.getPassword());
 
 
         // code가 이미 존재한다면 다시 발급
@@ -56,13 +56,13 @@ public class RoomServiceImpl implements RoomService {
                 .hostNo(host.getNo())
                 .title(dto.getTitle())
                 .capacity(dto.getCapacity())
-                .password(enCodedPassword)
+                .password(encodedPassword)
                 .code(code)
                 .type("QnA")
                 .visibility(dto.getIsChecked() ? "PRIVATE" : "PUBLIC") //체크됨(true => 비공개방)
                 .build();
 
-        roomMapper.CreateRoom(room);
+        roomMapper.createRoom(room);
 
         // room을 상속받는 1:1 구조의 qna_room 생성
         qnaRoomMapper.createQnaRoom(QnaRoom.builder()

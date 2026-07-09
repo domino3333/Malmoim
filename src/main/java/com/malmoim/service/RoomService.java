@@ -6,7 +6,7 @@ import com.malmoim.dto.room.MyRoomsResponseDto;
 
 public interface RoomService {
 
-    void createQnARoom(CreateQnaRoomDto dto,String hostEmail);
+    void createQnaRoom(CreateQnaRoomDto dto,String hostEmail);
 
     MyRoomsResponseDto getMyRooms(String hostEmail, int page, int size);
 
