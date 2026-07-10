@@ -34,7 +34,7 @@ public class MyUserDetailsService implements UserDetailsService {
         List<SimpleGrantedAuthority> list = new ArrayList<>();
         list.add(authority);
 
-        return MyUser.builder()
+        return MemberPrincipal.builder()
                 .email(member.getEmail())
                 .password(member.getPassword())
                 .name(member.getName())

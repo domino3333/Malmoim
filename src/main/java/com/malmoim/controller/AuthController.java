@@ -1,9 +1,9 @@
 package com.malmoim.controller;
 
 
-import com.malmoim.dto.auth.LoginDto;
+import com.malmoim.dto.auth.LoginRequest;
 import com.malmoim.dto.auth.LoginResponse;
-import com.malmoim.dto.auth.SignUpDto;
+import com.malmoim.dto.auth.SignUpRequest;
 import com.malmoim.security.jwt.JwtTokenProvider;
 import com.malmoim.service.MemberService;
 import lombok.RequiredArgsConstructor;
@@ -29,7 +29,7 @@ public class AuthController {
 
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody LoginDto dto){
+    public ResponseEntity<?> login(@RequestBody LoginRequest dto){
 
         log.info("login 진입");
         log.info("email:{}",dto.getEmail());
@@ -43,7 +43,7 @@ public class AuthController {
 
 
     @PostMapping("/signUp")
-    public ResponseEntity<?> signUp(@RequestBody SignUpDto dto){
+    public ResponseEntity<?> signUp(@RequestBody SignUpRequest dto){
 
         log.info("signUp 진입");
         log.info("email:{}",dto.getEmail());

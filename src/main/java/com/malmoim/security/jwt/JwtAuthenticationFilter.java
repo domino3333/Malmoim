@@ -1,7 +1,7 @@
 package com.malmoim.security.jwt;
 
 
-import com.malmoim.security.MyUser;
+import com.malmoim.security.MemberPrincipal;
 import com.malmoim.security.MyUserDetailsService;
 import jakarta.servlet.Filter;
 import jakarta.servlet.FilterChain;
@@ -39,10 +39,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
             if(jwtTokenProvider.validateToken(token)){
                 String email = jwtTokenProvider.getEmail(token);
-                MyUser myUser = (MyUser) myUserDetailsService.loadUserByUsername(email);
+                MemberPrincipal memberPrincipal = (MemberPrincipal) myUserDetailsService.loadUserByUsername(email);
 
                 UsernamePasswordAuthenticationToken authenticationToken
-                        = new UsernamePasswordAuthenticationToken(myUser,null,myUser.getAuthorities());
+                        = new UsernamePasswordAuthenticationToken(memberPrincipal,null,memberPrincipal.getAuthorities());
 
                 SecurityContextHolder.getContext().setAuthentication(authenticationToken);
 

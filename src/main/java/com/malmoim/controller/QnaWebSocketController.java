@@ -1,7 +1,7 @@
 package com.malmoim.controller;
 
 
-import com.malmoim.dto.room.qna.QnaQuestionDto;
+import com.malmoim.dto.room.qna.QnaQuestionMessage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -17,7 +17,7 @@ public class QnaWebSocketController {
 
 
     @MessageMapping("/qna/register")
-    public void registerQuestion(QnaQuestionDto dto) {
+    public void registerQuestion(QnaQuestionMessage dto) {
 
         log.info("websocket server dto:{} ", dto.getQuestion());
 

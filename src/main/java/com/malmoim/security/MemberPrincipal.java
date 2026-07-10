@@ -15,7 +15,7 @@ import java.util.List;
 
 @Data
 @Builder
-public class MyUser implements UserDetails {
+public class MemberPrincipal implements UserDetails {
 
     private Long no;
     private String email;

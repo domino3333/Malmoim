@@ -4,7 +4,7 @@ package com.malmoim.dto.room.qna;
 import lombok.Data;
 
 @Data
-public class QnaQuestionDto {
+public class QnaQuestionMessage {
     private Long roomNo;
     private String question;
 

@@ -1,7 +1,7 @@
 package com.malmoim.service.impl;
 
 import com.malmoim.domain.Member;
-import com.malmoim.dto.auth.SignUpDto;
+import com.malmoim.dto.auth.SignUpRequest;
 import com.malmoim.mapper.MemberMapper;
 import com.malmoim.service.MemberService;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +18,7 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     @Transactional
-    public void signUp(SignUpDto dto) {
+    public void signUp(SignUpRequest dto) {
 
         String encodedPassword = passwordEncoder.encode(dto.getPassword());
 

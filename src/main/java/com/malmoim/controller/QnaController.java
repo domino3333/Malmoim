@@ -2,7 +2,7 @@ package com.malmoim.controller;
 
 
 import com.malmoim.domain.Room;
-import com.malmoim.dto.room.qna.CreateQnaRoomDto;
+import com.malmoim.dto.room.qna.CreateQnaRoomRequest;
 import com.malmoim.dto.room.qna.timer.StartTimerRequest;
 import com.malmoim.dto.room.qna.timer.StartTimerResponse;
 import com.malmoim.dto.room.qna.timer.UpdateRoomStatusRequest;
@@ -25,7 +25,7 @@ public class QnaController {
     private final QnaRoomService qnaRoomService;
 
     @PostMapping("/create")
-    public ResponseEntity<?> createQnaRoom(Authentication authentication, @RequestBody CreateQnaRoomDto dto){
+    public ResponseEntity<?> createQnaRoom(Authentication authentication, @RequestBody CreateQnaRoomRequest dto){
 
         String hostEmail = authentication.getName();
         roomService.createQnaRoom(dto,hostEmail);

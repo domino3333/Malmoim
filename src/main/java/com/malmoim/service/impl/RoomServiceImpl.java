@@ -3,7 +3,7 @@ package com.malmoim.service.impl;
 import com.malmoim.domain.Member;
 import com.malmoim.domain.QnaRoom;
 import com.malmoim.domain.Room;
-import com.malmoim.dto.room.qna.CreateQnaRoomDto;
+import com.malmoim.dto.room.qna.CreateQnaRoomRequest;
 import com.malmoim.dto.room.MyRoomsResponseDto;
 import com.malmoim.mapper.MemberMapper;
 import com.malmoim.mapper.QnaRoomMapper;
@@ -30,7 +30,7 @@ public class RoomServiceImpl implements RoomService {
 
     @Override
     @Transactional
-    public void createQnaRoom(CreateQnaRoomDto dto, String hostEmail) {
+    public void createQnaRoom(CreateQnaRoomRequest dto, String hostEmail) {
 
         //코드 발급,패스워드 null여부
 
@@ -59,7 +59,7 @@ public class RoomServiceImpl implements RoomService {
                 .password(encodedPassword)
                 .code(code)
                 .type("QnA")
-                .visibility(dto.getIsChecked() ? "PRIVATE" : "PUBLIC") //체크됨(true => 비공개방)
+                .visibility(dto.getIsPrivate() ? "PRIVATE" : "PUBLIC") //체크됨(true => 비공개방)
                 .build();
 
         roomMapper.createRoom(room);

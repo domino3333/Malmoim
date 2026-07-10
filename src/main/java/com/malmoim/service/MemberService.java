@@ -1,9 +1,9 @@
 package com.malmoim.service;
 
 
-import com.malmoim.dto.auth.SignUpDto;
+import com.malmoim.dto.auth.SignUpRequest;
 
 public interface MemberService {
 
-    void signUp(SignUpDto dto);
+    void signUp(SignUpRequest dto);
 }

@@ -1,7 +1,6 @@
 package com.malmoim.controller;
 
 
-import com.malmoim.dto.room.qna.CreateQnaRoomDto;
 import com.malmoim.dto.room.MyRoomsResponseDto;
 import com.malmoim.service.RoomService;
 import lombok.RequiredArgsConstructor;
