@@ -16,7 +16,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class MyUserDetailsService implements UserDetailsService {
+public class MemberUserDetailsService implements UserDetailsService {
 
 
     private final MemberMapper memberMapper;

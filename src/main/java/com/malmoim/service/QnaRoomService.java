@@ -6,7 +6,7 @@ import com.malmoim.dto.room.qna.timer.StartTimerResponse;
 
 public interface QnaRoomService {
 
-    StartTimerResponse updateQuestionStartedAt(String hostEmail, long durationSeconds, long roomNo);
+    StartTimerResponse startQuestionPhase(String hostEmail, long durationSeconds, long roomNo);
 
     void updateRoomStatus(String hostEmail,long roomNo,  String status);
 }

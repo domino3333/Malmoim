@@ -3,7 +3,7 @@
 <mapper namespace="com.malmoim.mapper.EntryMapper">
 
 
-    <select id="countRoomByCode" resultType="integer">
+    <select id="countRoomsByCode" resultType="integer">
         select COUNT(*)
         from room
         where code = #{code}
@@ -15,7 +15,7 @@
         where code = #{code}
     </select>
 
-    <select id="getOneRoomWithOnlyRoomNo" resultType="Room">
+    <select id="selectRoomByNo" resultType="Room">
         select *
         from room
         where no = #{roomNo}

@@ -22,7 +22,7 @@ public class MemberServiceImpl implements MemberService {
 
         String encodedPassword = passwordEncoder.encode(dto.getPassword());
 
-        memberMapper.signUp(Member.builder()
+        memberMapper.insertMember(Member.builder()
                 .email(dto.getEmail())
                 .name(dto.getName())
                 .password(encodedPassword)

@@ -44,7 +44,7 @@ public class JwtTokenProvider {
         }
     }
 
-    public String getEmail(String token){
+    public String extractEmail(String token){
         return Jwts.parser()
                 .verifyWith(key)
                 .build()
@@ -54,7 +54,7 @@ public class JwtTokenProvider {
     }
 
 
-    public String createToken(Authentication authentication){
+    public String createAccessToken(Authentication authentication){
         String email = authentication.getName();
 
         String roles = authentication.getAuthorities().stream()

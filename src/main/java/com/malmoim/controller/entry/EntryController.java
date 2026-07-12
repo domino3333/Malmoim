@@ -20,27 +20,27 @@ public class EntryController {
     private final EntryService entryService;
 
     @PostMapping("/check-code")
-    public ResponseEntity<?> checkRoomCode(@RequestBody CheckCodeRequest dto){
+    public ResponseEntity<?> getRoomEntryInfo(@RequestBody CheckCodeRequest dto){
 
-        CheckCodeResponse response = entryService.checkRoomCode(dto.getCode());
+        CheckCodeResponse response = entryService.getRoomEntryInfo(dto.getCode());
         return ResponseEntity.ok(response);
 
     }
 
 
     @PostMapping("/check-password")
-    public ResponseEntity<?> checkRoomPassword(@RequestBody CheckPasswordRequest dto){
+    public ResponseEntity<?> verifyRoomPassword(@RequestBody CheckPasswordRequest dto){
 
-        CheckPasswordResponse response = entryService.checkRoomPassword(dto);
+        CheckPasswordResponse response = entryService.verifyRoomPassword(dto);
         return ResponseEntity.ok(response);
 
     }
 
 
     @PostMapping("/insert-participant")
-    public ResponseEntity<?> insertParticipant(@RequestBody InsertParticipantRequest dto){
+    public ResponseEntity<?> joinRoom(@RequestBody InsertParticipantRequest dto){
 
-        InsertParticipantResponse response = entryService.insertParticipant(dto);
+        InsertParticipantResponse response = entryService.joinRoom(dto);
         return ResponseEntity.ok(response);
 
     }

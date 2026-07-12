@@ -6,6 +6,6 @@ import com.malmoim.domain.Member;
 public interface MemberMapper {
 
     Member getMemberByEmail(String email);
-    void signUp(Member member);
+    void insertMember(Member member);
 
 }

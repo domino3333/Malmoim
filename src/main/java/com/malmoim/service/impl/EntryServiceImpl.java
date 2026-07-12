@@ -23,9 +23,9 @@ public class EntryServiceImpl implements EntryService {
 
 
     @Override
-    public CheckCodeResponse checkRoomCode(String code) {
+    public CheckCodeResponse getRoomEntryInfo(String code) {
 
-        if(entryMapper.countRoomByCode(code) < 1 ){
+        if(entryMapper.countRoomsByCode(code) < 1 ){
             throw new RuntimeException("코드에 해당하는 방이 존재하지 않습니다.");
         }
 
@@ -51,16 +51,16 @@ public class EntryServiceImpl implements EntryService {
     }
 
     @Override
-    public CheckPasswordResponse checkRoomPassword(CheckPasswordRequest dto) {
+    public CheckPasswordResponse verifyRoomPassword(CheckPasswordRequest dto) {
 
-        Room room = entryMapper.getOneRoomWithOnlyRoomNo(dto.getRoomNo());
+        Room room = entryMapper.selectRoomByNo(dto.getRoomNo());
 
         if (room == null) {
             throw new RuntimeException("방을 찾을 수 없습니다.");
         }
 
         if(!passwordEncoder.matches(dto.getPassword(),room.getPassword())){
-            log.info("checkRoomPassword service 방 비밀번호 불일치");
+            log.info("verifyRoomPassword service 방 비밀번호 불일치");
             throw new RuntimeException("방의 비밀번호가 일치하지 않습니다.");
         }
 
@@ -69,7 +69,7 @@ public class EntryServiceImpl implements EntryService {
 
     @Override
     @Transactional
-    public InsertParticipantResponse insertParticipant(InsertParticipantRequest dto) {
+    public InsertParticipantResponse joinRoom(InsertParticipantRequest dto) {
 
         Participant participant = Participant.builder()
                 .roomNo(dto.getRoomNo())

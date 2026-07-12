@@ -10,11 +10,11 @@ import java.time.LocalDateTime;
 public interface QnaRoomMapper {
 
 
-    void createQnaRoom(QnaRoom qnaRoom);
+    void insertQnaRoom(QnaRoom qnaRoom);
 
-    void updateQuestionStartedAt(@Param("roomNo") long roomNo, @Param("startedAt") LocalDateTime startedAt, @Param("endedAt") LocalDateTime endedAt);
+    void updateQuestionPeriod(@Param("roomNo") long roomNo, @Param("startedAt") LocalDateTime startedAt, @Param("endedAt") LocalDateTime endedAt);
 
-    StartTimerResponse getTimerInfo(long roomNo);
+    StartTimerResponse selectQuestionTimerByRoomNo(long roomNo);
 
     void updateRoomStatus(long roomNo, String status);
 }

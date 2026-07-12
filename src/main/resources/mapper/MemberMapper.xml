@@ -8,7 +8,7 @@
     </select>
 
 
-    <insert id="signUp">
+    <insert id="insertMember">
         insert into member(email,password,name,role) values(#{email},#{password},#{name},"NORMAL")
     </insert>
 </mapper>

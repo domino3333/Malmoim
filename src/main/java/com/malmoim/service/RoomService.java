@@ -10,7 +10,7 @@ public interface RoomService {
 
     MyRoomsResponseDto getMyRooms(String hostEmail, int page, int size);
 
-    Room getMyOneRoom(long no, String hostEmail);
+    Room getOwnedRoomByNo(long roomNo, String hostEmail);
 
-    Room getOneRoomWithOnlyNo(Long no);
+    Room getRoomByNo(Long roomNo);
 }

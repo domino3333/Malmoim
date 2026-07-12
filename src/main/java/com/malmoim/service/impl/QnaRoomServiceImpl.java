@@ -32,7 +32,7 @@ public class QnaRoomServiceImpl implements QnaRoomService {
 
     @Override
     @Transactional
-    public StartTimerResponse updateQuestionStartedAt(String hostEmail, long durationSeconds, long roomNo) {
+    public StartTimerResponse startQuestionPhase(String hostEmail, long durationSeconds, long roomNo) {
 
         Member host = memberMapper.getMemberByEmail(hostEmail);
 
@@ -48,12 +48,12 @@ public class QnaRoomServiceImpl implements QnaRoomService {
         }
 
         // 종료/시작 시간을 db에 업데이트
-        qnaRoomMapper.updateQuestionStartedAt(roomNo,startedAt,endedAt);
+        qnaRoomMapper.updateQuestionPeriod(roomNo,startedAt,endedAt);
         // 방 상태 변경
         qnaRoomMapper.updateRoomStatus(roomNo,"QUESTION_OPEN");
 
         //동시에 그 방의 종료,시작 시간 내려주기
-        return qnaRoomMapper.getTimerInfo(roomNo);
+        return qnaRoomMapper.selectQuestionTimerByRoomNo(roomNo);
 
 
 

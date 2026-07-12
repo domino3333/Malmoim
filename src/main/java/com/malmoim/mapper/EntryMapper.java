@@ -6,8 +6,8 @@ import com.malmoim.domain.Room;
 
 public interface EntryMapper {
 
-    Integer countRoomByCode(String code);
+    Integer countRoomsByCode(String code);
     Room getRoomInfoByCode(String code);
-    Room getOneRoomWithOnlyRoomNo(Long roomNo);
+    Room selectRoomByNo(Long roomNo);
     void insertParticipant(Participant participant);
 }

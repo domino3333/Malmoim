@@ -2,7 +2,7 @@ package com.malmoim.security.jwt;
 
 
 import com.malmoim.security.MemberPrincipal;
-import com.malmoim.security.MyUserDetailsService;
+import com.malmoim.security.MemberUserDetailsService;
 import jakarta.servlet.Filter;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -26,7 +26,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
 
     private final JwtTokenProvider jwtTokenProvider;
-    private final MyUserDetailsService myUserDetailsService;
+    private final MemberUserDetailsService memberUserDetailsService;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
@@ -38,8 +38,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             String token = header.substring(7);
 
             if(jwtTokenProvider.validateToken(token)){
-                String email = jwtTokenProvider.getEmail(token);
-                MemberPrincipal memberPrincipal = (MemberPrincipal) myUserDetailsService.loadUserByUsername(email);
+                String email = jwtTokenProvider.extractEmail(token);
+                MemberPrincipal memberPrincipal = (MemberPrincipal) memberUserDetailsService.loadUserByUsername(email);
 
                 UsernamePasswordAuthenticationToken authenticationToken
                         = new UsernamePasswordAuthenticationToken(memberPrincipal,null,memberPrincipal.getAuthorities());

@@ -3,7 +3,7 @@
 <mapper namespace="com.malmoim.mapper.RoomMapper">
 
 
-    <insert id="createRoom" useGeneratedKeys="true" keyProperty="no">
+    <insert id="insertRoom" useGeneratedKeys="true" keyProperty="no">
         insert into room(host_no,title,code,capacity,password,visibility,type)
         values(#{hostNo},#{title},#{code},#{capacity},#{password},#{visibility},#{type})
     </insert>
@@ -18,7 +18,7 @@
         select count(*) from room where host_no =#{no}
     </select>
 
-    <select id="getMyOneRoom" resultType="Room">
+    <select id="selectRoomByNoAndHostNo" resultType="Room">
         select * from room where no=#{no} and host_no=#{hostNo}
     </select>
 
@@ -26,11 +26,11 @@
         update room set status=#{status} where no = #{roomNo} and host_no =#{hostNo}
     </update>
 
-    <select id="countByCode" resultType="integer">
+    <select id="countRoomsByCode" resultType="integer">
         select COUNT(*) from room where code = #{code}
     </select>
 
-    <select id="getOneRoomWithOnlyNo" resultType="Room">
+    <select id="selectRoomByNo" resultType="Room">
         select * from room where no =#{no}
     </select>
 

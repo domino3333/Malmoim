@@ -3,9 +3,9 @@ package com.malmoim.service;
 import com.malmoim.dto.entry.*;
 
 public interface EntryService {
-    CheckCodeResponse checkRoomCode(String code);
+    CheckCodeResponse getRoomEntryInfo(String code);
 
-    CheckPasswordResponse checkRoomPassword(CheckPasswordRequest dto);
+    CheckPasswordResponse verifyRoomPassword(CheckPasswordRequest dto);
 
-    InsertParticipantResponse insertParticipant(InsertParticipantRequest dto);
+    InsertParticipantResponse joinRoom(InsertParticipantRequest dto);
 }

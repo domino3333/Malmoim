@@ -34,29 +34,29 @@ public class QnaController {
     }
 
     @GetMapping("/{no}/host")
-    public ResponseEntity<?> getMyOneQnaRoom(Authentication authentication,@PathVariable Long no){
+    public ResponseEntity<?> getHostQnaRoom(Authentication authentication,@PathVariable Long no){
 
         //todo 시작시간, 종료시간 보여줄거면 room과 qna_room을 조인해서 보여주기
         String hostEmail = authentication.getName();
-        Room room = roomService.getMyOneRoom(no,hostEmail);
+        Room room = roomService.getOwnedRoomByNo(no,hostEmail);
 
         return ResponseEntity.ok(room);
     }
 
     @GetMapping("/{no}/participant")
-    public ResponseEntity<?> getOneQnaRoomAsParticipant(@PathVariable Long no){
+    public ResponseEntity<?> getParticipantQnaRoom(@PathVariable Long no){
 
-        Room room = roomService.getOneRoomWithOnlyNo(no);
+        Room room = roomService.getRoomByNo(no);
 
         return ResponseEntity.ok(room);
     }
 
 
     @PostMapping("/{roomNo}/start-timer")
-    public ResponseEntity<?> startTimer(Authentication authentication, @RequestBody StartTimerRequest dto, @PathVariable long roomNo){
+    public ResponseEntity<?> startQuestionPhase(Authentication authentication, @RequestBody StartTimerRequest dto, @PathVariable long roomNo){
 
         String hostEmail = authentication.getName();
-        StartTimerResponse response = qnaRoomService.updateQuestionStartedAt(hostEmail,dto.getDurationSeconds(),roomNo);
+        StartTimerResponse response = qnaRoomService.startQuestionPhase(hostEmail,dto.getDurationSeconds(),roomNo);
 
         return ResponseEntity.ok(response);
     }

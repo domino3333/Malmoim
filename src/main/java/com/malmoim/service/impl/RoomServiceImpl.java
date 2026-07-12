@@ -41,7 +41,7 @@ public class RoomServiceImpl implements RoomService {
 
 
         // code가 이미 존재한다면 다시 발급
-        while(roomMapper.countByCode(code)>=1){
+        while(roomMapper.countRoomsByCode(code)>=1){
             code = RoomCodeGenerator.generate();
         }
 
@@ -62,10 +62,10 @@ public class RoomServiceImpl implements RoomService {
                 .visibility(dto.getIsPrivate() ? "PRIVATE" : "PUBLIC") //체크됨(true => 비공개방)
                 .build();
 
-        roomMapper.createRoom(room);
+        roomMapper.insertRoom(room);
 
         // room을 상속받는 1:1 구조의 qna_room 생성
-        qnaRoomMapper.createQnaRoom(QnaRoom.builder()
+        qnaRoomMapper.insertQnaRoom(QnaRoom.builder()
                 .roomNo(room.getNo())
                 .build());
 
@@ -90,14 +90,14 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
-    public Room getMyOneRoom(long no, String hostEmail) {
+    public Room getOwnedRoomByNo(long roomNo, String hostEmail) {
         Member host = memberMapper.getMemberByEmail(hostEmail);
 
-        return roomMapper.getMyOneRoom(no, host.getNo());
+        return roomMapper.selectRoomByNoAndHostNo(roomNo, host.getNo());
     }
 
     @Override
-    public Room getOneRoomWithOnlyNo(Long no) {
-        return roomMapper.getOneRoomWithOnlyNo(no);
+    public Room getRoomByNo(Long roomNo) {
+        return roomMapper.selectRoomByNo(roomNo);
     }
 }

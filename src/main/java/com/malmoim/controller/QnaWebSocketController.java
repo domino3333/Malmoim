@@ -17,7 +17,7 @@ public class QnaWebSocketController {
 
 
     @MessageMapping("/qna/register")
-    public void registerQuestion(QnaQuestionMessage dto) {
+    public void broadcastQuestion(QnaQuestionMessage dto) {
 
         log.info("websocket server dto:{} ", dto.getQuestion());
 
