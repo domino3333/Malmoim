@@ -3,6 +3,7 @@
 <mapper namespace="com.malmoim.mapper.RoomMapper">
 
 
+    <!-- room 테이블에 방 추가. -->
     <insert id="insertRoom" useGeneratedKeys="true" keyProperty="no">
         insert into room(host_no,title,code,capacity,password,visibility,type)
         values(#{hostNo},#{title},#{code},#{capacity},#{password},#{visibility},#{type})
@@ -18,6 +19,7 @@
         select count(*) from room where host_no =#{no}
     </select>
 
+    <!-- 방 번호와 호스트 번호가 일치하는 방 조회. -->
     <select id="selectRoomByNoAndHostNo" resultType="Room">
         select * from room where no=#{no} and host_no=#{hostNo}
     </select>
@@ -26,10 +28,12 @@
         update room set status=#{status} where no = #{roomNo} and host_no =#{hostNo}
     </update>
 
+    <!-- 동일한 입장 코드를 가진 방 개수 조회. -->
     <select id="countRoomsByCode" resultType="integer">
         select COUNT(*) from room where code = #{code}
     </select>
 
+    <!-- 방 번호 기준 단일 방 조회. -->
     <select id="selectRoomByNo" resultType="Room">
         select * from room where no =#{no}
     </select>

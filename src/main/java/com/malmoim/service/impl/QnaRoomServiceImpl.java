@@ -32,6 +32,7 @@ public class QnaRoomServiceImpl implements QnaRoomService {
 
     @Override
     @Transactional
+    // 질문 시간 저장 및 방 상태를 QUESTION_OPEN으로 변경.
     public StartTimerResponse startQuestionPhase(String hostEmail, long durationSeconds, long roomNo) {
 
         Member host = memberMapper.getMemberByEmail(hostEmail);

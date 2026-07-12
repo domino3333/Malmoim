@@ -90,6 +90,7 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
+    // 로그인한 호스트 소유의 방 조회.
     public Room getOwnedRoomByNo(long roomNo, String hostEmail) {
         Member host = memberMapper.getMemberByEmail(hostEmail);
 
@@ -97,6 +98,7 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
+    // 방 번호 기준 단일 방 조회.
     public Room getRoomByNo(Long roomNo) {
         return roomMapper.selectRoomByNo(roomNo);
     }

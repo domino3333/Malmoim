@@ -3,6 +3,7 @@
 <mapper namespace="com.malmoim.mapper.EntryMapper">
 
 
+    <!-- 동일한 입장 코드를 가진 방 개수 조회. -->
     <select id="countRoomsByCode" resultType="integer">
         select COUNT(*)
         from room
@@ -15,6 +16,7 @@
         where code = #{code}
     </select>
 
+    <!-- 방 번호 기준 입장 대상 방 조회. -->
     <select id="selectRoomByNo" resultType="Room">
         select *
         from room

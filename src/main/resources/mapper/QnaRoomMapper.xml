@@ -3,15 +3,18 @@
 <mapper namespace="com.malmoim.mapper.QnaRoomMapper">
 
 
+    <!-- qna_room 테이블에 Q&A 방 정보 추가. -->
     <insert id="insertQnaRoom">
         insert into qna_room(room_no,question_started_at,question_ended_at) values(#{roomNo},null,null)
     </insert>
 
+    <!-- 질문 접수 시작 시간과 종료 시간 수정. -->
     <update id="updateQuestionPeriod">
         update qna_room set question_started_at=#{startedAt},question_ended_at=#{endedAt}  where room_no =#{roomNo}
     </update>
 
 
+    <!-- 방 번호 기준 질문 타이머 정보 조회. -->
     <select id="selectQuestionTimerByRoomNo" resultType="com.malmoim.dto.room.qna.timer.StartTimerResponse">
         select R.no as room_no,R.status,Q.question_ended_at ,Q.question_started_at
         from room R join qna_room Q

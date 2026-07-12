@@ -8,6 +8,7 @@
     </select>
 
 
+    <!-- member 테이블에 회원 추가. -->
     <insert id="insertMember">
         insert into member(email,password,name,role) values(#{email},#{password},#{name},"NORMAL")
     </insert>

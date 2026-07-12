@@ -23,6 +23,7 @@ public class EntryServiceImpl implements EntryService {
 
 
     @Override
+    // 입장 코드에 해당하는 참가자용 방 정보 응답 생성.
     public CheckCodeResponse getRoomEntryInfo(String code) {
 
         if(entryMapper.countRoomsByCode(code) < 1 ){
@@ -51,6 +52,7 @@ public class EntryServiceImpl implements EntryService {
     }
 
     @Override
+    // 입력한 비밀번호와 저장된 방 비밀번호 비교.
     public CheckPasswordResponse verifyRoomPassword(CheckPasswordRequest dto) {
 
         Room room = entryMapper.selectRoomByNo(dto.getRoomNo());
@@ -69,6 +71,7 @@ public class EntryServiceImpl implements EntryService {
 
     @Override
     @Transactional
+    // 참가자 저장 및 발급된 참가자 번호 반환.
     public InsertParticipantResponse joinRoom(InsertParticipantRequest dto) {
 
         Participant participant = Participant.builder()

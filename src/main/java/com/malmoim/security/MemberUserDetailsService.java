@@ -16,6 +16,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+// 회원 정보를 Spring Security의 UserDetails로 변환하는 서비스.
 public class MemberUserDetailsService implements UserDetailsService {
 
 
