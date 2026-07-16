@@ -11,6 +11,7 @@ import com.malmoim.service.RoomService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,6 +24,7 @@ public class QnaController {
 
     private final RoomService roomService;
     private final QnaRoomService qnaRoomService;
+    private final SimpMessagingTemplate simpleMessagingTemplate;
 
     @PostMapping("/create")
     public ResponseEntity<?> createQnaRoom(Authentication authentication, @RequestBody CreateQnaRoomRequest dto){
@@ -60,6 +62,10 @@ public class QnaController {
 
         String hostEmail = authentication.getName();
         StartTimerResponse response = qnaRoomService.startQuestionPhase(hostEmail,dto.getDurationSeconds(),roomNo);
+
+        simpleMessagingTemplate.convertAndSend(
+                "/topic/qna/"+roomNo+"/phase",response
+        );
 
         return ResponseEntity.ok(response);
     }
