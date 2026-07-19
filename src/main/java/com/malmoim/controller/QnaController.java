@@ -42,6 +42,7 @@ public class QnaController {
         //todo 시작시간, 종료시간 보여줄거면 room과 qna_room을 조인해서 보여주기
         String hostEmail = authentication.getName();
         Room room = roomService.getOwnedRoomByNo(no,hostEmail);
+
         return ResponseEntity.ok(room);
     }
 
@@ -50,6 +51,7 @@ public class QnaController {
     public ResponseEntity<?> getParticipantQnaRoom(@PathVariable Long no){
 
         Room room = roomService.getRoomByNo(no);
+
         return ResponseEntity.ok(room);
     }
 
@@ -61,6 +63,7 @@ public class QnaController {
         String hostEmail = authentication.getName();
         StartTimerResponse response = qnaRoomService.startQuestionPhase(hostEmail,dto.getDurationSeconds(),roomNo);
 
+        // 타이머를 시작하면 프론트에 웹소켓으로 알람을 보내주기
         simpleMessagingTemplate.convertAndSend(
                 "/topic/qna/"+roomNo+"/phase",response
         );
