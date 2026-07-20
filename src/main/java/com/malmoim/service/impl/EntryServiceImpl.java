@@ -4,6 +4,7 @@ import com.malmoim.domain.Participant;
 import com.malmoim.domain.Room;
 import com.malmoim.dto.entry.*;
 import com.malmoim.mapper.EntryMapper;
+import com.malmoim.security.jwt.JwtTokenProvider;
 import com.malmoim.service.EntryService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,6 +22,7 @@ public class EntryServiceImpl implements EntryService {
 
     private final EntryMapper entryMapper;
     private final BCryptPasswordEncoder passwordEncoder;
+    private final JwtTokenProvider jwtTokenProvider;
 
 
 
@@ -86,7 +88,10 @@ public class EntryServiceImpl implements EntryService {
         Long participantNo = participant.getNo();
 
 
-        return new InsertParticipantResponse(participantNo,"참여자 insert 완료");
+        String token = jwtTokenProvider.createParticipantToken(participantNo,dto.getRoomNo(),dto.getNickname());
+
+
+        return new InsertParticipantResponse(participantNo,"참여자 insert 완료",token);
     }
 
 
