@@ -11,6 +11,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.UUID;
+
 @Service
 @RequiredArgsConstructor
 @Slf4j
@@ -83,8 +85,10 @@ public class EntryServiceImpl implements EntryService {
         entryMapper.insertParticipant(participant);
         Long participantNo = participant.getNo();
 
+        // 참여자용 랜덤 토큰 생성
+        String participantToken = UUID.randomUUID().toString();
 
-        return new InsertParticipantResponse(participantNo,"참여자 insert 완료");
+        return new InsertParticipantResponse(participantNo,"참여자 insert 완료",participantToken);
     }
 
 
