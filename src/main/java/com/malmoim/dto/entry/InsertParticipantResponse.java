@@ -9,5 +9,4 @@ import lombok.Data;
 public class InsertParticipantResponse {
     private Long no;
     private String message;
-    private String token;
 }

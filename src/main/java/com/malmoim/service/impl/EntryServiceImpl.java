@@ -85,11 +85,8 @@ public class EntryServiceImpl implements EntryService {
         entryMapper.insertParticipant(participant);
         Long participantNo = participant.getNo();
 
-        // 참여자용 랜덤 토큰 생성
-        String participantToken = UUID.randomUUID().toString();
-        log.info("참여자용 토큰:{}",participantToken);
 
-        return new InsertParticipantResponse(participantNo,"참여자 insert 완료",participantToken);
+        return new InsertParticipantResponse(participantNo,"참여자 insert 완료");
     }
 
 
