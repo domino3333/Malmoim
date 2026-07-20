@@ -78,13 +78,19 @@ public class JwtTokenProvider {
     }
 
     // 참여자용 토큰
-    public String createParticipantToken(long participantNo,long roomNo,long nickname) {
+    public String createParticipantToken(long participantNo,long roomNo,String nickname) {
+
+        Date now = new Date();
+        Date expiry = new Date(now.getTime() + expiration);
 
         return Jwts.builder()
-                .claim("participantNo",participantNo)
+                .subject(String.valueOf(participantNo))
+                .claim("type","PARTICIPANT")
                 .claim("roomNo",roomNo)
                 .claim("nickname",nickname)
                 .signWith(key)
+                .issuedAt(now)
+                .expiration(expiry)
                 .compact();
 
     }
