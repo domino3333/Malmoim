@@ -77,6 +77,18 @@ public class JwtTokenProvider {
                 .compact();
     }
 
+    // 참여자용 토큰
+    public String createParticipantToken(long participantNo,long roomNo,long nickname) {
+
+        return Jwts.builder()
+                .claim("participantNo",participantNo)
+                .claim("roomNo",roomNo)
+                .claim("nickname",nickname)
+                .signWith(key)
+                .compact();
+
+    }
+
 
 
 }
