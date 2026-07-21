@@ -63,6 +63,15 @@ public class JwtTokenProvider {
                 .get("type",String.class);
     }
 
+    public Integer extractParticipantNo(String token){
+        return Jwts.parser()
+                .verifyWith(key)
+                .build()
+                .parseSignedClaims(token)
+                .getPayload()
+                .get("participantNo",Integer.class);
+    }
+
 
     // 인증된 회원 정보 기반 액세스 토큰 생성.
     public String createAccessToken(Authentication authentication){
