@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import org.jspecify.annotations.Nullable;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDateTime;
@@ -20,12 +21,11 @@ public class ParticipantPrincipal implements UserDetails {
     private Long roomNo;
     private Long participantNo;
     private String nickname;
-    private List<GrantedAuthority> authority;
 
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return authority;
+        return List.of(new SimpleGrantedAuthority("ROLE_PARTICIPANT"));
     }
 
     @Override
