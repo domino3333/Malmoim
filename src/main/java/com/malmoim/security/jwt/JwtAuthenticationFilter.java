@@ -38,13 +38,25 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             String token = header.substring(7);
 
             if(jwtTokenProvider.validateToken(token)){
-                String email = jwtTokenProvider.extractEmail(token);
-                MemberPrincipal memberPrincipal = (MemberPrincipal) memberUserDetailsService.loadUserByUsername(email);
 
-                UsernamePasswordAuthenticationToken authenticationToken
-                        = new UsernamePasswordAuthenticationToken(memberPrincipal,null,memberPrincipal.getAuthorities());
+                String type = jwtTokenProvider.extractType(token);
 
-                SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+                if(type.equals("PARTICIPANT")){
+                    //참여자 토큰일 시
+                    
+
+                }else{
+                    // 호스트 토큰일 시
+                    String email = jwtTokenProvider.extractEmail(token);
+                    MemberPrincipal memberPrincipal = (MemberPrincipal) memberUserDetailsService.loadUserByUsername(email);
+
+                    UsernamePasswordAuthenticationToken authenticationToken
+                            = new UsernamePasswordAuthenticationToken(memberPrincipal,null,memberPrincipal.getAuthorities());
+
+                    SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+                }
+
+
 
 
             }
