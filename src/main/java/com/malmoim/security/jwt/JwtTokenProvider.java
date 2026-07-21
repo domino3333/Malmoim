@@ -54,6 +54,7 @@ public class JwtTokenProvider {
                 .getSubject();
     }
 
+    // jwt에서 type 추출
     public String extractType(String token){
         return Jwts.parser()
                 .verifyWith(key)
@@ -63,15 +64,17 @@ public class JwtTokenProvider {
                 .get("type",String.class);
     }
 
-    public Integer extractParticipantNo(String token){
+    // jwt에서 참여자No 추출
+    public String extractParticipantNo(String token){
         return Jwts.parser()
                 .verifyWith(key)
                 .build()
                 .parseSignedClaims(token)
                 .getPayload()
-                .get("participantNo",Integer.class);
+                .getSubject();
     }
 
+    // jwt에서 roomNo 추출
     public Integer extractRoomNo(String token){
         return Jwts.parser()
                 .verifyWith(key)
@@ -81,6 +84,7 @@ public class JwtTokenProvider {
                 .get("roomNo",Integer.class);
     }
 
+    // jwt에서 nickname 추출
     public String extractNickname(String token){
         return Jwts.parser()
                 .verifyWith(key)
