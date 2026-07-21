@@ -18,20 +18,21 @@ public class ParticipantPrincipal implements UserDetails {
     private Long roomNo;
     private Long participantNo;
     private String nickname;
+    private List<GrantedAuthority> authority;
 
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of();
+        return authority;
     }
 
     @Override
     public @Nullable String getPassword() {
-        return "";
+        return null;
     }
 
     @Override
     public String getUsername() {
-        return "";
+        return this.participantNo.toString();
     }
 }
