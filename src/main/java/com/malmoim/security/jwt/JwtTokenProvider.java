@@ -81,6 +81,15 @@ public class JwtTokenProvider {
                 .get("roomNo",Integer.class);
     }
 
+    public String extractNickname(String token){
+        return Jwts.parser()
+                .verifyWith(key)
+                .build()
+                .parseSignedClaims(token)
+                .getPayload()
+                .get("nickname",String.class);
+    }
+
 
     // 인증된 회원 정보 기반 액세스 토큰 생성.
     public String createAccessToken(Authentication authentication){
