@@ -60,7 +60,7 @@ public class JwtTokenProvider {
                 .build()
                 .parseSignedClaims(token)
                 .getPayload()
-                .getType();
+                .get("type",String.class);
     }
 
 
