@@ -50,6 +50,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
                     ParticipantPrincipal participantPrincipal = new ParticipantPrincipal(roomNo,participantNo,nickname);
 
+                    // 인증 객체 세팅
                     UsernamePasswordAuthenticationToken authenticationToken
                             = new UsernamePasswordAuthenticationToken(participantPrincipal,null,participantPrincipal.getAuthorities());
 
