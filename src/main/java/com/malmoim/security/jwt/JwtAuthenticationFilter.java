@@ -3,6 +3,7 @@ package com.malmoim.security.jwt;
 
 import com.malmoim.security.MemberPrincipal;
 import com.malmoim.security.MemberUserDetailsService;
+import com.malmoim.security.ParticipantPrincipal;
 import jakarta.servlet.Filter;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -43,7 +44,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
                 if(type.equals("PARTICIPANT")){
                     //참여자 토큰일 시
-                    
+                    String nickname = jwtTokenProvider.extractNickname(token);
+                    Long participantNo = jwtTokenProvider.extractParticipantNo(token);
+                    Long roomNo = jwtTokenProvider.extractRoomNo(token);
+
+                    ParticipantPrincipal participantPrincipal = new ParticipantPrincipal(roomNo,participantNo,nickname,"ROLE_PARTICIPANT");
+
 
                 }else{
                     // 호스트 토큰일 시
