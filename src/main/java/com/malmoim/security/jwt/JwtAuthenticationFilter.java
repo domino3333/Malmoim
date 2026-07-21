@@ -42,7 +42,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
                 String type = jwtTokenProvider.extractType(token);
 
-                if(type.equals("PARTICIPANT")){
+                if("PARTICIPANT".equals(type)){
                     //참여자 토큰일 시
                     String nickname = jwtTokenProvider.extractNickname(token);
                     Long participantNo = jwtTokenProvider.extractParticipantNo(token);
