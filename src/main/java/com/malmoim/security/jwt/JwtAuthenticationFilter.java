@@ -48,8 +48,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                     Long participantNo = jwtTokenProvider.extractParticipantNo(token);
                     Long roomNo = jwtTokenProvider.extractRoomNo(token);
 
-                    ParticipantPrincipal participantPrincipal = new ParticipantPrincipal(roomNo,participantNo,nickname,"ROLE_PARTICIPANT");
+                    ParticipantPrincipal participantPrincipal = new ParticipantPrincipal(roomNo,participantNo,nickname);
 
+                    UsernamePasswordAuthenticationToken authenticationToken
+                            = new UsernamePasswordAuthenticationToken(participantPrincipal,null,participantPrincipal.getAuthorities());
+
+                    SecurityContextHolder.getContext().setAuthentication(authenticationToken);
 
                 }else{
                     // 호스트 토큰일 시
