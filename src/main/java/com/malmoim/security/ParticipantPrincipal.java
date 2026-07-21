@@ -16,6 +16,7 @@ import java.util.List;
 public class ParticipantPrincipal implements UserDetails {
 
     private Long roomNo;
+    private Long participantNo;
     private String nickname;
 
 
