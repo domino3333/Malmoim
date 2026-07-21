@@ -65,23 +65,25 @@ public class JwtTokenProvider {
     }
 
     // jwt에서 참여자No 추출
-    public String extractParticipantNo(String token){
-        return Jwts.parser()
+    public Long extractParticipantNo(String token){
+        String subject =  Jwts.parser()
                 .verifyWith(key)
                 .build()
                 .parseSignedClaims(token)
                 .getPayload()
                 .getSubject();
+
+        return Long.valueOf(subject);
     }
 
     // jwt에서 roomNo 추출
-    public Integer extractRoomNo(String token){
+    public Long extractRoomNo(String token){
         return Jwts.parser()
                 .verifyWith(key)
                 .build()
                 .parseSignedClaims(token)
                 .getPayload()
-                .get("roomNo",Integer.class);
+                .get("roomNo",Long.class);
     }
 
     // jwt에서 nickname 추출
