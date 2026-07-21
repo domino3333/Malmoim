@@ -54,6 +54,15 @@ public class JwtTokenProvider {
                 .getSubject();
     }
 
+    public String extractType(String token){
+        return Jwts.parser()
+                .verifyWith(key)
+                .build()
+                .parseSignedClaims(token)
+                .getPayload()
+                .getType();
+    }
+
 
     // 인증된 회원 정보 기반 액세스 토큰 생성.
     public String createAccessToken(Authentication authentication){
@@ -77,7 +86,7 @@ public class JwtTokenProvider {
                 .compact();
     }
 
-    // 참여자용 토큰
+    // 참여자용 토큰 생성
     public String createParticipantToken(long participantNo,long roomNo,String nickname) {
 
         Date now = new Date();
