@@ -16,6 +16,7 @@ public class MemberController {
     @GetMapping("/main")
     public ResponseEntity dasf(){
 
-        return ResponseEntity.ok("fdfd");
+        //todo memberController 구현
+        return ResponseEntity.ok("");
     }
 }
