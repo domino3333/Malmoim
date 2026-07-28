@@ -68,7 +68,7 @@ public class StompJwtChannelInterceptor implements ChannelInterceptor {
 
         accessor.setUser(authentication);
 
-        
+
         return message;
 
     }
