@@ -31,7 +31,7 @@ public class QnaWebSocketController {
         log.info("websocket server dto:{} ", dto.getRoomNo());
 
         ParticipantPrincipal participant = (ParticipantPrincipal) authentication.getPrincipal();
-        
+
         Long participantNo = participant.getParticipantNo();
         Long roomNo = participant.getRoomNo();
 

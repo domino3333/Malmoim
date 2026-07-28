@@ -1,5 +1,6 @@
 package com.malmoim.security.websocket;
 
+import com.malmoim.security.MemberPrincipal;
 import com.malmoim.security.MemberUserDetailsService;
 import com.malmoim.security.ParticipantPrincipal;
 import com.malmoim.security.jwt.JwtTokenProvider;
@@ -58,7 +59,6 @@ public class StompJwtChannelInterceptor implements ChannelInterceptor {
 
             authentication
                     = new UsernamePasswordAuthenticationToken(participant,null,participant.getAuthorities());
-
 
         }else{
             UserDetails member =
