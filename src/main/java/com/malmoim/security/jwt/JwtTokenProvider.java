@@ -44,7 +44,7 @@ public class JwtTokenProvider {
         }
     }
 
-    // JWT subject에 저장된 회원 이메일 추출.
+    // JWT subject에 저장된 회원 이메일 추출
     public String extractEmail(String token){
         return Jwts.parser()
                 .verifyWith(key)
@@ -97,7 +97,7 @@ public class JwtTokenProvider {
     }
 
 
-    // 인증된 회원 정보 기반 액세스 토큰 생성.
+    // 인증된 회원 정보 기반 액세스 토큰 생성
     public String createAccessToken(Authentication authentication){
         String email = authentication.getName();
 
