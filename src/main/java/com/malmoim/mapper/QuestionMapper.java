@@ -8,5 +8,5 @@ import java.util.List;
 
 public interface QuestionMapper {
 
-    void registerQuestion(long roomNo, String question);
+    void registerQuestion(long roomNo,long participantNo, String question);
 }

@@ -13,8 +13,8 @@ public class QuestionServiceImpl implements QuestionService {
     private final QuestionMapper questionMapper;
 
     @Override
-    public void registerQuestion(long roomNo, String question) {
-        questionMapper.registerQuestion(roomNo,question);
+    public void registerQuestion(long roomNo,long participantNo, String question) {
+        questionMapper.registerQuestion(roomNo,participantNo,question);
 
     }
 }
