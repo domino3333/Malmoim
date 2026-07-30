@@ -1,7 +1,7 @@
 package com.malmoim.controller;
 
 
-import com.malmoim.dto.room.MyRoomsResponseDto;
+import com.malmoim.dto.room.MyRoomsResponse;
 import com.malmoim.service.RoomService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,9 +24,9 @@ public class RoomController {
 
 
         String hostEmail = authentication.getName();
-        MyRoomsResponseDto dto = roomService.getMyRooms(hostEmail,page,size);
+        MyRoomsResponse dto = roomService.getMyRooms(hostEmail,page,size);
 
-        log.info("MyRoomsResponseDto:{}",dto);
+        log.info("MyRoomsResponse:{}",dto);
 
         return ResponseEntity.ok(dto);
     }
