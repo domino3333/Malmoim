@@ -33,13 +33,18 @@ public class StompJwtChannelInterceptor implements ChannelInterceptor {
         //일반적인 message 객체는 stomp의 정보를 다루기 불편해서 더 편한 StompHeaderAccessor를 사용
         StompHeaderAccessor accessor = MessageHeaderAccessor.getAccessor(message, StompHeaderAccessor.class);
 
-        /*stomp의 명령어 종류
-//         클라이언트 → 서버
-//         CONNECT, SUBSCRIBE, SEND, UNSUBSCRIBE, DISCONNECT
+        /*
+            stomp의 명령어 종류
 
-//         서버 → 클라이언트
-//         CONNECTED, MESSAGE, RECEIPT, ERROR
+            클라이언트 → 서버
+            CONNECT, SUBSCRIBE, SEND, UNSUBSCRIBE, DISCONNECT
+
+            서버 → 클라이언트
+            CONNECTED, MESSAGE, RECEIPT, ERROR
+
          */
+
+        // connect일때는 jwt를 검사하는데, 다른 명령일 때는 검사하지 않고 message 바로 리턴
         if (accessor == null || !StompCommand.CONNECT.equals(accessor.getCommand())) {
             return message;
         }
@@ -79,6 +84,7 @@ public class StompJwtChannelInterceptor implements ChannelInterceptor {
         accessor.setUser(authentication);
 
 
+        //검사가 끝난 connect 메시지를 다음 처리단계로 통과시킴
         return message;
 
     }
