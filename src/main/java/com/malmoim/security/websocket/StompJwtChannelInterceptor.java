@@ -30,26 +30,34 @@ public class StompJwtChannelInterceptor implements ChannelInterceptor {
     @Override
     public @Nullable Message<?> preSend(Message<?> message, MessageChannel channel) {
 
+        //일반적인 message 객체는 stomp의 정보를 다루기 불편해서 더 편한 StompHeaderAccessor를 사용
         StompHeaderAccessor accessor = MessageHeaderAccessor.getAccessor(message, StompHeaderAccessor.class);
 
-        if(accessor == null || !StompCommand.CONNECT.equals(accessor.getCommand())){
+        /*stomp의 명령어 종류
+//         클라이언트 → 서버
+//         CONNECT, SUBSCRIBE, SEND, UNSUBSCRIBE, DISCONNECT
+
+//         서버 → 클라이언트
+//         CONNECTED, MESSAGE, RECEIPT, ERROR
+         */
+        if (accessor == null || !StompCommand.CONNECT.equals(accessor.getCommand())) {
             return message;
         }
 
         String header = accessor.getFirstNativeHeader("Authorization");
 
-        if(header ==null || !header.startsWith("Bearer ")){
+        if (header == null || !header.startsWith("Bearer ")) {
             throw new MessagingException("STOMP 토큰이 없습니다");
         }
 
         String token = header.substring(7);
-        if(!jwtTokenProvider.validateToken(token)){
+        if (!jwtTokenProvider.validateToken(token)) {
             throw new MessagingException("유효하지 않은 STOMP 토큰입니다");
         }
 
         Authentication authentication;
 
-        if("PARTICIPANT".equals(jwtTokenProvider.extractType(token))){
+        if ("PARTICIPANT".equals(jwtTokenProvider.extractType(token))) {
             ParticipantPrincipal participant =
                     new ParticipantPrincipal(
                             jwtTokenProvider.extractRoomNo(token),
@@ -58,12 +66,12 @@ public class StompJwtChannelInterceptor implements ChannelInterceptor {
                     );
 
             authentication
-                    = new UsernamePasswordAuthenticationToken(participant,null,participant.getAuthorities());
+                    = new UsernamePasswordAuthenticationToken(participant, null, participant.getAuthorities());
 
-        }else{
+        } else {
             UserDetails member =
                     memberUserDetailsService.loadUserByUsername(jwtTokenProvider.extractEmail(token));
-            authentication = new UsernamePasswordAuthenticationToken(member,null,member.getAuthorities());
+            authentication = new UsernamePasswordAuthenticationToken(member, null, member.getAuthorities());
         }
 
         accessor.setUser(authentication);
