@@ -4,6 +4,6 @@
 
     <insert id="registerQuestion">
         insert into question(participant_no,content,room_no,vote_count,status)
-        values(#{participantNo},#{question},#{roomNo},0,"PENDING")
+        values(#{participantNo},#{question},#{roomNo},0,"WAITING")
     </insert>
 </mapper>
