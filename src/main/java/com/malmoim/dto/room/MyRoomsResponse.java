@@ -6,7 +6,7 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-public class MyRoomsResponseDto {
+public class MyRoomsResponse {
 
     private List<Room> rooms;
     private int totalCount;

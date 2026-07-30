@@ -36,7 +36,7 @@ public class EntryServiceImpl implements EntryService {
 
         //todo 나중엔 방마다 타입이 다를 텐데, 이때는 어떻게 해야 할지 생각해야 함
         //todo 이 코드는 체크코드 성공후에 닉네임 입력하게하고나서 구현할코드인데 일단 나중에 옮기기
-//        if(room.getType().equals("QnA")){
+//        if(room.getType().equals("QNA")){
 //            //qna방일경우 qna_room 와 room을 조인해서 보여주기
 //
 //        }

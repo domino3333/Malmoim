@@ -4,7 +4,7 @@ import com.malmoim.domain.Member;
 import com.malmoim.domain.QnaRoom;
 import com.malmoim.domain.Room;
 import com.malmoim.dto.room.qna.CreateQnaRoomRequest;
-import com.malmoim.dto.room.MyRoomsResponseDto;
+import com.malmoim.dto.room.MyRoomsResponse;
 import com.malmoim.mapper.MemberMapper;
 import com.malmoim.mapper.QnaRoomMapper;
 import com.malmoim.mapper.RoomMapper;
@@ -58,7 +58,7 @@ public class RoomServiceImpl implements RoomService {
                 .capacity(dto.getCapacity())
                 .password(encodedPassword)
                 .code(code)
-                .type("QnA")
+                .type("QNA")
                 .visibility(dto.getIsPrivate() ? "PRIVATE" : "PUBLIC") //체크됨(true => 비공개방)
                 .build();
 
@@ -74,11 +74,11 @@ public class RoomServiceImpl implements RoomService {
 
     @Override
     @Transactional
-    public MyRoomsResponseDto getMyRooms(String hostEmail, int page, int size) {
+    public MyRoomsResponse getMyRooms(String hostEmail, int page, int size) {
 
         Member host = memberMapper.getMemberByEmail(hostEmail);
 
-        MyRoomsResponseDto dto = new MyRoomsResponseDto();
+        MyRoomsResponse dto = new MyRoomsResponse();
 
         int offset = (page - 1) * size;
 

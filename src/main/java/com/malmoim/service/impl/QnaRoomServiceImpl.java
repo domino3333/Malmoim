@@ -3,7 +3,7 @@ package com.malmoim.service.impl;
 import com.malmoim.domain.Member;
 import com.malmoim.domain.QnaRoom;
 import com.malmoim.domain.Room;
-import com.malmoim.dto.room.MyRoomsResponseDto;
+import com.malmoim.dto.room.MyRoomsResponse;
 import com.malmoim.dto.room.qna.timer.StartTimerResponse;
 import com.malmoim.mapper.MemberMapper;
 import com.malmoim.mapper.QnaRoomMapper;
