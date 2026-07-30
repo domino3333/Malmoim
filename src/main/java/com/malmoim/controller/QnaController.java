@@ -24,7 +24,7 @@ public class QnaController {
 
     private final RoomService roomService;
     private final QnaRoomService qnaRoomService;
-    private final SimpMessagingTemplate simpleMessagingTemplate;
+    private final SimpMessagingTemplate simpMessagingTemplate;
 
     @PostMapping("/create")
     public ResponseEntity<?> createQnaRoom(Authentication authentication, @RequestBody CreateQnaRoomRequest dto){
@@ -64,7 +64,7 @@ public class QnaController {
         StartTimerResponse response = qnaRoomService.startQuestionPhase(hostEmail,dto.getDurationSeconds(),roomNo);
 
         // 타이머를 시작하면 프론트에 웹소켓으로 알람을 보내주기
-        simpleMessagingTemplate.convertAndSend(
+        simpMessagingTemplate.convertAndSend(
                 "/topic/qna/"+roomNo+"/phase",response
         );
 
@@ -73,7 +73,7 @@ public class QnaController {
 
 
     @PostMapping("/{roomNo}/update-status")
-    public ResponseEntity<?> updateStatus(Authentication authentication,@PathVariable long roomNo ,@RequestBody UpdateRoomStatusRequest request){
+    public ResponseEntity<?> updateRoomStatus(Authentication authentication,@PathVariable long roomNo ,@RequestBody UpdateRoomStatusRequest request){
 
         String hostEmail = authentication.getName();
         qnaRoomService.updateRoomStatus(hostEmail,roomNo,request.getStatus());
