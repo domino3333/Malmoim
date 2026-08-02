@@ -38,7 +38,7 @@ public class QnaWebSocketController {
 
         questionService.registerQuestion(dto.getRoomNo(),participantNo,dto.getQuestion());
 
-        simpMessagingTemplate.convertAndSend("/topic/qna/" + dto.getRoomNo(), dto);
+        simpMessagingTemplate.convertAndSend("/topic/qna/" + roomNo, dto);
 
     }
 
