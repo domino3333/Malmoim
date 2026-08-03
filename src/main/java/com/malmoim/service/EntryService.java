@@ -10,5 +10,5 @@ public interface EntryService {
     CheckPasswordResponse verifyRoomPassword(CheckPasswordRequest dto);
 
     // 참가자 생성 및 방 입장 처리
-    InsertParticipantResponse joinRoom(InsertParticipantRequest dto);
+    JoinRoomResponse joinRoom(JoinRoomRequest dto);
 }

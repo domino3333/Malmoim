@@ -76,7 +76,7 @@ public class EntryServiceImpl implements EntryService {
     @Override
     @Transactional
     // 참가자 저장 및 발급된 참가자 번호 반환
-    public InsertParticipantResponse joinRoom(InsertParticipantRequest dto) {
+    public JoinRoomResponse joinRoom(JoinRoomRequest dto) {
 
         Participant participant = Participant.builder()
                 .roomNo(dto.getRoomNo())
@@ -91,7 +91,7 @@ public class EntryServiceImpl implements EntryService {
         String token = jwtTokenProvider.createParticipantToken(participantNo,dto.getRoomNo(),dto.getNickname());
 
 
-        return new InsertParticipantResponse(participantNo,"참여자 insert 완료",token);
+        return new JoinRoomResponse(participantNo,"참여자 insert 완료",token);
     }
 
 

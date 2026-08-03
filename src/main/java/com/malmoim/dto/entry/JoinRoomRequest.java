@@ -4,7 +4,7 @@ package com.malmoim.dto.entry;
 import lombok.Data;
 
 @Data
-public class InsertParticipantRequest {
+public class JoinRoomRequest {
     private Long roomNo;
     private String nickname;
 }

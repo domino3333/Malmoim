@@ -6,7 +6,7 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class InsertParticipantResponse {
+public class JoinRoomResponse {
     private Long no;
     private String message;
     private String participantToken;

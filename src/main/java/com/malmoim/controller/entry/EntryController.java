@@ -41,9 +41,9 @@ public class EntryController {
 
     @PostMapping("/insert-participant")
     // 참가자 정보 저장 및 방 입장 처리
-    public ResponseEntity<?> joinRoom(@RequestBody InsertParticipantRequest dto){
+    public ResponseEntity<?> joinRoom(@RequestBody JoinRoomRequest dto){
 
-        InsertParticipantResponse response = entryService.joinRoom(dto);
+        JoinRoomResponse response = entryService.joinRoom(dto);
         return ResponseEntity.ok(response);
 
     }
