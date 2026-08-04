@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class MemberController {
 
 
-    @GetMapping("/main")
+    @GetMapping
     public ResponseEntity dasf(){
 
         //todo memberController 구현
