@@ -1,7 +1,7 @@
 package com.malmoim.controller;
 
 
-import com.malmoim.dto.room.qna.QnaQuestionMessage;
+import com.malmoim.dto.room.qna.SubmitQuestionMessage;
 import com.malmoim.security.ParticipantPrincipal;
 import com.malmoim.service.QuestionService;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +24,7 @@ public class QnaWebSocketController {
 
     @MessageMapping("/qna/register")
     // 참여자가 보낸 질문을 같은 방의 모든 구독자에게 전달
-    public void registerAndBroadcastQuestion(QnaQuestionMessage dto, Authentication authentication) {
+    public void registerAndBroadcastQuestion(SubmitQuestionMessage dto, Authentication authentication) {
 
         //참여자가 보낸 질문 로그로 테스트
         log.info("websocket server dto:{} ", dto.getQuestion());
