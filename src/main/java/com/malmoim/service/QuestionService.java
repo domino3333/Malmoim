@@ -1,5 +1,7 @@
 package com.malmoim.service;
 
+import com.malmoim.dto.room.qna.QuestionCreatedMessage;
+
 public interface QuestionService {
-    void registerQuestion(long roomNo,long participantNo, String question);
+    QuestionCreatedMessage registerQuestion(long roomNo, long participantNo, String question, String nickname);
 }

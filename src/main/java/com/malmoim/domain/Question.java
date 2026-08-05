@@ -1,7 +1,12 @@
 package com.malmoim.domain;
 
+import lombok.Builder;
+import lombok.Data;
+
 import java.time.LocalDateTime;
 
+@Data
+@Builder
 public class Question {
 
     private Long no; //questionNo

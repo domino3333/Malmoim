@@ -1,6 +1,7 @@
 package com.malmoim.controller;
 
 
+import com.malmoim.dto.room.qna.QuestionCreatedMessage;
 import com.malmoim.dto.room.qna.SubmitQuestionMessage;
 import com.malmoim.security.ParticipantPrincipal;
 import com.malmoim.service.QuestionService;
@@ -34,11 +35,15 @@ public class QnaWebSocketController {
 
         Long participantNo = participant.getParticipantNo();
         Long roomNo = participant.getRoomNo();
+        String nickname = participant.getNickname();
 
 
-        questionService.registerQuestion(roomNo,participantNo,dto.getQuestion());
+        QuestionCreatedMessage message =
+        questionService.registerQuestion(roomNo,participantNo,dto.getQuestion(),nickname);
 
-        simpMessagingTemplate.convertAndSend("/topic/qna/" + roomNo, dto);
+
+
+        simpMessagingTemplate.convertAndSend("/topic/qna/" + roomNo, message);
 
     }
 

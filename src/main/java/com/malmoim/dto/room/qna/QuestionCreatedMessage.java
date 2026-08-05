@@ -13,6 +13,7 @@ public class QuestionCreatedMessage {
     private Long participantNo;
     private String content;
     private Long roomNo;
+    private String nickname;
     private Integer voteCount;
     private LocalDateTime createdAt;
     private String status;
