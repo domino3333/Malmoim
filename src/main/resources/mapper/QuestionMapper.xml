@@ -4,6 +4,6 @@
 
     <insert id="registerQuestion" useGeneratedKeys="true" keyProperty="no" keyColumn="no">
         insert into question(participant_no,content,room_no,vote_count,status,created_at)
-        values(#{participantNo},#{question},#{roomNo},#{voteCount},#{status},#{createdAt})
+        values(#{participantNo},#{content},#{roomNo},#{voteCount},#{status},#{createdAt})
     </insert>
 </mapper>
