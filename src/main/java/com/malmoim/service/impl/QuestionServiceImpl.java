@@ -33,6 +33,7 @@ public class QuestionServiceImpl implements QuestionService {
 
         return QuestionCreatedMessage.builder()
                 .no(savedQuestion.getNo())
+                .participantNo(participantNo)
                 .content(question)
                 .nickname(nickname)
                 .createdAt(savedQuestion.getCreatedAt())
