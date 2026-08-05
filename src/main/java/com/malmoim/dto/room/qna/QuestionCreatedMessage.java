@@ -1,0 +1,20 @@
+package com.malmoim.dto.room.qna;
+
+import lombok.Builder;
+import lombok.Data;
+
+import java.time.LocalDateTime;
+
+@Data
+@Builder
+public class QuestionCreatedMessage {
+
+    private Long no; // question No
+    private Long participantNo;
+    private String content;
+    private Long roomNo;
+    private Integer voteCount;
+    private LocalDateTime createdAt;
+    private String status;
+
+}
