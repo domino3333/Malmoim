@@ -3,7 +3,7 @@
 <mapper namespace="com.malmoim.mapper.QuestionMapper">
 
     <insert id="registerQuestion" useGeneratedKeys="true" keyProperty="no" keyColumn="no">
-        insert into question(participant_no,content,room_no,vote_count,status)
-        values(#{participantNo},#{question},#{roomNo},0,"WAITING")
+        insert into question(participant_no,content,room_no,vote_count,status,created_at)
+        values(#{participantNo},#{question},#{roomNo},#{voteCount},#{status},#{createdAt})
     </insert>
 </mapper>
