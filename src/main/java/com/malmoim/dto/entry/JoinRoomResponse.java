@@ -7,7 +7,7 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class JoinRoomResponse {
-    private Long no;
+    private Long participantNo;
     private String message;
     private String participantToken;
 }
