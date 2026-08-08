@@ -2,7 +2,7 @@ package com.malmoim.mapper;
 
 
 import com.malmoim.domain.QnaRoom;
-import com.malmoim.dto.room.qna.timer.StartTimerResponse;
+import com.malmoim.dto.qna.timer.StartTimerResponse;
 import org.apache.ibatis.annotations.Param;
 
 import java.time.LocalDateTime;
@@ -18,6 +18,4 @@ public interface QnaRoomMapper {
 
     // 방 번호 기준 질문 타이머 정보 조회
     StartTimerResponse selectQuestionTimerByRoomNo(long roomNo);
-
-    void updateRoomStatus(long roomNo, String status);
 }

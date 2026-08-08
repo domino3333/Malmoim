@@ -24,6 +24,8 @@ public interface RoomMapper {
     // 동일한 입장 코드를 가진 방 개수 조회
     Integer countRoomsByCode(String code);
 
+    Room selectRoomByCode(String code);
+
     // 방 번호 기준 단일 방 조회
     Room selectRoomByNo(Long no);
 }

@@ -2,7 +2,7 @@ package com.malmoim.controller.entry;
 
 
 import com.malmoim.dto.entry.*;
-import com.malmoim.service.EntryService;
+import com.malmoim.service.entry.EntryService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;

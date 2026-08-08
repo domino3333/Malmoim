@@ -33,6 +33,10 @@
         select COUNT(*) from room where code = #{code}
     </select>
 
+    <select id="selectRoomByCode" resultType="Room">
+        select * from room where code = #{code}
+    </select>
+
     <!-- 방 번호 기준 단일 방 조회 -->
     <select id="selectRoomByNo" resultType="Room">
         select * from room where no =#{no}
