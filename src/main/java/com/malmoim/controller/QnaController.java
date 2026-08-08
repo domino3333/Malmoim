@@ -6,6 +6,7 @@ import com.malmoim.dto.room.qna.CreateQnaRoomRequest;
 import com.malmoim.dto.room.qna.timer.StartTimerRequest;
 import com.malmoim.dto.room.qna.timer.StartTimerResponse;
 import com.malmoim.dto.room.qna.timer.UpdateRoomStatusRequest;
+import com.malmoim.security.ParticipantPrincipal;
 import com.malmoim.service.QnaRoomService;
 import com.malmoim.service.RoomService;
 import lombok.RequiredArgsConstructor;
@@ -80,6 +81,18 @@ public class QnaController {
 
 
         return ResponseEntity.ok("업데이트 완료");
+    }
+
+    @GetMapping("/participant-info")
+    public ResponseEntity<?> getParticipantInfo(Authentication authentication){
+
+        ParticipantPrincipal participant = (ParticipantPrincipal) authentication.getPrincipal();
+
+        Long participantNo = participant.getParticipantNo();
+        Long roomNo = participant.getRoomNo();
+        String nickname = participant.getNickname();
+
+        return ResponseEntity.ok("");
     }
 
 
