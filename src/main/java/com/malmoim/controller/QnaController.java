@@ -90,12 +90,13 @@ public class QnaController {
         ParticipantPrincipal participant = (ParticipantPrincipal) authentication.getPrincipal();
 
         Long participantNo = participant.getParticipantNo();
+        log.info("participantNo:{}",participantNo);
         Long roomNo = participant.getRoomNo();
         String nickname = participant.getNickname();
 
         ParticipantInfoResponse response = new ParticipantInfoResponse(nickname);
 
-        return ResponseEntity.ok(nickname);
+        return ResponseEntity.ok(response);
     }
 
 
