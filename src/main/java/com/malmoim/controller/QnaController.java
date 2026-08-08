@@ -3,6 +3,7 @@ package com.malmoim.controller;
 
 import com.malmoim.domain.Room;
 import com.malmoim.dto.room.qna.CreateQnaRoomRequest;
+import com.malmoim.dto.room.qna.ParticipantInfoResponse;
 import com.malmoim.dto.room.qna.timer.StartTimerRequest;
 import com.malmoim.dto.room.qna.timer.StartTimerResponse;
 import com.malmoim.dto.room.qna.timer.UpdateRoomStatusRequest;
@@ -92,7 +93,9 @@ public class QnaController {
         Long roomNo = participant.getRoomNo();
         String nickname = participant.getNickname();
 
-        return ResponseEntity.ok("");
+        ParticipantInfoResponse response = new ParticipantInfoResponse(nickname);
+
+        return ResponseEntity.ok(nickname);
     }
 
 
