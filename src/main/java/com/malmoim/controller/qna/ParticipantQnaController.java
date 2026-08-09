@@ -2,6 +2,7 @@ package com.malmoim.controller.qna;
 
 import com.malmoim.domain.Room;
 import com.malmoim.dto.qna.ParticipantInfoResponse;
+import com.malmoim.dto.qna.ParticipantListCountResponse;
 import com.malmoim.security.ParticipantPrincipal;
 import com.malmoim.service.room.RoomService;
 import lombok.RequiredArgsConstructor;
@@ -9,6 +10,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
 
 @RestController
 @RequiredArgsConstructor
@@ -50,6 +53,7 @@ public class ParticipantQnaController {
         log.info("roomNo:{}", roomNo);
         String nickname = participant.getNickname();
 
+        ParticipantListCountResponse response = new ParticipantListCountResponse(0,new ArrayList<>());
 
         return ResponseEntity.ok("dd");
     }
