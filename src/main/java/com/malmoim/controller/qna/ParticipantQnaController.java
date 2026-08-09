@@ -58,7 +58,7 @@ public class ParticipantQnaController {
 
         ParticipantListCountResponse response = new ParticipantListCountResponse(0,new ArrayList<>());
 
-        return ResponseEntity.ok("dd");
+        return ResponseEntity.ok(response);
     }
 
 }
