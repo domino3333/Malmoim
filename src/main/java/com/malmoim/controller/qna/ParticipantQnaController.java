@@ -26,6 +26,7 @@ public class ParticipantQnaController {
         return ResponseEntity.ok(room);
     }
 
+    // 참여자 정보를 내려줌
     @GetMapping("/participant-info")
     public ResponseEntity<?> getParticipantInfo(Authentication authentication) {
         ParticipantPrincipal participant = (ParticipantPrincipal) authentication.getPrincipal();
@@ -38,4 +39,19 @@ public class ParticipantQnaController {
 
         return ResponseEntity.ok(response);
     }
+
+    //참여자 명단과 인원 수를 내려줌
+    @GetMapping("/participant-list")
+    public ResponseEntity<?> getParticipantList(Authentication authentication) {
+        ParticipantPrincipal participant = (ParticipantPrincipal) authentication.getPrincipal();
+
+        Long participantNo = participant.getParticipantNo();
+        Long roomNo = participant.getRoomNo();
+        log.info("roomNo:{}", roomNo);
+        String nickname = participant.getNickname();
+
+
+        return ResponseEntity.ok("dd");
+    }
+
 }
