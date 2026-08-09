@@ -8,7 +8,7 @@ import java.util.List;
 
 @Data
 @Builder
-public class ParticipantListCount {
+public class ParticipantListCountResponse {
     private Integer count;
     private List<Participant> list;
 }
