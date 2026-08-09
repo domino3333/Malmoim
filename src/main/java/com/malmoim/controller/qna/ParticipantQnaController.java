@@ -43,7 +43,7 @@ public class ParticipantQnaController {
         return ResponseEntity.ok(response);
     }
 
-    //참여자 명단과 인원 수를 내려줌
+    //참여자 명단과 인원 수를 내려줌(http스냅샷)
     @GetMapping("/participant-list")
     public ResponseEntity<?> getParticipantList(Authentication authentication) {
         ParticipantPrincipal participant = (ParticipantPrincipal) authentication.getPrincipal();
@@ -52,6 +52,9 @@ public class ParticipantQnaController {
         Long roomNo = participant.getRoomNo();
         log.info("roomNo:{}", roomNo);
         String nickname = participant.getNickname();
+
+        //todo 현재 접속 중인 참여자만 세야 함.
+        // db에 한 번 들어 온 참여자라고 해서 접속 중인 것이 아님
 
         ParticipantListCountResponse response = new ParticipantListCountResponse(0,new ArrayList<>());
 
