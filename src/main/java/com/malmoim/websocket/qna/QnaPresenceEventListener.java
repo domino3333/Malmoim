@@ -2,6 +2,7 @@ package com.malmoim.websocket.qna;
 
 import com.malmoim.security.ParticipantPrincipal;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.event.EventListener;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.security.core.Authentication;
@@ -12,6 +13,7 @@ import java.security.Principal;
 
 @Component
 @RequiredArgsConstructor
+@Slf4j
 public class QnaPresenceEventListener {
 
     private final QnaPresenceRegistry qnaPresenceRegistry;
@@ -31,7 +33,7 @@ public class QnaPresenceEventListener {
         }
 
         ParticipantPrincipal participantPrincipal =(ParticipantPrincipal) principal;
-        System.out.println("연결된 참여자:" + participantPrincipal.getNickname());
+        log.info("연결된 참여자:{}",participantPrincipal.getNickname());
 
         StompHeaderAccessor accessor = StompHeaderAccessor.wrap(event.getMessage());
 
@@ -41,7 +43,16 @@ public class QnaPresenceEventListener {
             return;
         }
 
-        System.out.println("WebSocket sessionId: " + sessionId);
+        log.info("WebSocket sessionId:{}",sessionId);
+
+        qnaPresenceRegistry.connect(
+                sessionId,
+                participantPrincipal.getRoomNo(),
+                participantPrincipal.getParticipantNo(),
+                participantPrincipal.getNickname()
+        );
+
+        log.info("현재 참여자 수:{}",qnaPresenceRegistry.getActiveParticipants(participantPrincipal.getRoomNo()).size());
 
     }
 }
