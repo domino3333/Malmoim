@@ -23,9 +23,13 @@ public class QnaPresenceEventListener {
             return;
         }
 
-        if(!(authentication.getPrincipal() instanceof ParticipantPrincipal participantPrincipal)){
+        Object principal = authentication.getPrincipal();
+
+        if(!(principal instanceof ParticipantPrincipal)){
             return;
         }
+
+        ParticipantPrincipal participantPrincipal =(ParticipantPrincipal) principal;
 
         System.out.println("연결된 참여자:" + participantPrincipal.getNickname());
 
