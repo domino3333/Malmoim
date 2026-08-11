@@ -11,6 +11,6 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 public class ParticipantListCountResponse {
-    private Integer count;
-    private List<Participant> list;
+    private Integer participantCount;
+    private List<Participant> participants;
 }
