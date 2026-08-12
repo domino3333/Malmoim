@@ -34,7 +34,7 @@ public class QnaPresenceEventListener {
         }
 
         ParticipantPrincipal participantPrincipal =(ParticipantPrincipal) principal;
-        log.info("연결된 참여자:{}",participantPrincipal.getNickname());
+        log.info("연결된 참여자의 닉네임:{}",participantPrincipal.getNickname());
 
         StompHeaderAccessor accessor = StompHeaderAccessor.wrap(event.getMessage());
 
@@ -44,7 +44,7 @@ public class QnaPresenceEventListener {
             return;
         }
 
-        log.info("WebSocket sessionId:{}",sessionId);
+        log.info("참여자 연결 성공, WebSocket sessionId:{}",sessionId);
 
         qnaPresenceRegistry.connect(
                 sessionId,
