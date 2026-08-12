@@ -5,5 +5,6 @@ import lombok.Data;
 
 @Data
 public class ActiveParticipantResponse {
-    
+    private Long participantNo;
+    private String nickname;
 }
