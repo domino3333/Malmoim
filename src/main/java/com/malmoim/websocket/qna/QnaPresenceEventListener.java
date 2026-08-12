@@ -56,7 +56,12 @@ public class QnaPresenceEventListener {
                 participantPrincipal.getNickname()
         );
 
+        Long roomNo = participantPrincipal.getRoomNo();
+
         log.info("현재 참여자 수:{}", qnaPresenceRegistry.getActiveParticipants(participantPrincipal.getRoomNo()).size());
+
+        int participantCount = qnaPresenceRegistry.getActiveParticipants(roomNo).size();
+        simpMessagingTemplate.convertAndSend("/topic/qna/"+roomNo+"/participants",participantCount);
 
     }
 
