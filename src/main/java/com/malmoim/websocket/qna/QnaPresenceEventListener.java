@@ -23,31 +23,31 @@ public class QnaPresenceEventListener {
     private final SimpMessagingTemplate simpMessagingTemplate;
 
     @EventListener
-    public void handleConnected(SessionConnectedEvent event){
+    public void handleConnected(SessionConnectedEvent event) {
         Principal user = event.getUser();
 
-        if(!(user instanceof Authentication authentication)){
+        if (!(user instanceof Authentication authentication)) {
             return;
         }
 
         Object principal = authentication.getPrincipal();
 
-        if(!(principal instanceof ParticipantPrincipal)){
+        if (!(principal instanceof ParticipantPrincipal)) {
             return;
         }
 
-        ParticipantPrincipal participantPrincipal =(ParticipantPrincipal) principal;
-        log.info("연결된 참여자의 닉네임:{}",participantPrincipal.getNickname());
+        ParticipantPrincipal participantPrincipal = (ParticipantPrincipal) principal;
+        log.info("연결된 참여자의 닉네임:{}", participantPrincipal.getNickname());
 
         StompHeaderAccessor accessor = StompHeaderAccessor.wrap(event.getMessage());
 
         String sessionId = accessor.getSessionId();
 
-        if(sessionId == null){
+        if (sessionId == null) {
             return;
         }
 
-        log.info("참여자 연결 성공, WebSocket sessionId:{}",sessionId);
+        log.info("참여자 연결 성공, WebSocket sessionId:{}", sessionId);
 
         qnaPresenceRegistry.connect(
                 sessionId,
@@ -56,18 +56,18 @@ public class QnaPresenceEventListener {
                 participantPrincipal.getNickname()
         );
 
-        log.info("현재 참여자 수:{}",qnaPresenceRegistry.getActiveParticipants(participantPrincipal.getRoomNo()).size());
+        log.info("현재 참여자 수:{}", qnaPresenceRegistry.getActiveParticipants(participantPrincipal.getRoomNo()).size());
 
     }
 
     @EventListener
-    public void handleDisconnected(SessionDisconnectEvent event){
+    public void handleDisconnected(SessionDisconnectEvent event) {
 
         String sessionId = event.getSessionId();
-        log.info("삭제된 sessionId:{}",sessionId);
+        log.info("삭제된 sessionId:{}", sessionId);
         QnaPresenceRegistry.PresenceSession disconnectedSession = qnaPresenceRegistry.disconnect(sessionId);
 
-        if(disconnectedSession == null){
+        if (disconnectedSession == null) {
             log.info("disconnectedSession이 비어있습니다.");
             return;
         }
@@ -76,16 +76,13 @@ public class QnaPresenceEventListener {
 
         List<QnaPresenceRegistry.PresenceSession> activeParticipants =
                 qnaPresenceRegistry.getActiveParticipants(roomNo);
-        log.info("참여자 퇴장 후 현재 참여자 수:{}",activeParticipants.size());
+        log.info("참여자 퇴장 후 현재 참여자 수:{}", activeParticipants.size());
 
         int participantCount = qnaPresenceRegistry.getActiveParticipants(roomNo).size();
 
-        simpMessagingTemplate.convertAndSend("/topic/qna/"+roomNo+"/participants",participantCount);
+        // 이를 구독하는 destination에 변경된 참여자 수를 방송
+        simpMessagingTemplate.convertAndSend("/topic/qna/" + roomNo + "/participants", participantCount);
     }
-
-
-
-
 
 
 }
