@@ -77,10 +77,15 @@ public class QnaPresenceEventListener {
         List<QnaPresenceRegistry.PresenceSession> activeParticipants =
                 qnaPresenceRegistry.getActiveParticipants(roomNo);
         log.info("참여자 퇴장 후 현재 참여자 수:{}",activeParticipants.size());
+
+        int participantCount = qnaPresenceRegistry.getActiveParticipants(roomNo).size();
+
+        simpMessagingTemplate.convertAndSend("/topic/qna/"+roomNo+"/participants",participantCount);
     }
 
 
-    
+
+
 
 
 }
