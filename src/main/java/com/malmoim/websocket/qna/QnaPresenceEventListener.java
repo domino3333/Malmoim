@@ -71,9 +71,9 @@ public class QnaPresenceEventListener {
         // 리스트에서 no와 닉네임을 꺼내고 그걸로 ActiveParticipantResponse 리스트를 만들어야함
         List<ActiveParticipantResponse> activeParticipantList = new ArrayList<>();
 
-        for (int i = 0; i < presenceSession.size(); i++) {
-            Long participantNo = presenceSession.get(i).getParticipantNo();
-            String nickname = presenceSession.get(i).getNickname();
+        for (QnaPresenceRegistry.PresenceSession session : presenceSession) {
+            Long participantNo = session.getParticipantNo();
+            String nickname = session.getNickname();
             activeParticipantList.add(new ActiveParticipantResponse(participantNo,nickname));
         }
 
