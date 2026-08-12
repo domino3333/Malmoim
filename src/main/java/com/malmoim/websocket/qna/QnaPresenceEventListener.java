@@ -114,12 +114,12 @@ public class QnaPresenceEventListener {
             String nickname = session.getNickname();
             activeParticipantList.add(new ActiveParticipantResponse(participantNo,nickname));
         }
-        
+
 
         ParticipantListCountResponse response = new ParticipantListCountResponse(participantCount, activeParticipantList);
 
         // 이를 구독하는 destination에 변경된 참여자 수를 방송
-        simpMessagingTemplate.convertAndSend("/topic/qna/" + roomNo + "/participants", participantCount);
+        simpMessagingTemplate.convertAndSend("/topic/qna/" + roomNo + "/participants", response);
     }
 
 
