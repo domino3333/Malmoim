@@ -8,6 +8,7 @@ import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.messaging.SessionConnectedEvent;
+import org.springframework.web.socket.messaging.SessionDisconnectEvent;
 
 import java.security.Principal;
 
@@ -55,4 +56,18 @@ public class QnaPresenceEventListener {
         log.info("현재 참여자 수:{}",qnaPresenceRegistry.getActiveParticipants(participantPrincipal.getRoomNo()).size());
 
     }
+
+    @EventListener
+    public void handleDisconnected(SessionDisconnectEvent event){
+
+        String sessionId = event.getSessionId();
+        qnaPresenceRegistry.disconnect(sessionId);
+        
+    }
+
+
+
+
+
+
 }
