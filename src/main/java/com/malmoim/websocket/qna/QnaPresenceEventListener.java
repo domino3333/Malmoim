@@ -1,5 +1,7 @@
 package com.malmoim.websocket.qna;
 
+import com.malmoim.dto.qna.ActiveParticipantResponse;
+import com.malmoim.dto.qna.ParticipantListCountResponse;
 import com.malmoim.security.ParticipantPrincipal;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -12,6 +14,7 @@ import org.springframework.web.socket.messaging.SessionConnectedEvent;
 import org.springframework.web.socket.messaging.SessionDisconnectEvent;
 
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
 
 @Component
@@ -61,7 +64,22 @@ public class QnaPresenceEventListener {
         log.info("현재 참여자 수:{}", qnaPresenceRegistry.getActiveParticipants(participantPrincipal.getRoomNo()).size());
 
         int participantCount = qnaPresenceRegistry.getActiveParticipants(roomNo).size();
-        simpMessagingTemplate.convertAndSend("/topic/qna/"+roomNo+"/participants",participantCount);
+
+        List<QnaPresenceRegistry.PresenceSession> presenceSession = qnaPresenceRegistry.getActiveParticipants(roomNo);
+
+
+        // 리스트에서 no와 닉네임을 꺼내고 그걸로 ActiveParticipantResponse 리스트를 만들어야함
+        List<ActiveParticipantResponse> activeParticipantList = new ArrayList<>();
+
+        for (int i = 0; i < presenceSession.size(); i++) {
+            Long participantNo = presenceSession.get(i).getParticipantNo();
+            String nickname = presenceSession.get(i).getNickname();
+            activeParticipantList.add(new ActiveParticipantResponse(participantNo,nickname));
+        }
+
+        ParticipantListCountResponse response = new ParticipantListCountResponse(participantCount, activeParticipantList);
+
+        simpMessagingTemplate.convertAndSend("/topic/qna/" + roomNo + "/participants", response);
 
     }
 
