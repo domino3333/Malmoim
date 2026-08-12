@@ -104,6 +104,20 @@ public class QnaPresenceEventListener {
         // 함수에서 사이즈로 참여자 수 받기
         int participantCount = activeParticipants.size();
 
+
+        List<ActiveParticipantResponse> activeParticipantList = new ArrayList<>();
+        List<QnaPresenceRegistry.PresenceSession> presenceSession = qnaPresenceRegistry.getActiveParticipants(roomNo);
+
+
+        for(QnaPresenceRegistry.PresenceSession session : presenceSession){
+            Long participantNo = session.getParticipantNo();
+            String nickname = session.getNickname();
+            activeParticipantList.add(new ActiveParticipantResponse(participantNo,nickname));
+        }
+        
+
+        ParticipantListCountResponse response = new ParticipantListCountResponse(participantCount, activeParticipantList);
+
         // 이를 구독하는 destination에 변경된 참여자 수를 방송
         simpMessagingTemplate.convertAndSend("/topic/qna/" + roomNo + "/participants", participantCount);
     }
