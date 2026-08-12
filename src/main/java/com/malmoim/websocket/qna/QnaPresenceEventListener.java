@@ -42,6 +42,7 @@ public class QnaPresenceEventListener {
         ParticipantPrincipal participantPrincipal = (ParticipantPrincipal) principal;
         log.info("연결된 참여자의 닉네임:{}", participantPrincipal.getNickname());
 
+        // event에서 Message 객체를 가져오기 위해 좀 더 편한 wrap사용
         StompHeaderAccessor accessor = StompHeaderAccessor.wrap(event.getMessage());
 
         String sessionId = accessor.getSessionId();
