@@ -75,7 +75,7 @@ public class QnaPresenceEventListener {
 
         List<QnaPresenceRegistry.PresenceSession> activeParticipants =
                 qnaPresenceRegistry.getActiveParticipants(roomNo);
-        log.info("참여자 퇴장 후 현재 참여자 수:{}",activeParticipants);
+        log.info("참여자 퇴장 후 현재 참여자 수:{}",activeParticipants.size());
     }
 
 
