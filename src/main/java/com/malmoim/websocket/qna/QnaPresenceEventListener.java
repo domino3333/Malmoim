@@ -62,8 +62,15 @@ public class QnaPresenceEventListener {
 
         String sessionId = event.getSessionId();
         log.info("삭제된 sessionId:{}",sessionId);
-        qnaPresenceRegistry.disconnect(sessionId);
+        QnaPresenceRegistry.PresenceSession disconnectedSession = qnaPresenceRegistry.disconnect(sessionId);
 
+        if(disconnectedSession == null){
+            log.info("disconnectedSession이 비어있습니다.");
+            return;
+        }
+
+
+        long roomNo = disconnectedSession.getRoomNo();
     }
 
 
