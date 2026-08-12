@@ -61,8 +61,9 @@ public class QnaPresenceEventListener {
     public void handleDisconnected(SessionDisconnectEvent event){
 
         String sessionId = event.getSessionId();
+        log.info("삭제된 sessionId:{}",sessionId);
         qnaPresenceRegistry.disconnect(sessionId);
-        
+
     }
 
 
