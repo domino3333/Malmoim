@@ -4,6 +4,7 @@ import com.malmoim.security.ParticipantPrincipal;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.event.EventListener;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
@@ -19,6 +20,7 @@ import java.util.List;
 public class QnaPresenceEventListener {
 
     private final QnaPresenceRegistry qnaPresenceRegistry;
+    private final SimpMessagingTemplate simpMessagingTemplate;
 
     @EventListener
     public void handleConnected(SessionConnectedEvent event){
@@ -70,7 +72,6 @@ public class QnaPresenceEventListener {
             return;
         }
 
-
         Long roomNo = disconnectedSession.getRoomNo();
 
         List<QnaPresenceRegistry.PresenceSession> activeParticipants =
@@ -79,8 +80,7 @@ public class QnaPresenceEventListener {
     }
 
 
-
-
+    
 
 
 }
