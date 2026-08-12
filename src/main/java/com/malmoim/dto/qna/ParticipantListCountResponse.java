@@ -12,5 +12,5 @@ import java.util.List;
 @AllArgsConstructor
 public class ParticipantListCountResponse {
     private Integer participantCount;
-    private List<Participant> participants; // 현재 접속 중인 참여자 리스트
+    private List<ActiveParticipantResponse> participants; // 현재 접속 중인 참여자 리스트
 }
