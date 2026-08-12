@@ -78,6 +78,7 @@ public class QnaPresenceEventListener {
                 qnaPresenceRegistry.getActiveParticipants(roomNo);
         log.info("참여자 퇴장 후 현재 참여자 수:{}", activeParticipants.size());
 
+        // 함수에서 사이즈로 참여자 수 받기
         int participantCount = qnaPresenceRegistry.getActiveParticipants(roomNo).size();
 
         // 이를 구독하는 destination에 변경된 참여자 수를 방송
