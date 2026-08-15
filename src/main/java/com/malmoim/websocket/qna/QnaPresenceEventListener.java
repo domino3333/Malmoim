@@ -62,11 +62,12 @@ public class QnaPresenceEventListener {
 
         Long roomNo = participantPrincipal.getRoomNo();
 
-        log.info("현재 참여자 수:{}", qnaPresenceRegistry.getActiveParticipants(participantPrincipal.getRoomNo()).size());
-
-        int participantCount = qnaPresenceRegistry.getActiveParticipants(roomNo).size();
 
         List<QnaPresenceRegistry.PresenceSession> presenceSession = qnaPresenceRegistry.getActiveParticipants(roomNo);
+
+
+        int participantCount = presenceSession.size();
+        log.info("현재 참여자 수:{}", participantCount);
 
 
         // 리스트에서 no와 닉네임을 꺼내고 그걸로 ActiveParticipantResponse 리스트를 만들어야함
@@ -105,12 +106,10 @@ public class QnaPresenceEventListener {
         // 함수에서 사이즈로 참여자 수 받기
         int participantCount = activeParticipants.size();
 
-
         List<ActiveParticipantResponse> activeParticipantList = new ArrayList<>();
-        List<QnaPresenceRegistry.PresenceSession> presenceSession = qnaPresenceRegistry.getActiveParticipants(roomNo);
 
 
-        for(QnaPresenceRegistry.PresenceSession session : presenceSession){
+        for(QnaPresenceRegistry.PresenceSession session : activeParticipants){
             Long participantNo = session.getParticipantNo();
             String nickname = session.getNickname();
             activeParticipantList.add(new ActiveParticipantResponse(participantNo,nickname));
