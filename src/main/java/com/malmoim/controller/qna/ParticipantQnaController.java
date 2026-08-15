@@ -64,7 +64,6 @@ public class ParticipantQnaController {
             activeParticipantList.add(new ActiveParticipantResponse(participantNo,nickname));
         }
 
-        
         ParticipantListCountResponse response = new ParticipantListCountResponse(activeParticipantList.size(),activeParticipantList);
 
         return ResponseEntity.ok(response);

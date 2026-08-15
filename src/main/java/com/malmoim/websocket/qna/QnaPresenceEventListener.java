@@ -80,7 +80,7 @@ public class QnaPresenceEventListener {
         }
 
         ParticipantListCountResponse response = new ParticipantListCountResponse(participantCount, activeParticipantList);
-
+        log.info("connect리스너에서 현재 참여자 count:{}",response.getParticipantCount());
         simpMessagingTemplate.convertAndSend("/topic/qna/" + roomNo + "/participants", response);
 
     }
@@ -117,6 +117,8 @@ public class QnaPresenceEventListener {
 
 
         ParticipantListCountResponse response = new ParticipantListCountResponse(participantCount, activeParticipantList);
+        log.info("disconnect리스너에서 현재 참여자 count:{}",response.getParticipantCount());
+
 
         // 이를 구독하는 destination에 변경된 참여자 수를 방송
         simpMessagingTemplate.convertAndSend("/topic/qna/" + roomNo + "/participants", response);
