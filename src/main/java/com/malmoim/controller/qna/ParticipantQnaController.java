@@ -1,10 +1,12 @@
 package com.malmoim.controller.qna;
 
 import com.malmoim.domain.Room;
+import com.malmoim.dto.qna.ActiveParticipantResponse;
 import com.malmoim.dto.qna.ParticipantInfoResponse;
 import com.malmoim.dto.qna.ParticipantListCountResponse;
 import com.malmoim.security.ParticipantPrincipal;
 import com.malmoim.service.room.RoomService;
+import com.malmoim.websocket.qna.QnaPresenceRegistry;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +14,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -20,6 +23,7 @@ import java.util.ArrayList;
 public class ParticipantQnaController {
 
     private final RoomService roomService;
+    private final QnaPresenceRegistry qnaPresenceRegistry;
 
     @GetMapping("/{no}/participant")
     // 참가자가 입장한 Q&A 방 정보 조회
@@ -48,12 +52,20 @@ public class ParticipantQnaController {
     public ResponseEntity<?> getParticipantList(Authentication authentication) {
         ParticipantPrincipal participant = (ParticipantPrincipal) authentication.getPrincipal();
 
-        Long participantNo = participant.getParticipantNo();
         Long roomNo = participant.getRoomNo();
-        log.info("roomNo:{}", roomNo);
-        String nickname = participant.getNickname();
 
-        ParticipantListCountResponse response = new ParticipantListCountResponse(0,new ArrayList<>());
+        List<QnaPresenceRegistry.PresenceSession> presenceSession = qnaPresenceRegistry.getActiveParticipants(roomNo);
+
+        List<ActiveParticipantResponse> activeParticipantList = new ArrayList<>();
+
+        for (QnaPresenceRegistry.PresenceSession session : presenceSession) {
+            Long participantNo = session.getParticipantNo();
+            String nickname = session.getNickname();
+            activeParticipantList.add(new ActiveParticipantResponse(participantNo,nickname));
+        }
+
+        
+        ParticipantListCountResponse response = new ParticipantListCountResponse(activeParticipantList.size(),activeParticipantList);
 
         return ResponseEntity.ok(response);
     }
