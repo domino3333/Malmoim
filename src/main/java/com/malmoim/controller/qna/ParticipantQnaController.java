@@ -54,17 +54,6 @@ public class ParticipantQnaController {
 
         Long roomNo = participant.getRoomNo();
 
-        List<QnaPresenceRegistry.PresenceSession> presenceSession = qnaPresenceRegistry.getActiveParticipants(roomNo);
-
-        List<ActiveParticipantResponse> activeParticipantList = new ArrayList<>();
-
-        for (QnaPresenceRegistry.PresenceSession session : presenceSession) {
-            Long participantNo = session.getParticipantNo();
-            String nickname = session.getNickname();
-            activeParticipantList.add(new ActiveParticipantResponse(participantNo,nickname));
-        }
-
-        ParticipantListCountResponse response = new ParticipantListCountResponse(activeParticipantList.size(),activeParticipantList);
 
         return ResponseEntity.ok(response);
     }
