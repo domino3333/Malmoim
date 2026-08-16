@@ -3,6 +3,7 @@ package com.malmoim.websocket.qna;
 import com.malmoim.dto.qna.ActiveParticipantResponse;
 import com.malmoim.dto.qna.ParticipantListCountResponse;
 import com.malmoim.security.ParticipantPrincipal;
+import com.malmoim.service.qna.QnaPresenceService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.event.EventListener;
@@ -24,6 +25,7 @@ public class QnaPresenceEventListener {
 
     private final QnaPresenceRegistry qnaPresenceRegistry;
     private final SimpMessagingTemplate simpMessagingTemplate;
+    private final QnaPresenceService qnaPresenceService;
 
     @EventListener
     public void handleConnected(SessionConnectedEvent event) {
@@ -62,22 +64,8 @@ public class QnaPresenceEventListener {
 
         Long roomNo = participantPrincipal.getRoomNo();
 
+        ParticipantListCountResponse response = qnaPresenceService.getActiveParticipantSnapshot(roomNo);
 
-        List<QnaPresenceRegistry.PresenceSession> presenceSession = qnaPresenceRegistry.getActiveParticipants(roomNo);
-
-
-        int participantCount = presenceSession.size();
-
-        // 리스트에서 no와 닉네임을 꺼내고 그걸로 ActiveParticipantResponse 리스트를 만들어야함
-        List<ActiveParticipantResponse> activeParticipantList = new ArrayList<>();
-
-        for (QnaPresenceRegistry.PresenceSession session : presenceSession) {
-            Long participantNo = session.getParticipantNo();
-            String nickname = session.getNickname();
-            activeParticipantList.add(new ActiveParticipantResponse(participantNo,nickname));
-        }
-
-        ParticipantListCountResponse response = new ParticipantListCountResponse(participantCount, activeParticipantList);
         log.info("connect리스너에서 현재 참여자 count:{}",response.getParticipantCount());
         simpMessagingTemplate.convertAndSend("/topic/qna/" + roomNo + "/participants", response);
 
@@ -97,25 +85,7 @@ public class QnaPresenceEventListener {
 
         Long roomNo = disconnectedSession.getRoomNo();
 
-        List<QnaPresenceRegistry.PresenceSession> activeParticipants =
-                qnaPresenceRegistry.getActiveParticipants(roomNo);
-        log.info("참여자 퇴장 후 현재 참여자 수:{}", activeParticipants.size());
-
-        // 함수에서 사이즈로 참여자 수 받기
-        int participantCount = activeParticipants.size();
-
-        List<ActiveParticipantResponse> activeParticipantList = new ArrayList<>();
-
-
-        for(QnaPresenceRegistry.PresenceSession session : activeParticipants){
-            Long participantNo = session.getParticipantNo();
-            String nickname = session.getNickname();
-            activeParticipantList.add(new ActiveParticipantResponse(participantNo,nickname));
-        }
-
-
-        ParticipantListCountResponse response = new ParticipantListCountResponse(participantCount, activeParticipantList);
-        log.info("disconnect리스너에서 현재 참여자 count:{}",response.getParticipantCount());
+        ParticipantListCountResponse response = qnaPresenceService.getActiveParticipantSnapshot(roomNo);
 
 
         // 이를 구독하는 destination에 변경된 참여자 수를 방송
