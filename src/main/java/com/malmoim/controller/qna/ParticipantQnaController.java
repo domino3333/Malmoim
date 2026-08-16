@@ -5,6 +5,7 @@ import com.malmoim.dto.qna.ActiveParticipantResponse;
 import com.malmoim.dto.qna.ParticipantInfoResponse;
 import com.malmoim.dto.qna.ParticipantListCountResponse;
 import com.malmoim.security.ParticipantPrincipal;
+import com.malmoim.service.qna.QnaPresenceService;
 import com.malmoim.service.room.RoomService;
 import com.malmoim.websocket.qna.QnaPresenceRegistry;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +24,7 @@ import java.util.List;
 public class ParticipantQnaController {
 
     private final RoomService roomService;
-    private final QnaPresenceRegistry qnaPresenceRegistry;
+    private final QnaPresenceService qnaPresenceService;
 
     // 참가자가 입장한 Q&A 방 정보 조회
     @GetMapping("/{no}/participant")
@@ -50,10 +51,10 @@ public class ParticipantQnaController {
     //참여자 명단과 인원 수를 내려줌(http스냅샷)
     @GetMapping("/participant-list")
     public ResponseEntity<?> getParticipantList(Authentication authentication) {
+
         ParticipantPrincipal participant = (ParticipantPrincipal) authentication.getPrincipal();
-
         Long roomNo = participant.getRoomNo();
-
+        ParticipantListCountResponse response = qnaPresenceService.getActiveParticipantSnapshot(roomNo);
 
         return ResponseEntity.ok(response);
     }
