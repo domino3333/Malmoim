@@ -25,8 +25,8 @@ public class ParticipantQnaController {
     private final RoomService roomService;
     private final QnaPresenceRegistry qnaPresenceRegistry;
 
-    @GetMapping("/{no}/participant")
     // 참가자가 입장한 Q&A 방 정보 조회
+    @GetMapping("/{no}/participant")
     public ResponseEntity<?> getParticipantQnaRoom(@PathVariable Long no) {
         Room room = roomService.getRoomByNo(no);
 

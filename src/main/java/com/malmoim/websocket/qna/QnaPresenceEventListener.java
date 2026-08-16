@@ -51,7 +51,7 @@ public class QnaPresenceEventListener {
             return;
         }
 
-        log.info("참여자 연결 성공, WebSocket sessionId:{}", sessionId);
+        log.info("참여자 연결 성공 웹소켓 세션아이디:{}", sessionId);
 
         qnaPresenceRegistry.connect(
                 sessionId,
@@ -67,8 +67,6 @@ public class QnaPresenceEventListener {
 
 
         int participantCount = presenceSession.size();
-        log.info("현재 참여자 수:{}", participantCount);
-
 
         // 리스트에서 no와 닉네임을 꺼내고 그걸로 ActiveParticipantResponse 리스트를 만들어야함
         List<ActiveParticipantResponse> activeParticipantList = new ArrayList<>();
