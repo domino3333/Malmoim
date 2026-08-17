@@ -11,4 +11,6 @@ public interface QnaRoomService {
     StartTimerResponse startQuestionPhase(String hostEmail, long durationSeconds, long roomNo);
 
     void updateRoomStatus(String hostEmail, long roomNo, String status);
+
+    boolean validateRoomOwnership(long roomNo,String hostEmail);
 }

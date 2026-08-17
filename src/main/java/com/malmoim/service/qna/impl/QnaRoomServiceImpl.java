@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -97,5 +98,19 @@ public class QnaRoomServiceImpl implements QnaRoomService {
         }
 
         roomMapper.updateRoomStatus(host.getNo(), roomNo, status);
+    }
+
+    @Override
+    public boolean validateRoomOwnership(long roomNo, String hostEmail) {
+        Member host = memberMapper.getMemberByEmail(hostEmail);
+
+        Room room = roomMapper.selectRoomByNoAndHostNo(roomNo, host.getNo());
+
+        if(room==null){
+            return false;
+        }
+
+        return true;
+
     }
 }

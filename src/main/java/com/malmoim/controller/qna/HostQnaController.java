@@ -65,14 +65,20 @@ public class HostQnaController {
     }
 
     //참여자 명단과 인원 수를 내려줌(http스냅샷)
-    @GetMapping("/participant-list")
-    public ResponseEntity<?> getParticipantList(Authentication authentication) {
+    @GetMapping("/participant-list/{roomNo}")
+    public ResponseEntity<?> getParticipantList(Authentication authentication,@PathVariable long roomNo) {
 
         String hostEmail = authentication.getName();
         //호스트의 메일을 넘겨서 프론트에서 넘겨받은 roomNo를 호스트가 실제로 갖고있는지 판단해야함
 
-        //ParticipantListCountResponse response = qnaPresenceService.getActiveParticipantSnapshot(roomNo);
+        boolean isHostsRoom = qnaRoomService.validateRoomOwnership(roomNo, hostEmail);
+        ParticipantListCountResponse response = qnaPresenceService.getActiveParticipantSnapshot(roomNo);
+        
+        if(isHostsRoom){
+            return ResponseEntity.ok(response);
+        }else{
+            return ResponseEntity.ok("hostNo에 해당하는 방이 없습니다.");
+        }
 
-        return ResponseEntity.ok(null);
     }
 }
