@@ -38,7 +38,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth->auth
                                 .requestMatchers("/api/auth/**").permitAll()
                                 .requestMatchers("/api/room/**").permitAll()
-                                .requestMatchers("/api/qna/**").permitAll()
+                                .requestMatchers("/api/host/qna/**").permitAll()
+                                .requestMatchers("/api/participant/qna/**").permitAll()
                                 .requestMatchers("/api/entry/**").permitAll()
                                 .requestMatchers("/ws","/ws/**").permitAll()
 

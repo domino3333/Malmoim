@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/qna")
+@RequestMapping("/api/host/qna")
 public class HostQnaController {
 
     private final RoomService roomService;

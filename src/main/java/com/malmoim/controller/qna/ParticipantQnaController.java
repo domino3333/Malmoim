@@ -20,7 +20,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @Slf4j
-@RequestMapping("/api/qna")
+@RequestMapping("/api/participant/qna")
 public class ParticipantQnaController {
 
     private final RoomService roomService;
