@@ -69,8 +69,8 @@ public class HostQnaController {
     public ResponseEntity<?> getParticipantList(Authentication authentication,@PathVariable long roomNo) {
 
         String hostEmail = authentication.getName();
-        //호스트의 메일을 넘겨서 프론트에서 넘겨받은 roomNo를 호스트가 실제로 갖고있는지 판단해야함
 
+        // 이 roomNo를 실제로 hostNo가 갖고 있는지 판단
         boolean isHostsRoom = qnaRoomService.validateRoomOwnership(roomNo, hostEmail);
         ParticipantListCountResponse response = qnaPresenceService.getActiveParticipantSnapshot(roomNo);
 
