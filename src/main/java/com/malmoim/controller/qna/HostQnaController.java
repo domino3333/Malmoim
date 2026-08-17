@@ -2,9 +2,12 @@ package com.malmoim.controller.qna;
 
 import com.malmoim.domain.Room;
 import com.malmoim.dto.qna.CreateQnaRoomRequest;
+import com.malmoim.dto.qna.ParticipantListCountResponse;
 import com.malmoim.dto.qna.timer.StartTimerRequest;
 import com.malmoim.dto.qna.timer.StartTimerResponse;
 import com.malmoim.dto.qna.timer.UpdateRoomStatusRequest;
+import com.malmoim.security.ParticipantPrincipal;
+import com.malmoim.service.qna.QnaPresenceService;
 import com.malmoim.service.qna.QnaRoomService;
 import com.malmoim.service.room.RoomService;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +24,7 @@ public class HostQnaController {
     private final RoomService roomService;
     private final QnaRoomService qnaRoomService;
     private final SimpMessagingTemplate simpMessagingTemplate;
+    private final QnaPresenceService qnaPresenceService;
 
     @PostMapping("/create")
     public ResponseEntity<?> createQnaRoom(Authentication authentication, @RequestBody CreateQnaRoomRequest dto) {
@@ -58,5 +62,17 @@ public class HostQnaController {
         qnaRoomService.updateRoomStatus(hostEmail, roomNo, request.getStatus());
 
         return ResponseEntity.ok("업데이트 완료");
+    }
+
+    //참여자 명단과 인원 수를 내려줌(http스냅샷)
+    @GetMapping("/participant-list")
+    public ResponseEntity<?> getParticipantList(Authentication authentication) {
+
+        String hostEmail = authentication.getName();
+        //호스트의 메일을 넘겨서 프론트에서 넘겨받은 roomNo를 호스트가 실제로 갖고있는지 판단해야함
+
+        //ParticipantListCountResponse response = qnaPresenceService.getActiveParticipantSnapshot(roomNo);
+
+        return ResponseEntity.ok(null);
     }
 }
