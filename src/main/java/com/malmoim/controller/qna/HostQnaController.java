@@ -65,7 +65,7 @@ public class HostQnaController {
     }
 
     //참여자 명단과 인원 수를 내려줌(http스냅샷)
-    @GetMapping("/participant-list/{roomNo}")
+    @GetMapping("/{roomNo}/participant-list")
     public ResponseEntity<?> getParticipantList(Authentication authentication,@PathVariable long roomNo) {
 
         String hostEmail = authentication.getName();
@@ -73,7 +73,7 @@ public class HostQnaController {
 
         boolean isHostsRoom = qnaRoomService.validateRoomOwnership(roomNo, hostEmail);
         ParticipantListCountResponse response = qnaPresenceService.getActiveParticipantSnapshot(roomNo);
-        
+
         if(isHostsRoom){
             return ResponseEntity.ok(response);
         }else{
