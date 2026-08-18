@@ -11,6 +11,7 @@ import com.malmoim.service.qna.QnaPresenceService;
 import com.malmoim.service.qna.QnaRoomService;
 import com.malmoim.service.room.RoomService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.security.core.Authentication;
@@ -77,7 +78,8 @@ public class HostQnaController {
         if(isHostsRoom){
             return ResponseEntity.ok(response);
         }else{
-            return ResponseEntity.ok("hostNo에 해당하는 방이 없습니다.");
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("해당 방에 대한 권한이 없습니다.");
+
         }
 
     }
