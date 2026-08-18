@@ -1,8 +1,10 @@
 package com.malmoim.service.qna.impl;
 
+import com.malmoim.domain.Member;
 import com.malmoim.domain.Question;
 import com.malmoim.dto.qna.QuestionCreatedMessage;
 import com.malmoim.dto.qna.QuestionListResponse;
+import com.malmoim.mapper.MemberMapper;
 import com.malmoim.mapper.QuestionMapper;
 import com.malmoim.service.qna.QuestionService;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +19,7 @@ public class QuestionServiceImpl implements QuestionService {
 
 
     private final QuestionMapper questionMapper;
-    private final QuestionService questionService;
+    private final MemberMapper memberMapper;
 
     @Override
     public QuestionCreatedMessage registerQuestion(long roomNo, long participantNo, String question, String nickname) {
@@ -50,7 +52,6 @@ public class QuestionServiceImpl implements QuestionService {
 
     @Override
     public List<QuestionListResponse> getQuestionList(Long roomNo) {
-
 
         return questionMapper.getQuestionList(roomNo);
     }

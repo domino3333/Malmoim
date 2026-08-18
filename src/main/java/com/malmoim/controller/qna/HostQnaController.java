@@ -3,12 +3,14 @@ package com.malmoim.controller.qna;
 import com.malmoim.domain.Room;
 import com.malmoim.dto.qna.CreateQnaRoomRequest;
 import com.malmoim.dto.qna.ParticipantListCountResponse;
+import com.malmoim.dto.qna.QuestionListResponse;
 import com.malmoim.dto.qna.timer.StartTimerRequest;
 import com.malmoim.dto.qna.timer.StartTimerResponse;
 import com.malmoim.dto.qna.timer.UpdateRoomStatusRequest;
 import com.malmoim.security.ParticipantPrincipal;
 import com.malmoim.service.qna.QnaPresenceService;
 import com.malmoim.service.qna.QnaRoomService;
+import com.malmoim.service.qna.QuestionService;
 import com.malmoim.service.room.RoomService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -16,6 +18,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -26,6 +30,7 @@ public class HostQnaController {
     private final QnaRoomService qnaRoomService;
     private final SimpMessagingTemplate simpMessagingTemplate;
     private final QnaPresenceService qnaPresenceService;
+    private final QuestionService questionService;
 
     @PostMapping("/create")
     public ResponseEntity<?> createQnaRoom(Authentication authentication, @RequestBody CreateQnaRoomRequest dto) {
@@ -67,7 +72,7 @@ public class HostQnaController {
 
     //참여자 명단과 인원 수를 내려줌(http스냅샷)
     @GetMapping("/{roomNo}/participant-list")
-    public ResponseEntity<?> getParticipantList(Authentication authentication,@PathVariable long roomNo) {
+    public ResponseEntity<?> getParticipantList(Authentication authentication, @PathVariable long roomNo) {
 
         String hostEmail = authentication.getName();
 
@@ -75,12 +80,33 @@ public class HostQnaController {
         boolean isHostsRoom = qnaRoomService.validateRoomOwnership(roomNo, hostEmail);
         ParticipantListCountResponse response = qnaPresenceService.getActiveParticipantSnapshot(roomNo);
 
-        if(isHostsRoom){
+        if (isHostsRoom) {
             return ResponseEntity.ok(response);
-        }else{
+        } else {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body("해당 방에 대한 권한이 없습니다.");
 
         }
 
     }
+
+
+    //질문 리스트(http스냅샷)
+    @GetMapping("/{roomNo}/question-list")
+    public ResponseEntity<?> getQuestionList(Authentication authentication,@PathVariable long roomNo) {
+
+        String hostEmail = authentication.getName();
+
+        // 이 roomNo를 실제로 hostNo가 갖고 있는지 판단
+        boolean isHostsRoom = qnaRoomService.validateRoomOwnership(roomNo, hostEmail);
+        List<QuestionListResponse> response = questionService.getQuestionList(roomNo);
+
+        if (isHostsRoom) {
+            return ResponseEntity.ok(response);
+        } else {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("해당 방에 대한 권한이 없습니다.");
+
+        }
+
+    }
+
 }
