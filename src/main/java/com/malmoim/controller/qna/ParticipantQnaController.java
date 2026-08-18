@@ -4,8 +4,10 @@ import com.malmoim.domain.Room;
 import com.malmoim.dto.qna.ActiveParticipantResponse;
 import com.malmoim.dto.qna.ParticipantInfoResponse;
 import com.malmoim.dto.qna.ParticipantListCountResponse;
+import com.malmoim.dto.qna.QuestionListResponse;
 import com.malmoim.security.ParticipantPrincipal;
 import com.malmoim.service.qna.QnaPresenceService;
+import com.malmoim.service.qna.QuestionService;
 import com.malmoim.service.room.RoomService;
 import com.malmoim.websocket.qna.QnaPresenceRegistry;
 import lombok.RequiredArgsConstructor;
@@ -25,6 +27,7 @@ public class ParticipantQnaController {
 
     private final RoomService roomService;
     private final QnaPresenceService qnaPresenceService;
+    private final QuestionService questionService;
 
     // 참가자가 입장한 Q&A 방 정보 조회
     @GetMapping("/{no}/participant")
@@ -66,6 +69,7 @@ public class ParticipantQnaController {
         ParticipantPrincipal participant = (ParticipantPrincipal) authentication.getPrincipal();
         Long roomNo = participant.getRoomNo();
 
+        List<QuestionListResponse> response = questionService.getQuestionList(roomNo);
 
 
         return ResponseEntity.ok(response);

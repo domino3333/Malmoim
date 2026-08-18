@@ -2,12 +2,14 @@ package com.malmoim.service.qna.impl;
 
 import com.malmoim.domain.Question;
 import com.malmoim.dto.qna.QuestionCreatedMessage;
+import com.malmoim.dto.qna.QuestionListResponse;
 import com.malmoim.mapper.QuestionMapper;
 import com.malmoim.service.qna.QuestionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -15,6 +17,7 @@ public class QuestionServiceImpl implements QuestionService {
 
 
     private final QuestionMapper questionMapper;
+    private final QuestionService questionService;
 
     @Override
     public QuestionCreatedMessage registerQuestion(long roomNo, long participantNo, String question, String nickname) {
@@ -43,5 +46,12 @@ public class QuestionServiceImpl implements QuestionService {
                 .build();
 
 
+    }
+
+    @Override
+    public List<QuestionListResponse> getQuestionList(Long roomNo) {
+
+
+        return questionMapper.getQuestionList(roomNo);
     }
 }
