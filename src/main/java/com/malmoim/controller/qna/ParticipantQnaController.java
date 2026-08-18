@@ -63,7 +63,7 @@ public class ParticipantQnaController {
     }
 
     //질문 리스트(http스냅샷)
-    @GetMapping("/quesiton-list")
+    @GetMapping("/question-list")
     public ResponseEntity<?> getQuestionList(Authentication authentication) {
 
         ParticipantPrincipal participant = (ParticipantPrincipal) authentication.getPrincipal();
