@@ -10,7 +10,8 @@ import java.time.LocalDateTime;
 public class QuestionListResponse {
 
     private Long no; //question_no
-    private Long participant_no;
+    private Long participantNo;
+    private String nickname;
     private String content; //질문내용
     private Long roomNo;
     private Integer voteCount;
