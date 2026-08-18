@@ -8,6 +8,19 @@
     </insert>
 
     <select id="getQuestionList" resultType="com.malmoim.dto.qna.QuestionListResponse">
-        select * from question where room_no = #{roomNo}
+        SELECT
+            Q.no,
+            Q.participant_no,
+            P.nickname,
+            Q.content,
+            Q.room_no,
+            Q.vote_count,
+            Q.created_at,
+            Q.status
+        FROM question Q
+                 JOIN participant P
+                      ON Q.participant_no = P.no
+        WHERE Q.room_no = #{roomNo}
+        ORDER BY Q.created_at ASC
     </select>
 </mapper>
