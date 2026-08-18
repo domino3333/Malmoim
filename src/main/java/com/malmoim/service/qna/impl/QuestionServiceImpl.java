@@ -1,6 +1,5 @@
 package com.malmoim.service.qna.impl;
 
-import com.malmoim.domain.Member;
 import com.malmoim.domain.Question;
 import com.malmoim.dto.qna.QuestionCreatedMessage;
 import com.malmoim.dto.qna.QuestionListResponse;
