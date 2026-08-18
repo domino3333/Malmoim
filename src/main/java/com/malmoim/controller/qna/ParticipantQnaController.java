@@ -59,4 +59,16 @@ public class ParticipantQnaController {
         return ResponseEntity.ok(response);
     }
 
+    //질문 리스트(http스냅샷)
+    @GetMapping("/quesiton-list")
+    public ResponseEntity<?> getQuestionList(Authentication authentication) {
+
+        ParticipantPrincipal participant = (ParticipantPrincipal) authentication.getPrincipal();
+        Long roomNo = participant.getRoomNo();
+
+
+
+        return ResponseEntity.ok(response);
+    }
+
 }
