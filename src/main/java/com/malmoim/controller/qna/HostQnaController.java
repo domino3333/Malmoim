@@ -76,7 +76,7 @@ public class HostQnaController {
 
         simpMessagingTemplate.convertAndSend("/topic/qna/"+roomNo+"/phase",response);
 
-        return ResponseEntity.ok("업데이트 완료");
+        return ResponseEntity.ok(response);
     }
 
     //참여자 명단과 인원 수를 내려줌(http스냅샷)
