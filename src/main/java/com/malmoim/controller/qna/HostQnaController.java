@@ -4,6 +4,7 @@ import com.malmoim.domain.Room;
 import com.malmoim.dto.qna.CreateQnaRoomRequest;
 import com.malmoim.dto.qna.ParticipantListCountResponse;
 import com.malmoim.dto.qna.QuestionListResponse;
+import com.malmoim.dto.qna.UpdateRoomStatusResponse;
 import com.malmoim.dto.qna.timer.StartTimerRequest;
 import com.malmoim.dto.qna.timer.StartTimerResponse;
 import com.malmoim.dto.qna.timer.UpdateRoomStatusRequest;
@@ -66,6 +67,11 @@ public class HostQnaController {
     public ResponseEntity<?> updateRoomStatus(Authentication authentication, @PathVariable long roomNo, @RequestBody UpdateRoomStatusRequest request) {
         String hostEmail = authentication.getName();
         qnaRoomService.updateRoomStatus(hostEmail, roomNo, request.getStatus());
+
+        //프론트의 타이머 onExpire에서 이 updateRoomStatus를 호출하고 여기서 상태를 변경 후 방송
+        UpdateRoomStatusResponse response = new UpdateRoomStatusResponse(roomNo,request.getStatus());
+
+        simpMessagingTemplate.convertAndSend("/topic/qna/"+roomNo+"/complete/status",response);
 
         return ResponseEntity.ok("업데이트 완료");
     }
