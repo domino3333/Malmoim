@@ -5,4 +5,6 @@ import lombok.Data;
 
 @Data
 public class UpdateRoomStatusResponse {
+    private Long roomNo;
+    private String status;
 }
