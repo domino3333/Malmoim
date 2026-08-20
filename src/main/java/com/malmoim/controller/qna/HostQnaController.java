@@ -69,9 +69,9 @@ public class HostQnaController {
         qnaRoomService.updateRoomStatus(hostEmail, roomNo, request.getStatus());
 
         //프론트의 타이머 onExpire에서 이 updateRoomStatus를 호출하고 여기서 상태를 변경 후 방송
-        UpdateRoomStatusResponse response = new UpdateRoomStatusResponse(roomNo,request.getStatus());
+        UpdateRoomStatusResponse response = new UpdateRoomStatusResponse(roomNo,request.getStatus(),null,null);
 
-        simpMessagingTemplate.convertAndSend("/topic/qna/"+roomNo+"/complete/status",response);
+        simpMessagingTemplate.convertAndSend("/topic/qna/"+roomNo+"/phase",response);
 
         return ResponseEntity.ok("업데이트 완료");
     }
