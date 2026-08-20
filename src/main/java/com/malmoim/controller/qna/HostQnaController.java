@@ -68,7 +68,7 @@ public class HostQnaController {
         String hostEmail = authentication.getName();
         Integer count = qnaRoomService.updateRoomStatus(hostEmail, roomNo, request.getStatus());
         if(count==0){
-            return ResponseEntity.ok("업데이트 실패");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("상태를 변경할 방이 없습니다.");
         }
 
         //프론트의 타이머 onExpire에서 이 updateRoomStatus를 호출하고 여기서 상태를 변경 후 방송
