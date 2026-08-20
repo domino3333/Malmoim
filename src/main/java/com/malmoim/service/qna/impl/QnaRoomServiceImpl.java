@@ -90,7 +90,7 @@ public class QnaRoomServiceImpl implements QnaRoomService {
     }
 
     @Override
-    public void updateRoomStatus(String hostEmail, long roomNo, String status) {
+    public Integer updateRoomStatus(String hostEmail, long roomNo, String status) {
         Member host = memberMapper.getMemberByEmail(hostEmail);
 
 
@@ -100,7 +100,7 @@ public class QnaRoomServiceImpl implements QnaRoomService {
             throw new RuntimeException("%s 에 해당하는 방이 없습니다.".formatted(hostEmail));
         }
 
-        roomMapper.updateRoomStatus(host.getNo(), roomNo, status);
+        return roomMapper.updateRoomStatus(host.getNo(), roomNo, status);
 
 
     }

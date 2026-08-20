@@ -66,7 +66,10 @@ public class HostQnaController {
     @PostMapping("/{roomNo}/update-status")
     public ResponseEntity<?> updateRoomStatus(Authentication authentication, @PathVariable long roomNo, @RequestBody UpdateRoomStatusRequest request) {
         String hostEmail = authentication.getName();
-        qnaRoomService.updateRoomStatus(hostEmail, roomNo, request.getStatus());
+        Integer count = qnaRoomService.updateRoomStatus(hostEmail, roomNo, request.getStatus());
+        if(count==0){
+            return ResponseEntity.ok("업데이트 실패");
+        }
 
         //프론트의 타이머 onExpire에서 이 updateRoomStatus를 호출하고 여기서 상태를 변경 후 방송
         UpdateRoomStatusResponse response = new UpdateRoomStatusResponse(roomNo,request.getStatus(),null,null);
