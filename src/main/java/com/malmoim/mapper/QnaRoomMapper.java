@@ -1,6 +1,7 @@
 package com.malmoim.mapper;
 
 
+import com.malmoim.domain.QnaPhase;
 import com.malmoim.domain.QnaRoom;
 import com.malmoim.dto.qna.timer.StartTimerResponse;
 import org.apache.ibatis.annotations.Param;
@@ -18,4 +19,6 @@ public interface QnaRoomMapper {
 
     // 방 번호 기준 질문 타이머 정보 조회
     StartTimerResponse selectQuestionTimerByRoomNo(long roomNo);
+
+    Integer updateRoomStatus(Long hostNo, Long roomNo, QnaPhase phase);
 }

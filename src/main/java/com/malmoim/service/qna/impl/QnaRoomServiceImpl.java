@@ -79,13 +79,13 @@ public class QnaRoomServiceImpl implements QnaRoomService {
         LocalDateTime endedAt = startedAt.plusSeconds(durationSeconds);
         log.info("qna 서비스단 질문 시작 시간 :{}", startedAt);
 
-        Integer hostRoomCount = roomMapper.countMyRooms(host.getNo());
+        Integer hostRoomCount = roomMapper.isHostsRoom(roomNo,host.getNo());
         if (hostRoomCount < 1) {
             throw new RuntimeException("호스트의 방을 찾을 수 없습니다.");
         }
 
         qnaRoomMapper.updateQuestionPeriod(roomNo, startedAt, endedAt);
-        roomMapper.updateRoomStatus(host.getNo(), roomNo, QnaPhase.QUESTION_OPEN);
+        qnaRoomMapper.updateRoomStatus(host.getNo(), roomNo, QnaPhase.QUESTION_OPEN);
 
         return qnaRoomMapper.selectQuestionTimerByRoomNo(roomNo);
     }
@@ -99,7 +99,7 @@ public class QnaRoomServiceImpl implements QnaRoomService {
             throw new RuntimeException("%s 에 해당하는 방이 없습니다.".formatted(hostEmail));
         }
 
-        return roomMapper.updateRoomStatus(host.getNo(), roomNo, phase);
+        return qnaRoomMapper.updateRoomStatus(host.getNo(), roomNo, phase);
 
 
     }

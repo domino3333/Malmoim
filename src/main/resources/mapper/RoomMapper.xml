@@ -20,7 +20,7 @@
     </select>
 
     <select id="isHostsRoom" resultType="integer">
-        select exists (select 1 from room where no=#{roomNo} and hostNo=#{hostNo})
+        select exists (select 1 from room where no=#{roomNo} and host_no=#{hostNo})
     </select>
 
     <!-- 방 번호와 호스트 번호가 일치하는 방 조회 -->
@@ -28,9 +28,7 @@
         select * from room where no=#{no} and host_no=#{hostNo}
     </select>
 
-    <update id="updateRoomStatus">
-        update qna_room set status=#{status} where no = #{roomNo} and host_no =#{hostNo}
-    </update>
+
 
     <!-- 동일한 입장 코드를 가진 방 개수 조회 -->
     <select id="countRoomsByCode" resultType="integer">
