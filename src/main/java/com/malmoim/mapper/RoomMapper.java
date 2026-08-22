@@ -16,7 +16,7 @@ public interface RoomMapper {
 
     Integer countMyRooms(Long no);
 
-    Integer isHostsRoom(Long roomNo,Long hostNo);
+    Integer isHostsRoom(@Param("roomNo") Long roomNo,@Param("hostNo") Long hostNo);
 
     // 방 번호와 호스트 번호가 일치하는 방 조회
     Room selectRoomByNoAndHostNo(Long no, Long hostNo);
