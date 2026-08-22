@@ -15,7 +15,6 @@ public class Room {
     private Integer capacity;
     private String password;
     private LocalDateTime createdAt;
-    private String status;
     private String type;
     private String visibility;
 

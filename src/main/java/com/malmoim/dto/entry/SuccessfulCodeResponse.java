@@ -1,6 +1,7 @@
 package com.malmoim.dto.entry;
 
 
+import com.malmoim.domain.QnaPhase;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -15,7 +16,7 @@ public class SuccessfulCodeResponse {
     private int capacity;
     private String password;
     private LocalDateTime createdAt;
-    private String status;
+    private QnaPhase status;
     private String type;
     private String visibility;
     private LocalDateTime questionStartedAt;

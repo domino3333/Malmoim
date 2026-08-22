@@ -66,6 +66,7 @@ public class QnaRoomServiceImpl implements QnaRoomService {
         // room에 종속받는 1:1 구조의 qna_room 생성
         qnaRoomMapper.insertQnaRoom(QnaRoom.builder()
                 .roomNo(room.getNo())
+                .status(QnaPhase.READY)
                 .build());
     }
 
@@ -91,7 +92,7 @@ public class QnaRoomServiceImpl implements QnaRoomService {
     }
 
     @Override
-    public Integer updateRoomStatus(String hostEmail, long roomNo, QnaPhase phase) {
+    public Integer updateRoomStatus(String hostEmail, long roomNo, QnaPhase status) {
 
         Member host = memberMapper.getMemberByEmail(hostEmail);
 
@@ -99,7 +100,7 @@ public class QnaRoomServiceImpl implements QnaRoomService {
             throw new RuntimeException("%s 에 해당하는 방이 없습니다.".formatted(hostEmail));
         }
 
-        return qnaRoomMapper.updateRoomStatus(roomNo, phase);
+        return qnaRoomMapper.updateRoomStatus(roomNo, status);
 
 
     }

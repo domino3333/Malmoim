@@ -1,5 +1,6 @@
 package com.malmoim.dto.qna.timer;
 
+import com.malmoim.domain.QnaPhase;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,7 +14,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class StartTimerResponse {
     private Long roomNo;
-    private String status;
+    private QnaPhase status;
     private LocalDateTime questionStartedAt;
     private LocalDateTime questionEndedAt;
 }

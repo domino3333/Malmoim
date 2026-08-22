@@ -5,7 +5,8 @@
 
     <!-- qna_room 테이블에 Q&A 방 정보 추가 -->
     <insert id="insertQnaRoom">
-        insert into qna_room(room_no,question_started_at,question_ended_at) values(#{roomNo},null,null)
+        insert into qna_room(room_no,question_started_at,question_ended_at,status)
+        values(#{roomNo},null,null,#{status})
     </insert>
 
     <!-- 질문 접수 시작 시간과 종료 시간 수정 -->
@@ -16,7 +17,7 @@
 
     <update id="updateRoomStatus">
         update qna_room
-        set status = #{phase}
+        set status = #{status}
         where room_no = #{roomNo}
     </update>
 

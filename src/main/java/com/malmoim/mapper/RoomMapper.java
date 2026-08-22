@@ -1,7 +1,6 @@
 package com.malmoim.mapper;
 
 
-import com.malmoim.domain.QnaPhase;
 import com.malmoim.domain.Room;
 import org.apache.ibatis.annotations.Param;
 
