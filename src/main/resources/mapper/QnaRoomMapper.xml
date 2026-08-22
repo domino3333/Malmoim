@@ -15,7 +15,9 @@
 
 
     <update id="updateRoomStatus">
-        update qna_room set question_started_at=#{startedAt},question_ended_at=#{endedAt}  where room_no =#{roomNo}
+        update qna_room
+        set status = #{phase}
+        where room_no = #{roomNo}
     </update>
 
 
