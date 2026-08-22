@@ -42,7 +42,7 @@ public class RoomServiceImpl implements RoomService {
 
     @Override
     // 방 번호 기준 단일 방 조회
-    public Room getRoomByNo(Long roomNo) {
+    public QnaRoomInfoResponse getRoomByNo(Long roomNo) {
         return roomMapper.selectRoomByNo(roomNo);
     }
 }

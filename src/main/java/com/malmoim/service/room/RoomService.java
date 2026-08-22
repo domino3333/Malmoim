@@ -12,5 +12,5 @@ public interface RoomService {
     QnaRoomInfoResponse getOwnedRoomByNo(long roomNo, String hostEmail);
 
     // 방 번호 기준 단일 방 조회
-    Room getRoomByNo(Long roomNo);
+    QnaRoomInfoResponse getRoomByNo(Long roomNo);
 }

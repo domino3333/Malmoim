@@ -1,10 +1,7 @@
 package com.malmoim.controller.qna;
 
 import com.malmoim.domain.Room;
-import com.malmoim.dto.qna.ActiveParticipantResponse;
-import com.malmoim.dto.qna.ParticipantInfoResponse;
-import com.malmoim.dto.qna.ParticipantListCountResponse;
-import com.malmoim.dto.qna.QuestionListResponse;
+import com.malmoim.dto.qna.*;
 import com.malmoim.security.ParticipantPrincipal;
 import com.malmoim.service.qna.QnaPresenceService;
 import com.malmoim.service.qna.QuestionService;
@@ -32,7 +29,7 @@ public class ParticipantQnaController {
     // 참가자가 입장한 Q&A 방 정보 조회
     @GetMapping("/{no}/participant")
     public ResponseEntity<?> getParticipantQnaRoom(@PathVariable Long no) {
-        Room room = roomService.getRoomByNo(no);
+        QnaRoomInfoResponse room = roomService.getRoomByNo(no);
 
         return ResponseEntity.ok(room);
     }

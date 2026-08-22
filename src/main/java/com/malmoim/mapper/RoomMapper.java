@@ -30,5 +30,5 @@ public interface RoomMapper {
     Room selectRoomByCode(String code);
 
     // 방 번호 기준 단일 방 조회
-    Room selectRoomByNo(Long no);
+    QnaRoomInfoResponse selectRoomByNo(Long no);
 }

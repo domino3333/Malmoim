@@ -28,8 +28,6 @@
         select * from room where no=#{no} and host_no=#{hostNo}
     </select>
 
-
-
     <!-- 동일한 입장 코드를 가진 방 개수 조회 -->
     <select id="countRoomsByCode" resultType="integer">
         select COUNT(*) from room where code = #{code}
@@ -40,7 +38,7 @@
     </select>
 
     <!-- 방 번호 기준 단일 방 조회 -->
-    <select id="selectRoomByNo" resultType="Room">
+    <select id="selectRoomByNo" resultType="com.malmoim.dto.qna.QnaRoomInfoResponse">
         select * from room where no =#{no}
     </select>
 
