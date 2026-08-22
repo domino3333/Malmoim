@@ -85,7 +85,7 @@ public class QnaRoomServiceImpl implements QnaRoomService {
         }
 
         qnaRoomMapper.updateQuestionPeriod(roomNo, startedAt, endedAt);
-        qnaRoomMapper.updateRoomStatus(host.getNo(), roomNo, QnaPhase.QUESTION_OPEN);
+        qnaRoomMapper.updateRoomStatus(roomNo, QnaPhase.QUESTION_OPEN);
 
         return qnaRoomMapper.selectQuestionTimerByRoomNo(roomNo);
     }
@@ -99,7 +99,7 @@ public class QnaRoomServiceImpl implements QnaRoomService {
             throw new RuntimeException("%s 에 해당하는 방이 없습니다.".formatted(hostEmail));
         }
 
-        return qnaRoomMapper.updateRoomStatus(host.getNo(), roomNo, phase);
+        return qnaRoomMapper.updateRoomStatus(roomNo, phase);
 
 
     }

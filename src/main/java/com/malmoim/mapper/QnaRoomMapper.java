@@ -20,5 +20,5 @@ public interface QnaRoomMapper {
     // 방 번호 기준 질문 타이머 정보 조회
     StartTimerResponse selectQuestionTimerByRoomNo(long roomNo);
 
-    Integer updateRoomStatus(Long hostNo, Long roomNo, QnaPhase phase);
+    Integer updateRoomStatus(Long roomNo, QnaPhase phase);
 }
