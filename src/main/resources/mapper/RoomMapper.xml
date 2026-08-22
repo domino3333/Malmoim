@@ -39,7 +39,16 @@
 
     <!-- 방 번호 기준 단일 방 조회 -->
     <select id="selectRoomByNo" resultType="com.malmoim.dto.qna.QnaRoomInfoResponse">
-        select * from room where no =#{no}
+        select R.no,
+               R.host_no AS hostNo,
+               R.password,
+               R.title,
+               R.code,
+               R.capacity,
+               R.created_at AS createdAt,
+               R.type,
+               R.visibility,
+               Q.status from room R join qna_room Q on R.no = Q.room_no where no =#{no}
     </select>
 
 </mapper>

@@ -3,6 +3,7 @@ package com.malmoim.service.entry.impl;
 import com.malmoim.domain.Participant;
 import com.malmoim.domain.Room;
 import com.malmoim.dto.entry.*;
+import com.malmoim.dto.qna.QnaRoomInfoResponse;
 import com.malmoim.mapper.ParticipantMapper;
 import com.malmoim.mapper.RoomMapper;
 import com.malmoim.security.jwt.JwtTokenProvider;
@@ -44,7 +45,7 @@ public class EntryServiceImpl implements EntryService {
     @Override
     // 입력한 비밀번호와 저장된 방 비밀번호 비교
     public CheckPasswordResponse verifyRoomPassword(CheckPasswordRequest dto) {
-        Room room = roomMapper.selectRoomByNo(dto.getRoomNo());
+        QnaRoomInfoResponse room = roomMapper.selectRoomByNo(dto.getRoomNo());
 
         if (room == null) {
             throw new RuntimeException("방을 찾을 수 없습니다.");
