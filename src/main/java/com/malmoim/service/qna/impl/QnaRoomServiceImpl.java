@@ -95,8 +95,7 @@ public class QnaRoomServiceImpl implements QnaRoomService {
 
         Member host = memberMapper.getMemberByEmail(hostEmail);
 
-        //todo 이거 바꿔야함 count가 아니라 실제 검증으로
-        if (roomMapper.countMyRooms(host.getNo()) < 1) {
+        if (roomMapper.isHostsRoom(roomNo,host.getNo()) != 1) {
             throw new RuntimeException("%s 에 해당하는 방이 없습니다.".formatted(hostEmail));
         }
 
