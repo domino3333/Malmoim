@@ -5,6 +5,7 @@ import com.malmoim.domain.QnaPhase;
 import com.malmoim.domain.QnaRoom;
 import com.malmoim.domain.Room;
 import com.malmoim.dto.qna.CreateQnaRoomRequest;
+import com.malmoim.dto.qna.QnaRoomInfoResponse;
 import com.malmoim.dto.qna.timer.StartTimerResponse;
 import com.malmoim.mapper.MemberMapper;
 import com.malmoim.mapper.QnaRoomMapper;
@@ -109,7 +110,7 @@ public class QnaRoomServiceImpl implements QnaRoomService {
     public boolean validateRoomOwnership(long roomNo, String hostEmail) {
         Member host = memberMapper.getMemberByEmail(hostEmail);
 
-        Room room = roomMapper.selectRoomByNoAndHostNo(roomNo, host.getNo());
+        QnaRoomInfoResponse room = roomMapper.selectRoomByNoAndHostNo(roomNo, host.getNo());
 
         if(room==null){
             return false;

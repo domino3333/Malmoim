@@ -1,10 +1,7 @@
 package com.malmoim.controller.qna;
 
 import com.malmoim.domain.Room;
-import com.malmoim.dto.qna.CreateQnaRoomRequest;
-import com.malmoim.dto.qna.ParticipantListCountResponse;
-import com.malmoim.dto.qna.QuestionListResponse;
-import com.malmoim.dto.qna.UpdateRoomStatusResponse;
+import com.malmoim.dto.qna.*;
 import com.malmoim.dto.qna.timer.StartTimerRequest;
 import com.malmoim.dto.qna.timer.StartTimerResponse;
 import com.malmoim.dto.qna.timer.UpdateRoomStatusRequest;
@@ -45,7 +42,7 @@ public class HostQnaController {
     @GetMapping("/{no}/host")
     public ResponseEntity<?> getHostQnaRoom(Authentication authentication, @PathVariable Long no) {
         String hostEmail = authentication.getName();
-        Room room = roomService.getOwnedRoomByNo(no, hostEmail);
+        QnaRoomInfoResponse room = roomService.getOwnedRoomByNo(no, hostEmail);
 
         return ResponseEntity.ok(room);
     }

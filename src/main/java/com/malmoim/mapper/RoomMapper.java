@@ -2,6 +2,7 @@ package com.malmoim.mapper;
 
 
 import com.malmoim.domain.Room;
+import com.malmoim.dto.qna.QnaRoomInfoResponse;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -19,7 +20,7 @@ public interface RoomMapper {
     Integer isHostsRoom(@Param("roomNo") Long roomNo,@Param("hostNo") Long hostNo);
 
     // 방 번호와 호스트 번호가 일치하는 방 조회
-    Room selectRoomByNoAndHostNo(Long no, Long hostNo);
+    QnaRoomInfoResponse selectRoomByNoAndHostNo(Long no, Long hostNo);
 
 
 

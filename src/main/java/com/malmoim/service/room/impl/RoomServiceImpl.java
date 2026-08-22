@@ -2,6 +2,7 @@ package com.malmoim.service.room.impl;
 
 import com.malmoim.domain.Member;
 import com.malmoim.domain.Room;
+import com.malmoim.dto.qna.QnaRoomInfoResponse;
 import com.malmoim.dto.room.MyRoomsResponse;
 import com.malmoim.mapper.MemberMapper;
 import com.malmoim.mapper.RoomMapper;
@@ -33,7 +34,7 @@ public class RoomServiceImpl implements RoomService {
 
     @Override
     // 로그인한 호스트 소유의 방 조회
-    public Room getOwnedRoomByNo(long roomNo, String hostEmail) {
+    public QnaRoomInfoResponse getOwnedRoomByNo(long roomNo, String hostEmail) {
         Member host = memberMapper.getMemberByEmail(hostEmail);
 
         return roomMapper.selectRoomByNoAndHostNo(roomNo, host.getNo());
