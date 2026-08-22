@@ -1,5 +1,6 @@
 package com.malmoim.service.qna;
 
+import com.malmoim.domain.QnaPhase;
 import com.malmoim.dto.qna.CreateQnaRoomRequest;
 import com.malmoim.dto.qna.timer.StartTimerResponse;
 
@@ -10,7 +11,7 @@ public interface QnaRoomService {
     // 질문 시간 설정 및 질문 접수 단계 시작
     StartTimerResponse startQuestionPhase(String hostEmail, long durationSeconds, long roomNo);
 
-    Integer updateRoomStatus(String hostEmail, long roomNo, String status);
+    Integer updateRoomStatus(String hostEmail, long roomNo, QnaPhase status);
 
     boolean validateRoomOwnership(long roomNo,String hostEmail);
 }

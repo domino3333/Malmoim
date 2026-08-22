@@ -25,7 +25,7 @@
     </select>
 
     <update id="updateRoomStatus">
-        update room set status=#{status} where no = #{roomNo} and host_no =#{hostNo}
+        update qna_room set status=#{status} where no = #{roomNo} and host_no =#{hostNo}
     </update>
 
     <!-- 동일한 입장 코드를 가진 방 개수 조회 -->

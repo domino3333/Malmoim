@@ -1,5 +1,6 @@
 package com.malmoim.dto.qna.timer;
 
+import com.malmoim.domain.QnaPhase;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -10,5 +11,5 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UpdateRoomStatusRequest {
-    private String status;
+    private QnaPhase status;
 }

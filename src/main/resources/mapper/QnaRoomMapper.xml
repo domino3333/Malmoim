@@ -14,9 +14,11 @@
     </update>
 
 
+
+
     <!-- 방 번호 기준 질문 타이머 정보 조회 -->
     <select id="selectQuestionTimerByRoomNo" resultType="com.malmoim.dto.qna.timer.StartTimerResponse">
-        select R.no as room_no,R.status,Q.question_ended_at ,Q.question_started_at
+        select R.no as room_no,Q.status,Q.question_ended_at ,Q.question_started_at
         from room R join qna_room Q
         on R.no = Q.room_no
         where Q.room_no = #{roomNo}

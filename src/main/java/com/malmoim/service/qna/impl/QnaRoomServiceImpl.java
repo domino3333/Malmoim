@@ -1,6 +1,7 @@
 package com.malmoim.service.qna.impl;
 
 import com.malmoim.domain.Member;
+import com.malmoim.domain.QnaPhase;
 import com.malmoim.domain.QnaRoom;
 import com.malmoim.domain.Room;
 import com.malmoim.dto.qna.CreateQnaRoomRequest;
@@ -84,23 +85,22 @@ public class QnaRoomServiceImpl implements QnaRoomService {
         }
 
         qnaRoomMapper.updateQuestionPeriod(roomNo, startedAt, endedAt);
-        roomMapper.updateRoomStatus(host.getNo(), roomNo, "QUESTION_OPEN");
+        roomMapper.updateRoomStatus(host.getNo(), roomNo, QnaPhase.QUESTION_OPEN);
 
         return qnaRoomMapper.selectQuestionTimerByRoomNo(roomNo);
     }
 
     @Override
-    public Integer updateRoomStatus(String hostEmail, long roomNo, String status) {
+    public Integer updateRoomStatus(String hostEmail, long roomNo, QnaPhase phase) {
+
         Member host = memberMapper.getMemberByEmail(hostEmail);
 
-
-
-        //todo 이거 바꿔야함
+        //todo 이거 바꿔야함 count가 아니라 실제 검증으로
         if (roomMapper.countMyRooms(host.getNo()) < 1) {
             throw new RuntimeException("%s 에 해당하는 방이 없습니다.".formatted(hostEmail));
         }
 
-        return roomMapper.updateRoomStatus(host.getNo(), roomNo, status);
+        return roomMapper.updateRoomStatus(host.getNo(), roomNo, phase);
 
 
     }
