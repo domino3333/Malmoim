@@ -13,5 +13,6 @@ public interface QnaRoomService {
 
     Integer updateRoomStatus(String hostEmail, long roomNo, QnaPhase status);
 
+    //호스트의 room인지 검증
     boolean validateRoomOwnership(long roomNo,String hostEmail);
 }
