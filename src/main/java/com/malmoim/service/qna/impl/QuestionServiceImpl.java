@@ -26,12 +26,11 @@ public class QuestionServiceImpl implements QuestionService {
     @Override
     public QuestionCreatedMessage registerQuestion(long roomNo, long participantNo, String question, String nickname) {
 
-        //todo roomNo로 status를 가져와서 question_open일때만 질문등록이 가능하도록
         QnaRoom qnaRoom = qnaRoomMapper.selectOneQnaRoomByRoomNo(roomNo);
 
-
-
-
+        if(!qnaRoom.getStatus().equals("QUESTION_OPEN")){
+            throw new RuntimeException("질문 등록이 가능한 상태가 아닙니다");
+        }
 
 
         //매퍼에서 디폴트 값으로 넣으면 useGenerated로 못돌려받음, 여기서 직접 넣기
