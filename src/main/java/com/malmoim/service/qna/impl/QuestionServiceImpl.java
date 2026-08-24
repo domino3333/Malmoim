@@ -1,5 +1,6 @@
 package com.malmoim.service.qna.impl;
 
+import com.malmoim.domain.QnaPhase;
 import com.malmoim.domain.QnaRoom;
 import com.malmoim.domain.Question;
 import com.malmoim.dto.qna.QuestionCreatedMessage;
@@ -28,7 +29,7 @@ public class QuestionServiceImpl implements QuestionService {
 
         QnaRoom qnaRoom = qnaRoomMapper.selectOneQnaRoomByRoomNo(roomNo);
 
-        if(!qnaRoom.getStatus().equals("QUESTION_OPEN")){
+        if (qnaRoom == null || qnaRoom.getStatus() != QnaPhase.QUESTION_OPEN) {
             throw new RuntimeException("질문 등록이 가능한 상태가 아닙니다");
         }
 
