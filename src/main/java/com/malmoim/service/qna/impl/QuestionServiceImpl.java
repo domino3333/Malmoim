@@ -21,14 +21,13 @@ public class QuestionServiceImpl implements QuestionService {
 
 
     private final QuestionMapper questionMapper;
-    private final MemberMapper memberMapper;
     private final QnaRoomMapper qnaRoomMapper;
 
     @Override
     public QuestionCreatedMessage registerQuestion(long roomNo, long participantNo, String question, String nickname) {
 
         //todo roomNo로 status를 가져와서 question_open일때만 질문등록이 가능하도록
-        //QnaRoom qnaRoom = qnaRoomMapper.(roomNo);
+        QnaRoom qnaRoom = qnaRoomMapper.selectOneQnaRoomByRoomNo(roomNo);
 
 
 

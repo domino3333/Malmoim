@@ -21,4 +21,6 @@ public interface QnaRoomMapper {
     StartTimerResponse selectQuestionTimerByRoomNo(long roomNo);
 
     Integer updateRoomStatus(@Param("roomNo") Long roomNo, @Param("status") QnaPhase status);
+
+    QnaRoom selectOneQnaRoomByRoomNo(long roomNo);
 }

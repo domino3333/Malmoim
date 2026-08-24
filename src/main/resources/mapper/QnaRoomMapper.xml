@@ -29,4 +29,8 @@
         on R.no = Q.room_no
         where Q.room_no = #{roomNo}
     </select>
+
+    <select id="selectOneQnaRoomByRoomNo" resultType="QnaRoom">
+        select * from qna_room where room_no = #{roomNo}
+    </select>
 </mapper>
