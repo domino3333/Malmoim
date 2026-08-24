@@ -33,8 +33,8 @@ public class QnaWebSocketController {
 
 
         //참여자가 보낸 질문 로그로 테스트
-        log.info("websocket server dto:{} ", dto.getQuestion());
-        log.info("websocket server dto:{} ", dto.getRoomNo());
+        log.info("registerAndBroadcastQuestion 함수로 들어온 question:{} ", dto.getQuestion());
+        log.info("registerAndBroadcastQuestion 함수로 들어온 roomNo:{}", dto.getRoomNo());
 
         ParticipantPrincipal participant = (ParticipantPrincipal) authentication.getPrincipal();
 
