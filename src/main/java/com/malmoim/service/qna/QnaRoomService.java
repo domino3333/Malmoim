@@ -10,7 +10,7 @@ public interface QnaRoomService {
     void createQnaRoom(CreateQnaRoomRequest dto, String hostEmail);
 
     // 질문 시간 설정 및 질문 접수 단계 시작
-    QnaRoom startQuestionPhase(String hostEmail, long durationSeconds, long roomNo);
+    StartTimerResponse startQuestionPhase(String hostEmail, long durationSeconds, long roomNo);
 
     Integer updateRoomStatus(String hostEmail, long roomNo, QnaPhase status);
 

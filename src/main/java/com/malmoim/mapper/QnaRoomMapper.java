@@ -18,7 +18,7 @@ public interface QnaRoomMapper {
     void updateQuestionPeriod(@Param("roomNo") long roomNo, @Param("startedAt") LocalDateTime startedAt, @Param("endedAt") LocalDateTime endedAt);
 
     // 방 번호 기준 질문 타이머 정보 조회
-    QnaRoom selectQuestionTimerByRoomNo(long roomNo);
+    StartTimerResponse selectQuestionTimerByRoomNo(long roomNo);
 
     Integer updateRoomStatus(@Param("roomNo") Long roomNo, @Param("status") QnaPhase status);
 }

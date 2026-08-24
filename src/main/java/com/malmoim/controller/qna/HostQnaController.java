@@ -52,7 +52,7 @@ public class HostQnaController {
     @PostMapping("/{roomNo}/start-timer")
     public ResponseEntity<?> startQuestionPhase(Authentication authentication, @RequestBody StartTimerRequest dto, @PathVariable long roomNo) {
         String hostEmail = authentication.getName();
-        QnaRoom response = qnaRoomService.startQuestionPhase(hostEmail, dto.getDurationSeconds(), roomNo);
+        StartTimerResponse response = qnaRoomService.startQuestionPhase(hostEmail, dto.getDurationSeconds(), roomNo);
 
         // 타이머를 시작하면 프론트에 웹소켓으로 알람을 보내주기
         simpMessagingTemplate.convertAndSend("/topic/qna/" + roomNo + "/phase", response);

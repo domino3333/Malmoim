@@ -28,7 +28,9 @@ public class QuestionServiceImpl implements QuestionService {
     public QuestionCreatedMessage registerQuestion(long roomNo, long participantNo, String question, String nickname) {
 
         //todo roomNo로 status를 가져와서 question_open일때만 질문등록이 가능하도록
-        QnaRoom qnaRoom = qnaRoomMapper.selectQuestionTimerByRoomNo(roomNo);
+        //QnaRoom qnaRoom = qnaRoomMapper.(roomNo);
+
+
 
 
 
