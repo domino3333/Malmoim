@@ -5,7 +5,6 @@ import com.malmoim.domain.QnaRoom;
 import com.malmoim.domain.Question;
 import com.malmoim.dto.qna.QuestionCreatedMessage;
 import com.malmoim.dto.qna.QuestionListResponse;
-import com.malmoim.dto.qna.timer.StartTimerResponse;
 import com.malmoim.mapper.MemberMapper;
 import com.malmoim.mapper.QnaRoomMapper;
 import com.malmoim.mapper.QuestionMapper;

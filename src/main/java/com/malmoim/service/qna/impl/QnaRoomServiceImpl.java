@@ -5,8 +5,8 @@ import com.malmoim.domain.QnaPhase;
 import com.malmoim.domain.QnaRoom;
 import com.malmoim.domain.Room;
 import com.malmoim.dto.qna.CreateQnaRoomRequest;
+import com.malmoim.dto.qna.QnaPhaseResponse;
 import com.malmoim.dto.qna.QnaRoomInfoResponse;
-import com.malmoim.dto.qna.timer.StartTimerResponse;
 import com.malmoim.mapper.MemberMapper;
 import com.malmoim.mapper.QnaRoomMapper;
 import com.malmoim.mapper.RoomMapper;
@@ -74,7 +74,7 @@ public class QnaRoomServiceImpl implements QnaRoomService {
     @Override
     @Transactional
     // 질문 시간 저장 및 방 상태를 QUESTION_OPEN으로 변경
-    public StartTimerResponse startQuestionPhase(String hostEmail, long durationSeconds, long roomNo) {
+    public QnaPhaseResponse startQuestionPhase(String hostEmail, long durationSeconds, long roomNo) {
         Member host = memberMapper.getMemberByEmail(hostEmail);
 
         LocalDateTime startedAt = LocalDateTime.now();
