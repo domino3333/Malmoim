@@ -56,6 +56,18 @@ public class HostQnaController {
         return ResponseEntity.ok(response);
     }
 
+    // 호스트가 설정한 시간으로 질문 접수 단계 시작
+    @PostMapping("/{roomNo}/start-voting")
+    public ResponseEntity<?> startVotingPhase(Authentication authentication, @RequestBody StartTimerRequest dto, @PathVariable long roomNo) {
+        String hostEmail = authentication.getName();
+        //QnaPhaseResponse response = qnaRoomService.startQuestionPhase(hostEmail, dto.getDurationSeconds(), roomNo);
+
+        // 타이머를 시작하면 프론트에 웹소켓으로 알람을 보내주기
+        //simpMessagingTemplate.convertAndSend("/topic/qna/" + roomNo + "/phase", response);
+
+        return ResponseEntity.ok(null);
+    }
+
     @PostMapping("/{roomNo}/update-status")
     public ResponseEntity<?> updateRoomStatus(Authentication authentication, @PathVariable long roomNo, @RequestBody UpdateRoomStatusRequest request) {
         String hostEmail = authentication.getName();
