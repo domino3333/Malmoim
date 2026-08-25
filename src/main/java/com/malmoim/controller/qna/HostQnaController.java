@@ -71,13 +71,7 @@ public class HostQnaController {
     @PostMapping("/{roomNo}/update-status")
     public ResponseEntity<?> updateRoomStatus(Authentication authentication, @PathVariable long roomNo, @RequestBody UpdateRoomStatusRequest request) {
         String hostEmail = authentication.getName();
-        Integer count = qnaRoomService.updateRoomStatus(hostEmail, roomNo, request.getStatus());
-        if(count==0){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("상태를 변경할 방이 없습니다.");
-        }
-
-        //프론트의 타이머 onExpire에서 이 updateRoomStatus를 호출하고 여기서 상태를 변경 후 방송
-        QnaPhaseResponse response = new QnaPhaseResponse(roomNo,request.getStatus(),null,null);
+        QnaPhaseResponse response = qnaRoomService.updateRoomStatus(hostEmail, roomNo, request.getStatus());
 
         simpMessagingTemplate.convertAndSend("/topic/qna/"+roomNo+"/phase",response);
 

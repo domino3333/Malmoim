@@ -94,15 +94,19 @@ public class QnaRoomServiceImpl implements QnaRoomService {
     }
 
     @Override
-    public Integer updateRoomStatus(String hostEmail, long roomNo, QnaPhase status) {
-
+    @Transactional
+    public QnaPhaseResponse updateRoomStatus(String hostEmail, long roomNo, QnaPhase status) {
+//todo 방의 정보를 실제로 땡겨와서 그 실제 status를 내려줘야함
         Member host = memberMapper.getMemberByEmail(hostEmail);
 
         if (roomMapper.isHostsRoom(roomNo,host.getNo()) != 1) {
             throw new RuntimeException("%s 에 해당하는 방이 없습니다.".formatted(hostEmail));
         }
 
-        return qnaRoomMapper.updateRoomStatus(roomNo, status);
+        qnaRoomMapper.updateRoomStatus(roomNo, status);
+        QnaRoom room = qnaRoomMapper.selectOneQnaRoomByRoomNo(roomNo);
+
+        return new QnaPhaseResponse(roomNo,room.getStatus(),null,null);
 
 
     }
