@@ -79,7 +79,7 @@ public class QnaRoomServiceImpl implements QnaRoomService {
 
         LocalDateTime startedAt = LocalDateTime.now();
         LocalDateTime endedAt = startedAt.plusSeconds(durationSeconds);
-        log.info("qna 서비스단 질문 시작 시간 :{}", startedAt);
+        log.info("startQuestionPhase 질문 시작 시간 :{}", startedAt);
 
         //todo 실제 검증으로 바꾸기 (count 쓰지말고)
         Integer hostRoomCount = roomMapper.isHostsRoom(roomNo,host.getNo());
