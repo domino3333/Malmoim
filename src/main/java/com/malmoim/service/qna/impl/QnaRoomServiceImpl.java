@@ -96,7 +96,6 @@ public class QnaRoomServiceImpl implements QnaRoomService {
     @Override
     @Transactional
     public QnaPhaseResponse updateRoomStatus(String hostEmail, long roomNo, QnaPhase status) {
-//todo 방의 정보를 실제로 땡겨와서 그 실제 status를 내려줘야함
         Member host = memberMapper.getMemberByEmail(hostEmail);
 
         if (roomMapper.isHostsRoom(roomNo,host.getNo()) != 1) {
