@@ -1,7 +1,7 @@
 package com.malmoim.controller.qna;
 
 import com.malmoim.dto.qna.*;
-import com.malmoim.dto.qna.timer.StartTimerRequest;
+import com.malmoim.dto.qna.timer.StartQnaPhaseRequest;
 import com.malmoim.dto.qna.timer.UpdateRoomStatusRequest;
 import com.malmoim.service.qna.QnaPresenceService;
 import com.malmoim.service.qna.QnaRoomService;
@@ -46,7 +46,7 @@ public class HostQnaController {
 
     // 호스트가 설정한 시간으로 질문 접수 단계 시작
     @PostMapping("/{roomNo}/start-timer")
-    public ResponseEntity<?> startQuestionPhase(Authentication authentication, @RequestBody StartTimerRequest dto, @PathVariable long roomNo) {
+    public ResponseEntity<?> startQuestionPhase(Authentication authentication, @RequestBody StartQnaPhaseRequest dto, @PathVariable long roomNo) {
         String hostEmail = authentication.getName();
         QnaPhaseResponse response = qnaRoomService.startQuestionPhase(hostEmail, dto.getDurationSeconds(), roomNo);
 
@@ -58,7 +58,7 @@ public class HostQnaController {
 
     // 호스트가 설정한 시간으로 질문 접수 단계 시작
     @PostMapping("/{roomNo}/start-voting")
-    public ResponseEntity<?> startVotingPhase(Authentication authentication, @RequestBody StartTimerRequest dto, @PathVariable long roomNo) {
+    public ResponseEntity<?> startVotingPhase(Authentication authentication, @RequestBody StartQnaPhaseRequest dto, @PathVariable long roomNo) {
         String hostEmail = authentication.getName();
         //QnaPhaseResponse response = qnaRoomService.startQuestionPhase(hostEmail, dto.getDurationSeconds(), roomNo);
 
