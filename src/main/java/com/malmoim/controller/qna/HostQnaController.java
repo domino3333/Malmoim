@@ -60,6 +60,7 @@ public class HostQnaController {
     @PostMapping("/{roomNo}/start-voting")
     public ResponseEntity<?> startVotingPhase(Authentication authentication, @RequestBody StartQnaPhaseRequest dto, @PathVariable long roomNo) {
         String hostEmail = authentication.getName();
+        //todo 투표 시작 api 구현
         //QnaPhaseResponse response = qnaRoomService.startQuestionPhase(hostEmail, dto.getDurationSeconds(), roomNo);
 
         // 타이머를 시작하면 프론트에 웹소켓으로 알람을 보내주기
