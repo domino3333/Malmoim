@@ -11,6 +11,7 @@ import com.malmoim.mapper.QuestionMapper;
 import com.malmoim.service.qna.QuestionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -24,6 +25,7 @@ public class QuestionServiceImpl implements QuestionService {
     private final QnaRoomMapper qnaRoomMapper;
 
     @Override
+    @Transactional
     public QuestionCreatedMessage registerQuestion(long roomNo, long participantNo, String question, String nickname) {
 
         QnaRoom qnaRoom = qnaRoomMapper.selectOneQnaRoomByRoomNo(roomNo);

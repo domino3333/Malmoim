@@ -19,7 +19,7 @@ public class RoomServiceImpl implements RoomService {
     private final MemberMapper memberMapper;
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public MyRoomsResponse getMyRooms(String hostEmail, int page, int size) {
         Member host = memberMapper.getMemberByEmail(hostEmail);
 
