@@ -49,7 +49,7 @@
     </select>
 
     <update id="updateVotingPeriod">
-        update qna_room set voting_started_at={startedAt}, voting_ended_at=#{endedAt}
+        update qna_room set voting_started_at=#{startedAt}, voting_ended_at=#{endedAt}
         where room_no = #{roomNo}
     </update>
 </mapper>
