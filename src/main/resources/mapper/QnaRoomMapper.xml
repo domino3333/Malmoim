@@ -32,6 +32,16 @@
         on R.no = Q.room_no
         where Q.room_no = #{roomNo}
     </select>
+    <!-- 방 번호 기준 질문 타이머 정보 조회 -->
+    <select id="selectVotingTimerByRoomNo" resultType="com.malmoim.dto.qna.QnaPhaseResponse">
+        select R.no as room_no,
+               Q.status,
+               Q.voting_started_at as phase_started_at,
+               Q.voting_ended_at as phase_ended_at
+        from room R join qna_room Q
+        on R.no = Q.room_no
+        where Q.room_no = #{roomNo}
+    </select>
 
     <select id="selectOneQnaRoomByRoomNo" resultType="QnaRoom">
         select * from qna_room where room_no = #{roomNo}
