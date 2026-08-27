@@ -20,6 +20,8 @@ public interface QnaRoomMapper {
     // 방 번호 기준 질문 타이머 정보 조회
     QnaPhaseResponse selectQuestionTimerByRoomNo(long roomNo);
 
+    QnaPhaseResponse selectVotingTimerByRoomNo(long roomNo);
+
     Integer updateRoomStatus(@Param("roomNo") Long roomNo, @Param("status") QnaPhase status);
 
     QnaRoom selectOneQnaRoomByRoomNo(long roomNo);
