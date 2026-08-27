@@ -47,6 +47,11 @@ public class HostQnaController {
     // 호스트가 설정한 시간으로 질문 접수 단계 시작
     @PostMapping("/{roomNo}/start-timer")
     public ResponseEntity<?> startQuestionPhase(Authentication authentication, @RequestBody StartQnaPhaseRequest dto, @PathVariable long roomNo) {
+
+        if(dto.getDurationSeconds() <= 0 || dto.getDurationSeconds() >=3600){
+            throw new IllegalArgumentException("시간은 1초 이상, 3600초 이하로 설정해야 합니다");
+        }
+
         String hostEmail = authentication.getName();
         QnaPhaseResponse response = qnaRoomService.startQuestionPhase(hostEmail, dto.getDurationSeconds(), roomNo);
 
