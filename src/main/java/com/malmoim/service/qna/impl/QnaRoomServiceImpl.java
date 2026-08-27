@@ -102,6 +102,12 @@ public class QnaRoomServiceImpl implements QnaRoomService {
         LocalDateTime endedAt = startedAt.plusSeconds(durationSeconds);
         log.info("startVotingPhase 투표 시작 시간 :{}", startedAt);
 
+        //todo Demonstrate actual status of DB column
+        QnaRoom qnaRoom = qnaRoomMapper.selectOneQnaRoomByRoomNo(roomNo);
+        if(qnaRoom.getStatus()!=QnaPhase.QUESTION_CLOSED){
+            throw new RuntimeException("현재 질문 종료 페이즈가 아니므로 투표를 시작할 수 없습니다.");
+        }
+
         Integer isHostsRoom = roomMapper.isHostsRoom(roomNo,host.getNo());
         if (isHostsRoom < 1) {
             throw new RuntimeException("호스트의 방을 찾을 수 없습니다.");
