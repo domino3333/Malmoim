@@ -49,11 +49,8 @@ public class HostQnaController {
     @PostMapping("/{roomNo}/start-timer")
     public ResponseEntity<?> startQuestionPhase(Authentication authentication, @RequestBody @Valid StartQnaPhaseRequest dto, @PathVariable long roomNo) {
 
-        if(dto.getDurationSeconds() <= 0 || dto.getDurationSeconds() >=3600){
-            throw new IllegalArgumentException("시간은 1초 이상, 3600초 이하로 설정해야 합니다");
-        }
-
         String hostEmail = authentication.getName();
+
         QnaPhaseResponse response = qnaRoomService.startQuestionPhase(hostEmail, dto.getDurationSeconds(), roomNo);
 
         // 타이머를 시작하면 프론트에 웹소켓으로 알람을 보내주기
@@ -65,11 +62,6 @@ public class HostQnaController {
     // 호스트가 설정한 시간으로 투표 페이즈 시작
     @PostMapping("/{roomNo}/start-voting")
     public ResponseEntity<?> startVotingPhase(Authentication authentication, @RequestBody @Valid StartQnaPhaseRequest dto, @PathVariable long roomNo) {
-
-        if(dto.getDurationSeconds() <= 0 || dto.getDurationSeconds() >=3600){
-            throw new IllegalArgumentException("시간은 1초 이상, 3600초 이하로 설정해야 합니다");
-        }
-
 
         String hostEmail = authentication.getName();
 
