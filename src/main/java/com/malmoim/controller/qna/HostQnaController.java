@@ -7,6 +7,7 @@ import com.malmoim.service.qna.QnaPresenceService;
 import com.malmoim.service.qna.QnaRoomService;
 import com.malmoim.service.qna.QuestionService;
 import com.malmoim.service.room.RoomService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -46,7 +47,7 @@ public class HostQnaController {
 
     // 호스트가 설정한 시간으로 질문 접수 단계 시작
     @PostMapping("/{roomNo}/start-timer")
-    public ResponseEntity<?> startQuestionPhase(Authentication authentication, @RequestBody StartQnaPhaseRequest dto, @PathVariable long roomNo) {
+    public ResponseEntity<?> startQuestionPhase(Authentication authentication, @RequestBody @Valid StartQnaPhaseRequest dto, @PathVariable long roomNo) {
 
         if(dto.getDurationSeconds() <= 0 || dto.getDurationSeconds() >=3600){
             throw new IllegalArgumentException("시간은 1초 이상, 3600초 이하로 설정해야 합니다");
@@ -63,7 +64,7 @@ public class HostQnaController {
 
     // 호스트가 설정한 시간으로 투표 페이즈 시작
     @PostMapping("/{roomNo}/start-voting")
-    public ResponseEntity<?> startVotingPhase(Authentication authentication, @RequestBody StartQnaPhaseRequest dto, @PathVariable long roomNo) {
+    public ResponseEntity<?> startVotingPhase(Authentication authentication, @RequestBody @Valid StartQnaPhaseRequest dto, @PathVariable long roomNo) {
 
         if(dto.getDurationSeconds() <= 0 || dto.getDurationSeconds() >=3600){
             throw new IllegalArgumentException("시간은 1초 이상, 3600초 이하로 설정해야 합니다");
