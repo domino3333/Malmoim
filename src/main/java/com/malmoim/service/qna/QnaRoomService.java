@@ -11,6 +11,8 @@ public interface QnaRoomService {
     // 질문 시간 설정 및 질문 접수 단계 시작
     QnaPhaseResponse startQuestionPhase(String hostEmail, long durationSeconds, long roomNo);
 
+    QnaPhaseResponse startVotingPhase(String hostEmail, long durationSeconds, long roomNo);
+
     QnaPhaseResponse updateRoomStatus(String hostEmail, long roomNo, QnaPhase status);
 
     //호스트의 room인지 검증

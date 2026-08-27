@@ -32,7 +32,8 @@
         on R.no = Q.room_no
         where Q.room_no = #{roomNo}
     </select>
-    <!-- 방 번호 기준 질문 타이머 정보 조회 -->
+
+    <!-- 방 번호 기준 투표 타이머 정보 조회 -->
     <select id="selectVotingTimerByRoomNo" resultType="com.malmoim.dto.qna.QnaPhaseResponse">
         select R.no as room_no,
                Q.status,
