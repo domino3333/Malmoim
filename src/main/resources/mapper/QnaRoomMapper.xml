@@ -36,4 +36,9 @@
     <select id="selectOneQnaRoomByRoomNo" resultType="QnaRoom">
         select * from qna_room where room_no = #{roomNo}
     </select>
+
+    <update id="updateVotingPeriod">
+        update qna_room set voting_started_at={startedAt}, voting_ended_at=#{endedAt}
+        where room_no = #{roomNo}
+    </update>
 </mapper>

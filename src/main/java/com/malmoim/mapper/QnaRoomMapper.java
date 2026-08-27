@@ -23,4 +23,6 @@ public interface QnaRoomMapper {
     Integer updateRoomStatus(@Param("roomNo") Long roomNo, @Param("status") QnaPhase status);
 
     QnaRoom selectOneQnaRoomByRoomNo(long roomNo);
+
+    void updateVotingPeriod(long roomNo, LocalDateTime startedAt, LocalDateTime endedAt);
 }
