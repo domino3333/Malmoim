@@ -79,16 +79,15 @@ public class QnaRoomServiceImpl implements QnaRoomService {
 
         LocalDateTime startedAt = LocalDateTime.now();
         LocalDateTime endedAt = startedAt.plusSeconds(durationSeconds);
-        log.info("startQuestionPhase 질문 시작 시간 :{}", startedAt);
+        log.info("startQuestionPhase 투표 시작 시간 :{}", startedAt);
 
-        //todo 실제 검증으로 바꾸기 (count 쓰지말고)
-        Integer hostRoomCount = roomMapper.isHostsRoom(roomNo,host.getNo());
-        if (hostRoomCount < 1) {
+        Integer isHostsRoom = roomMapper.isHostsRoom(roomNo,host.getNo());
+        if (isHostsRoom < 1) {
             throw new RuntimeException("호스트의 방을 찾을 수 없습니다.");
         }
 
-        qnaRoomMapper.updateQuestionPeriod(roomNo, startedAt, endedAt);
-        qnaRoomMapper.updateRoomStatus(roomNo, QnaPhase.QUESTION_OPEN);
+        qnaRoomMapper.updateVotingPeriod(roomNo, startedAt, endedAt);
+        qnaRoomMapper.updateRoomStatus(roomNo, QnaPhase.VOTING_OPEN);
 
         return qnaRoomMapper.selectQuestionTimerByRoomNo(roomNo);
     }
