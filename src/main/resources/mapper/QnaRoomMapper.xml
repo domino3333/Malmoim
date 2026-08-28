@@ -45,7 +45,12 @@
     </select>
 
     <select id="selectOneQnaRoomByRoomNo" resultType="QnaRoom">
-        select * from qna_room where room_no = #{roomNo}
+        select room_no,
+               question_started_at,
+               question_ended_at,
+               voting_started_at,
+               voting_ended_at,
+               status from qna_room where room_no = #{roomNo}
     </select>
 
     <update id="updateVotingPeriod">
