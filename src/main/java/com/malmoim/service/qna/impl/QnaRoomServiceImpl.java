@@ -112,8 +112,6 @@ public class QnaRoomServiceImpl implements QnaRoomService {
             throw new RuntimeException("현재 질문 종료 페이즈가 아니므로 투표를 시작할 수 없습니다.");
         }
 
-
-
         qnaRoomMapper.updateVotingPeriod(roomNo, startedAt, endedAt);
         qnaRoomMapper.updateRoomStatus(roomNo, QnaPhase.VOTING_OPEN);
 
