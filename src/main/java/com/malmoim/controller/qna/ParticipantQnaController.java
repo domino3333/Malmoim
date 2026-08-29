@@ -74,7 +74,7 @@ public class ParticipantQnaController {
     }
 
     //참여자가 좋아요 버튼을 눌렀을 때의 api
-    @GetMapping("/{questionNo}/vote-question")
+    @PostMapping("/{questionNo}/vote-question")
     public ResponseEntity<?> voteQuestion(Authentication authentication, @PathVariable long questionNo) {
 
         //todo 좋아요 버튼을 눌렀을때 http로는 줄거있나?
