@@ -5,6 +5,7 @@ import com.malmoim.dto.qna.*;
 import com.malmoim.security.ParticipantPrincipal;
 import com.malmoim.service.qna.QnaPresenceService;
 import com.malmoim.service.qna.QuestionService;
+import com.malmoim.service.qna.VoteService;
 import com.malmoim.service.room.RoomService;
 import com.malmoim.websocket.qna.QnaPresenceRegistry;
 import lombok.RequiredArgsConstructor;
@@ -25,6 +26,7 @@ public class ParticipantQnaController {
     private final RoomService roomService;
     private final QnaPresenceService qnaPresenceService;
     private final QuestionService questionService;
+    private final VoteService voteService;
 
     // 참가자가 입장한 Q&A 방 정보 조회
     @GetMapping("/{no}/participant")
@@ -80,6 +82,10 @@ public class ParticipantQnaController {
         // 웹소켓으로는 실시간으로 오르내리는 좋아요 수를 보여줘야하는데
         ParticipantPrincipal participant = (ParticipantPrincipal) authentication.getPrincipal();
         Long roomNo = participant.getRoomNo();
+
+        voteService.castVote(questionNo,participant.getParticipantNo());
+
+
 
 
         return ResponseEntity.ok(null);
