@@ -5,6 +5,6 @@ import lombok.Data;
 
 @Data
 public class EnterQnaRequest {
-    private Long no; //participantNo
+    private Long participantNo;
 
 }

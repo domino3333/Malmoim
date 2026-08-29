@@ -48,7 +48,7 @@ public class QuestionServiceImpl implements QuestionService {
         questionMapper.registerQuestion(savedQuestion);
 
         return QuestionCreatedMessage.builder()
-                .no(savedQuestion.getNo())
+                .questionNo(savedQuestion.getNo())
                 .participantNo(participantNo)
                 .content(question)
                 .nickname(nickname)

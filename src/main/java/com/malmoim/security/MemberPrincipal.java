@@ -17,7 +17,7 @@ import java.util.List;
 @Builder
 public class MemberPrincipal implements UserDetails {
 
-    private Long no;
+    private Long no; // member 테이블 PK
     private String email;
     private String password;
     private String name;

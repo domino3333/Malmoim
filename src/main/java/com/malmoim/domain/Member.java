@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 @Builder
 public class Member {
 
-    private Long no;
+    private Long no; // member 테이블 PK
     private String email;
     private String password;
     private String name;

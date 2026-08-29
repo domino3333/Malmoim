@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 @Builder
 public class Question {
 
-    private Long no; //questionNo
+    private Long no; // question 테이블 PK
     private Long participantNo;
     private Long roomNo;
     private Integer voteCount;

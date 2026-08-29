@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 @Data
 @Builder
 public class Room {
-    private Long no;
+    private Long no; // room 테이블 PK
     private Long hostNo;
     private String title;
     private String code;

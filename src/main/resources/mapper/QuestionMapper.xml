@@ -9,7 +9,7 @@
 
     <select id="getQuestionList" resultType="com.malmoim.dto.qna.QuestionListResponse">
         SELECT
-            Q.no,
+            Q.no AS questionNo,
             Q.participant_no,
             P.nickname,
             Q.content,

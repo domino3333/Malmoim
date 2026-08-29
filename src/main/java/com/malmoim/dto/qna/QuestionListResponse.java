@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 @Builder
 public class QuestionListResponse {
 
-    private Long no; //question_no
+    private Long questionNo;
     private Long participantNo;
     private String nickname;
     private String content; //질문내용

@@ -13,14 +13,14 @@ public interface RoomMapper {
     // room 테이블에 방 추가
     void insertRoom(Room room);
 
-    List<Room> getMyRooms(@Param("no") Long no,@Param("offset") int offset,@Param("size") int size);
+    List<Room> getMyRooms(@Param("hostNo") Long hostNo, @Param("offset") int offset, @Param("size") int size);
 
-    Integer countMyRooms(Long no);
+    Integer countMyRooms(@Param("hostNo") Long hostNo);
 
     Integer isHostsRoom(@Param("roomNo") Long roomNo,@Param("hostNo") Long hostNo);
 
     // 방 번호와 호스트 번호가 일치하는 방 조회
-    QnaRoomInfoResponse selectRoomByNoAndHostNo(Long no, Long hostNo);
+    QnaRoomInfoResponse selectRoomByNoAndHostNo(@Param("roomNo") Long roomNo, @Param("hostNo") Long hostNo);
 
 
 
@@ -30,5 +30,5 @@ public interface RoomMapper {
     Room selectRoomByCode(String code);
 
     // 방 번호 기준 단일 방 조회
-    QnaRoomInfoResponse selectRoomByNo(Long no);
+    QnaRoomInfoResponse selectRoomByNo(@Param("roomNo") Long roomNo);
 }

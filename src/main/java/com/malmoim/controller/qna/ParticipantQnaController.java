@@ -29,9 +29,9 @@ public class ParticipantQnaController {
     private final VoteService voteService;
 
     // 참가자가 입장한 Q&A 방 정보 조회
-    @GetMapping("/{no}/participant")
-    public ResponseEntity<?> getParticipantQnaRoom(@PathVariable Long no) {
-        QnaRoomInfoResponse room = roomService.getRoomByNo(no);
+    @GetMapping("/{roomNo}/participant")
+    public ResponseEntity<?> getParticipantQnaRoom(@PathVariable Long roomNo) {
+        QnaRoomInfoResponse room = roomService.getRoomByNo(roomNo);
 
         return ResponseEntity.ok(room);
     }

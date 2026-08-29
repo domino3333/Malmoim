@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 
 @Data
 public class QnaRoomInfoResponse {
-    private Long no;
+    private Long roomNo;
     private Long hostNo;
     private String password;
     private String title;

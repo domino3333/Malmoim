@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 @Builder
 public class Participant {
 
-    private Long no;
+    private Long no; // participant 테이블 PK
     private String nickname;
     private LocalDateTime createdAt;
     private Long roomNo;

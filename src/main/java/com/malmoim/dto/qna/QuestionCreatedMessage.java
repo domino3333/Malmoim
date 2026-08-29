@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 @Builder
 public class QuestionCreatedMessage {
 
-    private Long no; // question No
+    private Long questionNo;
     private Long participantNo;
     private String content;
     private Long roomNo;

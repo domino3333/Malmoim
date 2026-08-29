@@ -37,10 +37,10 @@ public class HostQnaController {
     }
 
     // 호스트 소유의 Q&A 방 정보 조회
-    @GetMapping("/{no}/host")
-    public ResponseEntity<?> getHostQnaRoom(Authentication authentication, @PathVariable Long no) {
+    @GetMapping("/{roomNo}/host")
+    public ResponseEntity<?> getHostQnaRoom(Authentication authentication, @PathVariable Long roomNo) {
         String hostEmail = authentication.getName();
-        QnaRoomInfoResponse room = roomService.getOwnedRoomByNo(no, hostEmail);
+        QnaRoomInfoResponse room = roomService.getOwnedRoomByNo(roomNo, hostEmail);
 
         return ResponseEntity.ok(room);
     }
