@@ -72,10 +72,11 @@ public class ParticipantQnaController {
     }
 
     //참여자가 좋아요 버튼을 눌렀을 때의 api
-    @GetMapping("/vote-question")
-    public ResponseEntity<?> voteQuestion(Authentication authentication) {
+    @GetMapping("/{questionNo}/vote-question")
+    public ResponseEntity<?> voteQuestion(Authentication authentication, @PathVariable long questionNo) {
 
         //todo 좋아요 버튼을 눌렀을때 http로는 줄거있나?
+        //다시 돌려줄건 없을거같고, 즉시 db에 좋아요 테이블에 insert만 해주면 될거같음
         // 웹소켓으로는 실시간으로 오르내리는 좋아요 수를 보여줘야하는데
         ParticipantPrincipal participant = (ParticipantPrincipal) authentication.getPrincipal();
         Long roomNo = participant.getRoomNo();
