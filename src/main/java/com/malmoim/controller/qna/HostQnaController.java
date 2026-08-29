@@ -89,7 +89,7 @@ public class HostQnaController {
 
         String hostEmail = authentication.getName();
 
-        // 이 roomNo를 실제로 hostNo가 갖고 있는지 판단
+        // host의 방 소유권 검사
         boolean isHostsRoom = qnaRoomService.validateRoomOwnership(roomNo, hostEmail);
         ParticipantListCountResponse response = qnaPresenceService.getActiveParticipantSnapshot(roomNo);
 
@@ -109,7 +109,7 @@ public class HostQnaController {
 
         String hostEmail = authentication.getName();
 
-        // 이 roomNo를 실제로 hostNo가 갖고 있는지 판단
+        // host의 방 소유권 검사
         boolean isHostsRoom = qnaRoomService.validateRoomOwnership(roomNo, hostEmail);
         List<QuestionListResponse> response = questionService.getQuestionList(roomNo);
 
