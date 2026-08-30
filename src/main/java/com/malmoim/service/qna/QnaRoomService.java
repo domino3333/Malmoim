@@ -14,6 +14,7 @@ public interface QnaRoomService {
     //투표 페이즈 시작
     QnaPhaseResponse startVotingPhase(String hostEmail, long durationSeconds, long roomNo);
 
+    //넘겨받은 status로 방의 상태를 업데이트
     QnaPhaseResponse updateRoomStatus(String hostEmail, long roomNo, QnaPhase status);
 
     //호스트의 room인지 검증
