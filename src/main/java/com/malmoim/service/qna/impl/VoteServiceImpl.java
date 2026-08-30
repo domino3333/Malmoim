@@ -2,12 +2,9 @@ package com.malmoim.service.qna.impl;
 
 import com.malmoim.domain.QnaPhase;
 import com.malmoim.domain.QnaRoom;
-import com.malmoim.dto.qna.QnaRoomInfoResponse;
 import com.malmoim.mapper.QnaRoomMapper;
 import com.malmoim.mapper.QuestionMapper;
 import com.malmoim.mapper.VoteMapper;
-import com.malmoim.service.qna.QnaRoomService;
-import com.malmoim.service.qna.QuestionService;
 import com.malmoim.service.qna.VoteService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

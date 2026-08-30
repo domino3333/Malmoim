@@ -1,20 +1,20 @@
 package com.malmoim.controller.qna;
 
-import com.malmoim.domain.Room;
-import com.malmoim.dto.qna.*;
+import com.malmoim.dto.qna.ParticipantInfoResponse;
+import com.malmoim.dto.qna.ParticipantListCountResponse;
+import com.malmoim.dto.qna.QnaRoomInfoResponse;
+import com.malmoim.dto.qna.QuestionListResponse;
 import com.malmoim.security.ParticipantPrincipal;
 import com.malmoim.service.qna.QnaPresenceService;
 import com.malmoim.service.qna.QuestionService;
 import com.malmoim.service.qna.VoteService;
 import com.malmoim.service.room.RoomService;
-import com.malmoim.websocket.qna.QnaPresenceRegistry;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -84,8 +84,6 @@ public class ParticipantQnaController {
         Long roomNo = participant.getRoomNo();
 
         voteService.castVote(roomNo,questionNo,participant.getParticipantNo());
-
-
 
 
         return ResponseEntity.ok(null);
