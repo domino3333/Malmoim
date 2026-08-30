@@ -1,5 +1,6 @@
 package com.malmoim.controller.qna;
 
+import com.malmoim.domain.QnaPhase;
 import com.malmoim.dto.qna.*;
 import com.malmoim.dto.qna.timer.StartQnaPhaseRequest;
 import com.malmoim.dto.qna.timer.UpdateRoomStatusRequest;
@@ -78,7 +79,7 @@ public class HostQnaController {
         String hostEmail = authentication.getName();
         QnaPhaseResponse response = qnaRoomService.updateRoomStatus(hostEmail, roomNo, request.getStatus());
 
-        simpMessagingTemplate.convertAndSend("/topic/qna/"+roomNo+"/phase",response);
+        simpMessagingTemplate.convertAndSend("/topic/qna/" + roomNo + "/phase", response);
 
         return ResponseEntity.ok(response);
     }
@@ -99,13 +100,11 @@ public class HostQnaController {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body("해당 방에 대한 권한이 없습니다.");
 
         }
-
     }
-
 
     //질문 리스트(http스냅샷)
     @GetMapping("/{roomNo}/question-list")
-    public ResponseEntity<?> getQuestionList(Authentication authentication,@PathVariable long roomNo) {
+    public ResponseEntity<?> getQuestionList(Authentication authentication, @PathVariable long roomNo) {
 
         String hostEmail = authentication.getName();
 
@@ -119,6 +118,25 @@ public class HostQnaController {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body("해당 방에 대한 권한이 없습니다.");
 
         }
+
+    }
+
+    @PostMapping("/{roomNo}/start-answering")
+    public ResponseEntity<?> startAnswering(Authentication authentication, @PathVariable long roomNo) {
+
+        String hostEmail = authentication.getName();
+
+        // host의 방 소유권 검사
+        boolean isHostsRoom = qnaRoomService.validateRoomOwnership(roomNo, hostEmail);
+
+        if (!isHostsRoom) {
+            throw new RuntimeException("방에 대한 권한이 없습니다.");
+        }
+
+        QnaPhaseResponse response = qnaRoomService.updateRoomStatus(hostEmail, roomNo, QnaPhase.ANSWERING);
+
+        return ResponseEntity.ok(response);
+
 
     }
 
