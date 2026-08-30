@@ -1,6 +1,5 @@
 package com.malmoim.websocket.qna;
 
-import com.malmoim.dto.qna.ActiveParticipantResponse;
 import com.malmoim.dto.qna.ParticipantListCountResponse;
 import com.malmoim.security.ParticipantPrincipal;
 import com.malmoim.service.qna.QnaPresenceService;
@@ -15,8 +14,6 @@ import org.springframework.web.socket.messaging.SessionConnectedEvent;
 import org.springframework.web.socket.messaging.SessionDisconnectEvent;
 
 import java.security.Principal;
-import java.util.ArrayList;
-import java.util.List;
 
 @Component
 @RequiredArgsConstructor
