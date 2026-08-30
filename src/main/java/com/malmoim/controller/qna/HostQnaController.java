@@ -127,7 +127,6 @@ public class HostQnaController {
     public ResponseEntity<?> startAnswering(Authentication authentication, @PathVariable long roomNo) {
 
         String hostEmail = authentication.getName();
-        log.info("fsddfsf");
 
         // host의 방 소유권 검사
         boolean isHostsRoom = qnaRoomService.validateRoomOwnership(roomNo, hostEmail);
