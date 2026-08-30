@@ -83,7 +83,7 @@ public class ParticipantQnaController {
         ParticipantPrincipal participant = (ParticipantPrincipal) authentication.getPrincipal();
         Long roomNo = participant.getRoomNo();
 
-        voteService.castVote(questionNo,participant.getParticipantNo());
+        voteService.castVote(roomNo,questionNo,participant.getParticipantNo());
 
 
 
