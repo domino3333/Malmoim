@@ -10,6 +10,7 @@ import com.malmoim.service.qna.QuestionService;
 import com.malmoim.service.room.RoomService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
@@ -21,6 +22,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/host/qna")
+@Slf4j
 public class HostQnaController {
 
     private final RoomService roomService;
@@ -125,6 +127,7 @@ public class HostQnaController {
     public ResponseEntity<?> startAnswering(Authentication authentication, @PathVariable long roomNo) {
 
         String hostEmail = authentication.getName();
+        log.info("fsddfsf");
 
         // host의 방 소유권 검사
         boolean isHostsRoom = qnaRoomService.validateRoomOwnership(roomNo, hostEmail);
@@ -135,8 +138,8 @@ public class HostQnaController {
         QnaPhaseResponse response = qnaRoomService.updateRoomStatus(hostEmail, roomNo, QnaPhase.ANSWERING);
 
         //ANSWERING 상태가 되었다고 알람을 보내주기
-        simpMessagingTemplate.convertAndSend("/topic/qna/"+roomNo+"phase",response);
-        
+        simpMessagingTemplate.convertAndSend("/topic/qna/"+roomNo+"/phase",response);
+
         return ResponseEntity.ok(response);
 
 
