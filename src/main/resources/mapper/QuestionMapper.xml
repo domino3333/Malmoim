@@ -23,4 +23,8 @@
         WHERE Q.room_no = #{roomNo}
         ORDER BY Q.created_at ASC
     </select>
+
+    <update id="plusOneVoteCount">
+        update question set vote_count=vote_count+1 where no = #{questionNo}
+    </update>
 </mapper>

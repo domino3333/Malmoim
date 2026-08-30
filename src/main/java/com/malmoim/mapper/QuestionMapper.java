@@ -13,4 +13,6 @@ public interface QuestionMapper {
     void registerQuestion(Question question);
 
     List<QuestionListResponse> getQuestionList(Long roomNo);
+
+    void plusOneVoteCount(long questionNo);
 }
