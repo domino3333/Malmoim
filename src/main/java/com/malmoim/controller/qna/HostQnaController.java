@@ -132,9 +132,11 @@ public class HostQnaController {
         if (!isHostsRoom) {
             throw new RuntimeException("방에 대한 권한이 없습니다.");
         }
-
         QnaPhaseResponse response = qnaRoomService.updateRoomStatus(hostEmail, roomNo, QnaPhase.ANSWERING);
 
+        //ANSWERING 상태가 되었다고 알람을 보내주기
+        simpMessagingTemplate.convertAndSend("/topic/qna/"+roomNo+"phase",response);
+        
         return ResponseEntity.ok(response);
 
 
