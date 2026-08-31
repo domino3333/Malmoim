@@ -1,14 +1,14 @@
 package com.malmoim.controller.qna;
 
-import com.malmoim.dto.qna.ParticipantInfoResponse;
-import com.malmoim.dto.qna.ParticipantListCountResponse;
-import com.malmoim.dto.qna.QnaRoomInfoResponse;
-import com.malmoim.dto.qna.QuestionListResponse;
+import com.malmoim.dto.qna.presence.ParticipantInfoResponse;
+import com.malmoim.dto.qna.presence.ParticipantListCountResponse;
+import com.malmoim.dto.qna.question.QuestionListResponse;
+import com.malmoim.dto.qna.room.QnaRoomInfoResponse;
 import com.malmoim.security.ParticipantPrincipal;
 import com.malmoim.service.qna.QnaPresenceService;
+import com.malmoim.service.qna.QnaRoomService;
 import com.malmoim.service.qna.QuestionService;
 import com.malmoim.service.qna.VoteService;
-import com.malmoim.service.room.RoomService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +23,7 @@ import java.util.List;
 @RequestMapping("/api/participant/qna")
 public class ParticipantQnaController {
 
-    private final RoomService roomService;
+    private final QnaRoomService qnaRoomService;
     private final QnaPresenceService qnaPresenceService;
     private final QuestionService questionService;
     private final VoteService voteService;
@@ -31,7 +31,7 @@ public class ParticipantQnaController {
     // 참가자가 입장한 Q&A 방 정보 조회
     @GetMapping("/{roomNo}/participant")
     public ResponseEntity<?> getParticipantQnaRoom(@PathVariable Long roomNo) {
-        QnaRoomInfoResponse room = roomService.getRoomByNo(roomNo);
+        QnaRoomInfoResponse room = qnaRoomService.getRoomByNo(roomNo);
 
         return ResponseEntity.ok(room);
     }

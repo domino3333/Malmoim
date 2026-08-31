@@ -1,4 +1,4 @@
-package com.malmoim.dto.qna;
+package com.malmoim.dto.qna.room;
 
 import com.malmoim.domain.QnaPhase;
 import lombok.Data;

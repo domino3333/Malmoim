@@ -1,4 +1,4 @@
-package com.malmoim.dto.qna.timer;
+package com.malmoim.dto.qna.phase;
 
 
 import jakarta.validation.constraints.Max;

@@ -1,13 +1,16 @@
 package com.malmoim.controller.qna;
 
 import com.malmoim.domain.QnaPhase;
-import com.malmoim.dto.qna.*;
-import com.malmoim.dto.qna.timer.StartQnaPhaseRequest;
-import com.malmoim.dto.qna.timer.UpdateRoomStatusRequest;
+import com.malmoim.dto.qna.phase.QnaPhaseResponse;
+import com.malmoim.dto.qna.phase.StartQnaPhaseRequest;
+import com.malmoim.dto.qna.phase.UpdateRoomStatusRequest;
+import com.malmoim.dto.qna.presence.ParticipantListCountResponse;
+import com.malmoim.dto.qna.question.QuestionListResponse;
+import com.malmoim.dto.qna.room.CreateQnaRoomRequest;
+import com.malmoim.dto.qna.room.QnaRoomInfoResponse;
 import com.malmoim.service.qna.QnaPresenceService;
 import com.malmoim.service.qna.QnaRoomService;
 import com.malmoim.service.qna.QuestionService;
-import com.malmoim.service.room.RoomService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,7 +28,6 @@ import java.util.List;
 @Slf4j
 public class HostQnaController {
 
-    private final RoomService roomService;
     private final QnaRoomService qnaRoomService;
     private final SimpMessagingTemplate simpMessagingTemplate;
     private final QnaPresenceService qnaPresenceService;
@@ -43,7 +45,7 @@ public class HostQnaController {
     @GetMapping("/{roomNo}/host")
     public ResponseEntity<?> getHostQnaRoom(Authentication authentication, @PathVariable Long roomNo) {
         String hostEmail = authentication.getName();
-        QnaRoomInfoResponse room = roomService.getOwnedRoomByNo(roomNo, hostEmail);
+        QnaRoomInfoResponse room = qnaRoomService.getOwnedRoomByNo(roomNo, hostEmail);
 
         return ResponseEntity.ok(room);
     }

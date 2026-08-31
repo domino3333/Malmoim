@@ -2,7 +2,7 @@ package com.malmoim.mapper;
 
 
 import com.malmoim.domain.Room;
-import com.malmoim.dto.qna.QnaRoomInfoResponse;
+import com.malmoim.dto.qna.room.QnaRoomInfoResponse;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;

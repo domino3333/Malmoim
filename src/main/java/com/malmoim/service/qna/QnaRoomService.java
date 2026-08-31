@@ -1,12 +1,19 @@
 package com.malmoim.service.qna;
 
 import com.malmoim.domain.QnaPhase;
-import com.malmoim.dto.qna.CreateQnaRoomRequest;
-import com.malmoim.dto.qna.QnaPhaseResponse;
+import com.malmoim.dto.qna.phase.QnaPhaseResponse;
+import com.malmoim.dto.qna.room.CreateQnaRoomRequest;
+import com.malmoim.dto.qna.room.QnaRoomInfoResponse;
 
 public interface QnaRoomService {
 
     void createQnaRoom(CreateQnaRoomRequest dto, String hostEmail);
+
+    // 로그인한 호스트 소유의 Q&A 방 조회
+    QnaRoomInfoResponse getOwnedRoomByNo(long roomNo, String hostEmail);
+
+    // 방 번호 기준 단일 Q&A 방 조회
+    QnaRoomInfoResponse getRoomByNo(Long roomNo);
 
     // 질문 시간 설정 및 질문 접수 단계 시작
     QnaPhaseResponse startQuestionPhase(String hostEmail, long durationSeconds, long roomNo);

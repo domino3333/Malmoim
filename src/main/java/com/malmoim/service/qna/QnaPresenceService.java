@@ -1,7 +1,7 @@
 package com.malmoim.service.qna;
 
-import com.malmoim.dto.qna.ActiveParticipantResponse;
-import com.malmoim.dto.qna.ParticipantListCountResponse;
+import com.malmoim.dto.qna.presence.ActiveParticipantResponse;
+import com.malmoim.dto.qna.presence.ParticipantListCountResponse;
 import com.malmoim.websocket.qna.QnaPresenceRegistry;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

@@ -1,9 +1,9 @@
 package com.malmoim.controller.qna;
 
 
-import com.malmoim.dto.qna.QuestionCreatedMessage;
-import com.malmoim.dto.qna.QuestionListResponse;
-import com.malmoim.dto.qna.SubmitQuestionMessage;
+import com.malmoim.dto.qna.question.QuestionCreatedMessage;
+import com.malmoim.dto.qna.question.QuestionListResponse;
+import com.malmoim.dto.qna.question.SubmitQuestionMessage;
 import com.malmoim.security.ParticipantPrincipal;
 import com.malmoim.service.qna.QuestionService;
 import lombok.RequiredArgsConstructor;

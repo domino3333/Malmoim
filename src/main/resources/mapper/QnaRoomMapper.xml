@@ -23,7 +23,7 @@
 
 
     <!-- 방 번호 기준 질문 타이머 정보 조회 -->
-    <select id="selectQuestionTimerByRoomNo" resultType="com.malmoim.dto.qna.QnaPhaseResponse">
+    <select id="selectQuestionTimerByRoomNo" resultType="com.malmoim.dto.qna.phase.QnaPhaseResponse">
         select R.no as room_no,
                Q.status,
                Q.question_started_at as phase_started_at,
@@ -34,7 +34,7 @@
     </select>
 
     <!-- 방 번호 기준 투표 타이머 정보 조회 -->
-    <select id="selectVotingTimerByRoomNo" resultType="com.malmoim.dto.qna.QnaPhaseResponse">
+    <select id="selectVotingTimerByRoomNo" resultType="com.malmoim.dto.qna.phase.QnaPhaseResponse">
         select R.no as room_no,
                Q.status,
                Q.voting_started_at as phase_started_at,

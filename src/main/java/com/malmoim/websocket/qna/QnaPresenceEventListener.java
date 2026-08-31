@@ -1,6 +1,6 @@
 package com.malmoim.websocket.qna;
 
-import com.malmoim.dto.qna.ParticipantListCountResponse;
+import com.malmoim.dto.qna.presence.ParticipantListCountResponse;
 import com.malmoim.security.ParticipantPrincipal;
 import com.malmoim.service.qna.QnaPresenceService;
 import lombok.RequiredArgsConstructor;

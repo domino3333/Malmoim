@@ -3,7 +3,7 @@ package com.malmoim.mapper;
 
 import com.malmoim.domain.QnaPhase;
 import com.malmoim.domain.QnaRoom;
-import com.malmoim.dto.qna.QnaPhaseResponse;
+import com.malmoim.dto.qna.phase.QnaPhaseResponse;
 import org.apache.ibatis.annotations.Param;
 
 import java.time.LocalDateTime;

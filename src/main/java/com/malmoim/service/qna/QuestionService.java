@@ -1,7 +1,7 @@
 package com.malmoim.service.qna;
 
-import com.malmoim.dto.qna.QuestionCreatedMessage;
-import com.malmoim.dto.qna.QuestionListResponse;
+import com.malmoim.dto.qna.question.QuestionCreatedMessage;
+import com.malmoim.dto.qna.question.QuestionListResponse;
 
 import java.util.List;
 

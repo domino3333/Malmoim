@@ -3,7 +3,7 @@ package com.malmoim.service.entry.impl;
 import com.malmoim.domain.Participant;
 import com.malmoim.domain.Room;
 import com.malmoim.dto.entry.*;
-import com.malmoim.dto.qna.QnaRoomInfoResponse;
+import com.malmoim.dto.qna.room.QnaRoomInfoResponse;
 import com.malmoim.mapper.ParticipantMapper;
 import com.malmoim.mapper.RoomMapper;
 import com.malmoim.security.jwt.JwtTokenProvider;

@@ -4,9 +4,9 @@ import com.malmoim.domain.Member;
 import com.malmoim.domain.QnaPhase;
 import com.malmoim.domain.QnaRoom;
 import com.malmoim.domain.Room;
-import com.malmoim.dto.qna.CreateQnaRoomRequest;
-import com.malmoim.dto.qna.QnaPhaseResponse;
-import com.malmoim.dto.qna.QnaRoomInfoResponse;
+import com.malmoim.dto.qna.phase.QnaPhaseResponse;
+import com.malmoim.dto.qna.room.CreateQnaRoomRequest;
+import com.malmoim.dto.qna.room.QnaRoomInfoResponse;
 import com.malmoim.mapper.MemberMapper;
 import com.malmoim.mapper.QnaRoomMapper;
 import com.malmoim.mapper.RoomMapper;
@@ -69,6 +69,20 @@ public class QnaRoomServiceImpl implements QnaRoomService {
                 .roomNo(room.getNo())
                 .status(QnaPhase.READY)
                 .build());
+    }
+
+    @Override
+    // 로그인한 호스트 소유의 Q&A 방 조회
+    public QnaRoomInfoResponse getOwnedRoomByNo(long roomNo, String hostEmail) {
+        Member host = memberMapper.getMemberByEmail(hostEmail);
+
+        return roomMapper.selectRoomByNoAndHostNo(roomNo, host.getNo());
+    }
+
+    @Override
+    // 방 번호 기준 단일 Q&A 방 조회
+    public QnaRoomInfoResponse getRoomByNo(Long roomNo) {
+        return roomMapper.selectRoomByNo(roomNo);
     }
 
     @Override
