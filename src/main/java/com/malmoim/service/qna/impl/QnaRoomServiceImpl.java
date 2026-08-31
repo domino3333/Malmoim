@@ -103,7 +103,7 @@ public class QnaRoomServiceImpl implements QnaRoomService {
         qnaRoomMapper.updateQuestionPeriod(roomNo, startedAt, endedAt);
         qnaRoomMapper.updateQnaPhase(roomNo, QnaPhase.QUESTION_OPEN);
 
-        return qnaRoomMapper.selectQuestionTimerByRoomNo(roomNo);
+        return qnaRoomMapper.selectQuestionPhaseByRoomNo(roomNo);
     }
 
     @Override
@@ -129,7 +129,7 @@ public class QnaRoomServiceImpl implements QnaRoomService {
         qnaRoomMapper.updateVotingPeriod(roomNo, startedAt, endedAt);
         qnaRoomMapper.updateQnaPhase(roomNo, QnaPhase.VOTING_OPEN);
 
-        return qnaRoomMapper.selectVotingTimerByRoomNo(roomNo);
+        return qnaRoomMapper.selectVotingPhaseByRoomNo(roomNo);
     }
 
     @Override

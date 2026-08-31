@@ -13,9 +13,9 @@ public interface RoomMapper {
     // room 테이블에 방 추가
     void insertRoom(Room room);
 
-    List<Room> getMyRooms(@Param("hostNo") Long hostNo, @Param("offset") int offset, @Param("size") int size);
+    List<Room> selectRoomsByHostNo(@Param("hostNo") Long hostNo, @Param("offset") int offset, @Param("size") int size);
 
-    Integer countMyRooms(@Param("hostNo") Long hostNo);
+    Integer countRoomsByHostNo(@Param("hostNo") Long hostNo);
 
     Integer existsByRoomNoAndHostNo(@Param("roomNo") Long roomNo, @Param("hostNo") Long hostNo);
 

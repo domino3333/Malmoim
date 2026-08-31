@@ -9,13 +9,13 @@
         values(#{hostNo},#{title},#{code},#{capacity},#{password},#{visibility},#{type})
     </insert>
 
-    <select id="getMyRooms" resultType="Room">
+    <select id="selectRoomsByHostNo" resultType="Room">
         select * from room where host_no = #{hostNo} order by created_at desc
         limit #{size} offset #{offset}
 
     </select>
 
-    <select id="countMyRooms" resultType="integer">
+    <select id="countRoomsByHostNo" resultType="integer">
         select count(*) from room where host_no = #{hostNo}
     </select>
 
