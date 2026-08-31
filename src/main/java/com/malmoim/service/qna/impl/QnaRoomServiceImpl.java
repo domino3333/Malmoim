@@ -101,7 +101,7 @@ public class QnaRoomServiceImpl implements QnaRoomService {
         }
 
         qnaRoomMapper.updateQuestionPeriod(roomNo, startedAt, endedAt);
-        qnaRoomMapper.updateRoomStatus(roomNo, QnaPhase.QUESTION_OPEN);
+        qnaRoomMapper.updateQnaPhase(roomNo, QnaPhase.QUESTION_OPEN);
 
         return qnaRoomMapper.selectQuestionTimerByRoomNo(roomNo);
     }
@@ -121,28 +121,28 @@ public class QnaRoomServiceImpl implements QnaRoomService {
             throw new RuntimeException("호스트의 방을 찾을 수 없습니다.");
         }
 
-        QnaRoom qnaRoom = qnaRoomMapper.selectOneQnaRoomByRoomNo(roomNo);
+        QnaRoom qnaRoom = qnaRoomMapper.selectQnaRoomByRoomNo(roomNo);
         if(qnaRoom == null || qnaRoom.getStatus()!=QnaPhase.QUESTION_CLOSED){
             throw new RuntimeException("현재 질문 종료 페이즈가 아니므로 투표를 시작할 수 없습니다.");
         }
 
         qnaRoomMapper.updateVotingPeriod(roomNo, startedAt, endedAt);
-        qnaRoomMapper.updateRoomStatus(roomNo, QnaPhase.VOTING_OPEN);
+        qnaRoomMapper.updateQnaPhase(roomNo, QnaPhase.VOTING_OPEN);
 
         return qnaRoomMapper.selectVotingTimerByRoomNo(roomNo);
     }
 
     @Override
     @Transactional
-    public QnaPhaseResponse updateRoomStatus(String hostEmail, long roomNo, QnaPhase status) {
+    public QnaPhaseResponse updateQnaPhase(String hostEmail, long roomNo, QnaPhase status) {
         Member host = memberMapper.getMemberByEmail(hostEmail);
 
         if (roomMapper.isHostsRoom(roomNo,host.getNo()) != 1) {
             throw new RuntimeException("%s 에 해당하는 방이 없습니다.".formatted(hostEmail));
         }
 
-        qnaRoomMapper.updateRoomStatus(roomNo, status);
-        QnaRoom room = qnaRoomMapper.selectOneQnaRoomByRoomNo(roomNo);
+        qnaRoomMapper.updateQnaPhase(roomNo, status);
+        QnaRoom room = qnaRoomMapper.selectQnaRoomByRoomNo(roomNo);
 
         return new QnaPhaseResponse(roomNo,room.getStatus(),null,null);
 
