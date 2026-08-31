@@ -4,7 +4,7 @@ import com.malmoim.domain.QnaPhase;
 import com.malmoim.domain.QnaRoom;
 import com.malmoim.domain.Question;
 import com.malmoim.dto.qna.question.QuestionCreatedMessage;
-import com.malmoim.dto.qna.question.QuestionListResponse;
+import com.malmoim.dto.qna.question.QuestionResponse;
 import com.malmoim.mapper.QnaRoomMapper;
 import com.malmoim.mapper.QuestionMapper;
 import com.malmoim.service.qna.QuestionService;
@@ -61,7 +61,7 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     @Override
-    public List<QuestionListResponse> getQuestionList(Long roomNo) {
+    public List<QuestionResponse> getQuestionList(Long roomNo) {
 
         return questionMapper.getQuestionList(roomNo);
     }

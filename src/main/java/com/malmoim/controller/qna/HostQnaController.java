@@ -5,7 +5,7 @@ import com.malmoim.dto.qna.phase.QnaPhaseResponse;
 import com.malmoim.dto.qna.phase.StartQnaPhaseRequest;
 import com.malmoim.dto.qna.phase.UpdateQnaPhaseRequest;
 import com.malmoim.dto.qna.presence.ParticipantListCountResponse;
-import com.malmoim.dto.qna.question.QuestionListResponse;
+import com.malmoim.dto.qna.question.QuestionResponse;
 import com.malmoim.dto.qna.room.CreateQnaRoomRequest;
 import com.malmoim.dto.qna.room.QnaRoomInfoResponse;
 import com.malmoim.service.qna.QnaPresenceService;
@@ -114,7 +114,7 @@ public class HostQnaController {
 
         // host의 방 소유권 검사
         boolean isHostsRoom = qnaRoomService.validateRoomOwnership(roomNo, hostEmail);
-        List<QuestionListResponse> response = questionService.getQuestionList(roomNo);
+        List<QuestionResponse> response = questionService.getQuestionList(roomNo);
 
         if (isHostsRoom) {
             return ResponseEntity.ok(response);

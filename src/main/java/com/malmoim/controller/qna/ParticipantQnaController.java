@@ -2,7 +2,7 @@ package com.malmoim.controller.qna;
 
 import com.malmoim.dto.qna.presence.ParticipantInfoResponse;
 import com.malmoim.dto.qna.presence.ParticipantListCountResponse;
-import com.malmoim.dto.qna.question.QuestionListResponse;
+import com.malmoim.dto.qna.question.QuestionResponse;
 import com.malmoim.dto.qna.room.QnaRoomInfoResponse;
 import com.malmoim.security.ParticipantPrincipal;
 import com.malmoim.service.qna.QnaPresenceService;
@@ -67,7 +67,7 @@ public class ParticipantQnaController {
 
         ParticipantPrincipal participant = (ParticipantPrincipal) authentication.getPrincipal();
         Long roomNo = participant.getRoomNo();
-        List<QuestionListResponse> response = questionService.getQuestionList(roomNo);
+        List<QuestionResponse> response = questionService.getQuestionList(roomNo);
 
 
         return ResponseEntity.ok(response);

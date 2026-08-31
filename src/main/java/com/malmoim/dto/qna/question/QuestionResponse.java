@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 
 @Data
 @Builder
-public class QuestionListResponse {
+public class QuestionResponse {
 
     private Long questionNo;
     private Long participantNo;

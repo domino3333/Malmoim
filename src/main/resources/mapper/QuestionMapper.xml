@@ -7,7 +7,7 @@
         values(#{participantNo},#{content},#{roomNo},#{voteCount},#{status},#{createdAt})
     </insert>
 
-    <select id="getQuestionList" resultType="com.malmoim.dto.qna.question.QuestionListResponse">
+    <select id="getQuestionList" resultType="com.malmoim.dto.qna.question.QuestionResponse">
         SELECT
             Q.no AS questionNo,
             Q.participant_no,

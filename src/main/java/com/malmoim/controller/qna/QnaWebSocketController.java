@@ -2,7 +2,6 @@ package com.malmoim.controller.qna;
 
 
 import com.malmoim.dto.qna.question.QuestionCreatedMessage;
-import com.malmoim.dto.qna.question.QuestionListResponse;
 import com.malmoim.dto.qna.question.SubmitQuestionMessage;
 import com.malmoim.security.ParticipantPrincipal;
 import com.malmoim.service.qna.QuestionService;
