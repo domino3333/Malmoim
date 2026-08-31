@@ -43,7 +43,7 @@ public class QnaWebSocketController {
 
 
         QuestionCreatedMessage message =
-        questionService.registerQuestion(roomNo,participantNo,dto.getQuestion(),nickname);
+        questionService.createQuestion(roomNo,participantNo,dto.getQuestion(),nickname);
 
         simpMessagingTemplate.convertAndSend("/topic/qna/" + roomNo, message);
 

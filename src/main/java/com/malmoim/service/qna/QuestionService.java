@@ -6,7 +6,7 @@ import com.malmoim.dto.qna.question.QuestionResponse;
 import java.util.List;
 
 public interface QuestionService {
-    QuestionCreatedMessage registerQuestion(long roomNo, long participantNo, String question, String nickname);
+    QuestionCreatedMessage createQuestion(long roomNo, long participantNo, String question, String nickname);
 
     List<QuestionResponse> getQuestionList(Long roomNo);
 }

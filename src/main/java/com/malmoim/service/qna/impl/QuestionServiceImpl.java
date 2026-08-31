@@ -25,7 +25,7 @@ public class QuestionServiceImpl implements QuestionService {
 
     @Override
     @Transactional
-    public QuestionCreatedMessage registerQuestion(long roomNo, long participantNo, String question, String nickname) {
+    public QuestionCreatedMessage createQuestion(long roomNo, long participantNo, String question, String nickname) {
 
         QnaRoom qnaRoom = qnaRoomMapper.selectQnaRoomByRoomNo(roomNo);
 
