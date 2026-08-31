@@ -22,9 +22,9 @@ public interface QnaRoomMapper {
 
     QnaPhaseResponse selectVotingTimerByRoomNo(long roomNo);
 
-    Integer updateRoomStatus(@Param("roomNo") Long roomNo, @Param("status") QnaPhase status);
+    Integer updateQnaPhase(@Param("roomNo") Long roomNo, @Param("status") QnaPhase status);
 
-    QnaRoom selectOneQnaRoomByRoomNo(long roomNo);
+    QnaRoom selectQnaRoomByRoomNo(long roomNo);
 
     void updateVotingPeriod(long roomNo, LocalDateTime startedAt, LocalDateTime endedAt);
 }

@@ -10,6 +10,6 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class UpdateRoomStatusRequest {
+public class UpdateQnaPhaseRequest {
     private QnaPhase status;
 }

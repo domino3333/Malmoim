@@ -15,7 +15,7 @@
     </update>
 
 
-    <update id="updateRoomStatus">
+    <update id="updateQnaPhase">
         update qna_room
         set status = #{status}
         where room_no = #{roomNo}
@@ -44,7 +44,7 @@
         where Q.room_no = #{roomNo}
     </select>
 
-    <select id="selectOneQnaRoomByRoomNo" resultType="QnaRoom">
+    <select id="selectQnaRoomByRoomNo" resultType="QnaRoom">
         select room_no,
                question_started_at,
                question_ended_at,

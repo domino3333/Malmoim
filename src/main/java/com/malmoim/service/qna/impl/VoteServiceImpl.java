@@ -23,7 +23,7 @@ public class VoteServiceImpl implements VoteService {
     @Transactional
     public void castVote(long roomNo,long questionNo, Long participantNo) {
 
-        QnaRoom qnaRoom = qnaRoomMapper.selectOneQnaRoomByRoomNo(roomNo);
+        QnaRoom qnaRoom = qnaRoomMapper.selectQnaRoomByRoomNo(roomNo);
 
         QnaPhase status = qnaRoom.getStatus();
 

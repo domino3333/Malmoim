@@ -27,7 +27,7 @@ public class QuestionServiceImpl implements QuestionService {
     @Transactional
     public QuestionCreatedMessage registerQuestion(long roomNo, long participantNo, String question, String nickname) {
 
-        QnaRoom qnaRoom = qnaRoomMapper.selectOneQnaRoomByRoomNo(roomNo);
+        QnaRoom qnaRoom = qnaRoomMapper.selectQnaRoomByRoomNo(roomNo);
 
         if (qnaRoom == null || qnaRoom.getStatus() != QnaPhase.QUESTION_OPEN) {
             throw new RuntimeException("질문 등록이 가능한 상태가 아닙니다");

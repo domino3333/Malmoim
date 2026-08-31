@@ -3,7 +3,7 @@ package com.malmoim.controller.qna;
 import com.malmoim.domain.QnaPhase;
 import com.malmoim.dto.qna.phase.QnaPhaseResponse;
 import com.malmoim.dto.qna.phase.StartQnaPhaseRequest;
-import com.malmoim.dto.qna.phase.UpdateRoomStatusRequest;
+import com.malmoim.dto.qna.phase.UpdateQnaPhaseRequest;
 import com.malmoim.dto.qna.presence.ParticipantListCountResponse;
 import com.malmoim.dto.qna.question.QuestionListResponse;
 import com.malmoim.dto.qna.room.CreateQnaRoomRequest;
@@ -79,9 +79,9 @@ public class HostQnaController {
     }
 
     @PostMapping("/{roomNo}/update-status")
-    public ResponseEntity<?> updateRoomStatus(Authentication authentication, @PathVariable long roomNo, @RequestBody UpdateRoomStatusRequest request) {
+    public ResponseEntity<?> updateQnaPhase(Authentication authentication, @PathVariable long roomNo, @RequestBody UpdateQnaPhaseRequest request) {
         String hostEmail = authentication.getName();
-        QnaPhaseResponse response = qnaRoomService.updateRoomStatus(hostEmail, roomNo, request.getStatus());
+        QnaPhaseResponse response = qnaRoomService.updateQnaPhase(hostEmail, roomNo, request.getStatus());
 
         simpMessagingTemplate.convertAndSend("/topic/qna/" + roomNo + "/phase", response);
 
@@ -136,7 +136,7 @@ public class HostQnaController {
         if (!isHostsRoom) {
             throw new RuntimeException("방에 대한 권한이 없습니다.");
         }
-        QnaPhaseResponse response = qnaRoomService.updateRoomStatus(hostEmail, roomNo, QnaPhase.ANSWERING);
+        QnaPhaseResponse response = qnaRoomService.updateQnaPhase(hostEmail, roomNo, QnaPhase.ANSWERING);
 
         //ANSWERING 상태가 되었다고 알람을 보내주기
         simpMessagingTemplate.convertAndSend("/topic/qna/"+roomNo+"/phase",response);
