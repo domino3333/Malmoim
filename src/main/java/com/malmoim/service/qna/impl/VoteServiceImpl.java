@@ -32,7 +32,7 @@ public class VoteServiceImpl implements VoteService {
         }
 
         voteMapper.castVote(questionNo,participantNo);
-        questionMapper.plusOneVoteCount(questionNo);
+        questionMapper.incrementVoteCount(questionNo);
 
 
     }

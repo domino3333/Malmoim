@@ -126,7 +126,7 @@ public class HostQnaController {
     }
 
     @PostMapping("/{roomNo}/start-answering")
-    public ResponseEntity<?> startAnswering(Authentication authentication, @PathVariable long roomNo) {
+    public ResponseEntity<?> startAnsweringPhase(Authentication authentication, @PathVariable long roomNo) {
 
         String hostEmail = authentication.getName();
 
