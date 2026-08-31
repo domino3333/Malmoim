@@ -1,7 +1,7 @@
 package com.malmoim.controller.qna;
 
 import com.malmoim.dto.qna.presence.ParticipantInfoResponse;
-import com.malmoim.dto.qna.presence.ParticipantListCountResponse;
+import com.malmoim.dto.qna.presence.ParticipantPresenceResponse;
 import com.malmoim.dto.qna.question.QuestionResponse;
 import com.malmoim.dto.qna.room.QnaRoomInfoResponse;
 import com.malmoim.security.ParticipantPrincipal;
@@ -56,7 +56,7 @@ public class ParticipantQnaController {
 
         ParticipantPrincipal participant = (ParticipantPrincipal) authentication.getPrincipal();
         Long roomNo = participant.getRoomNo();
-        ParticipantListCountResponse response = qnaPresenceService.getActiveParticipantSnapshot(roomNo);
+        ParticipantPresenceResponse response = qnaPresenceService.getActiveParticipantSnapshot(roomNo);
 
         return ResponseEntity.ok(response);
     }
@@ -75,7 +75,7 @@ public class ParticipantQnaController {
 
     //참여자가 좋아요 버튼을 눌렀을 때의 api
     @PostMapping("/{questionNo}/vote-question")
-    public ResponseEntity<?> voteQuestion(Authentication authentication, @PathVariable long questionNo) {
+    public ResponseEntity<?> castVote(Authentication authentication, @PathVariable long questionNo) {
 
         //todo 좋아요 버튼을 눌렀을때 http로는 줄거있나?
         //다시 돌려줄건 없을거같고, 즉시 db에 좋아요 테이블에 insert만 해주면 될거같음

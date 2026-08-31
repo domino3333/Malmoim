@@ -19,7 +19,7 @@
         select count(*) from room where host_no = #{hostNo}
     </select>
 
-    <select id="isHostsRoom" resultType="integer">
+    <select id="existsByRoomNoAndHostNo" resultType="integer">
         select exists (select 1 from room where room.no = #{roomNo} and room.host_no = #{hostNo})
     </select>
 

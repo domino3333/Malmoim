@@ -95,8 +95,8 @@ public class QnaRoomServiceImpl implements QnaRoomService {
         LocalDateTime endedAt = startedAt.plusSeconds(durationSeconds);
         log.info("startQuestionPhase 질문 시작 시간 :{}", startedAt);
 
-        Integer isHostsRoom = roomMapper.isHostsRoom(roomNo,host.getNo());
-        if (isHostsRoom < 1) {
+        Integer roomExists = roomMapper.existsByRoomNoAndHostNo(roomNo, host.getNo());
+        if (roomExists < 1) {
             throw new RuntimeException("호스트의 방을 찾을 수 없습니다.");
         }
 
@@ -116,8 +116,8 @@ public class QnaRoomServiceImpl implements QnaRoomService {
         LocalDateTime endedAt = startedAt.plusSeconds(durationSeconds);
         log.info("startVotingPhase 투표 시작 시간 :{}", startedAt);
 
-        Integer isHostsRoom = roomMapper.isHostsRoom(roomNo,host.getNo());
-        if (isHostsRoom < 1) {
+        Integer roomExists = roomMapper.existsByRoomNoAndHostNo(roomNo, host.getNo());
+        if (roomExists < 1) {
             throw new RuntimeException("호스트의 방을 찾을 수 없습니다.");
         }
 
@@ -137,7 +137,7 @@ public class QnaRoomServiceImpl implements QnaRoomService {
     public QnaPhaseResponse updateQnaPhase(String hostEmail, long roomNo, QnaPhase status) {
         Member host = memberMapper.getMemberByEmail(hostEmail);
 
-        if (roomMapper.isHostsRoom(roomNo,host.getNo()) != 1) {
+        if (roomMapper.existsByRoomNoAndHostNo(roomNo, host.getNo()) != 1) {
             throw new RuntimeException("%s 에 해당하는 방이 없습니다.".formatted(hostEmail));
         }
 

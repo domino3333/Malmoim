@@ -17,7 +17,7 @@ public interface RoomMapper {
 
     Integer countMyRooms(@Param("hostNo") Long hostNo);
 
-    Integer isHostsRoom(@Param("roomNo") Long roomNo,@Param("hostNo") Long hostNo);
+    Integer existsByRoomNoAndHostNo(@Param("roomNo") Long roomNo, @Param("hostNo") Long hostNo);
 
     // 방 번호와 호스트 번호가 일치하는 방 조회
     QnaRoomInfoResponse selectRoomByNoAndHostNo(@Param("roomNo") Long roomNo, @Param("hostNo") Long hostNo);

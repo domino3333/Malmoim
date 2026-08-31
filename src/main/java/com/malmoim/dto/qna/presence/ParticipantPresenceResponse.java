@@ -10,7 +10,7 @@ import java.util.List;
 @Data
 @Builder
 @AllArgsConstructor
-public class ParticipantListCountResponse {
+public class ParticipantPresenceResponse {
     private Integer participantCount;
     private List<ActiveParticipantResponse> participants; // 현재 접속 중인 참여자 리스트
 }

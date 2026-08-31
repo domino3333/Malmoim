@@ -1,6 +1,6 @@
 package com.malmoim.websocket.qna;
 
-import com.malmoim.dto.qna.presence.ParticipantListCountResponse;
+import com.malmoim.dto.qna.presence.ParticipantPresenceResponse;
 import com.malmoim.security.ParticipantPrincipal;
 import com.malmoim.service.qna.QnaPresenceService;
 import lombok.RequiredArgsConstructor;
@@ -61,7 +61,7 @@ public class QnaPresenceEventListener {
 
         Long roomNo = participantPrincipal.getRoomNo();
 
-        ParticipantListCountResponse response = qnaPresenceService.getActiveParticipantSnapshot(roomNo);
+        ParticipantPresenceResponse response = qnaPresenceService.getActiveParticipantSnapshot(roomNo);
 
         log.info("connect리스너에서 현재 참여자 count:{}",response.getParticipantCount());
         simpMessagingTemplate.convertAndSend("/topic/qna/" + roomNo + "/participants", response);
@@ -82,7 +82,7 @@ public class QnaPresenceEventListener {
 
         Long roomNo = disconnectedSession.getRoomNo();
 
-        ParticipantListCountResponse response = qnaPresenceService.getActiveParticipantSnapshot(roomNo);
+        ParticipantPresenceResponse response = qnaPresenceService.getActiveParticipantSnapshot(roomNo);
 
 
         // 이를 구독하는 destination에 변경된 참여자 수를 방송

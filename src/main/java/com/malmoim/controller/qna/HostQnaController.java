@@ -4,7 +4,7 @@ import com.malmoim.domain.QnaPhase;
 import com.malmoim.dto.qna.phase.QnaPhaseResponse;
 import com.malmoim.dto.qna.phase.StartQnaPhaseRequest;
 import com.malmoim.dto.qna.phase.UpdateQnaPhaseRequest;
-import com.malmoim.dto.qna.presence.ParticipantListCountResponse;
+import com.malmoim.dto.qna.presence.ParticipantPresenceResponse;
 import com.malmoim.dto.qna.question.QuestionResponse;
 import com.malmoim.dto.qna.room.CreateQnaRoomRequest;
 import com.malmoim.dto.qna.room.QnaRoomInfoResponse;
@@ -95,10 +95,10 @@ public class HostQnaController {
         String hostEmail = authentication.getName();
 
         // host의 방 소유권 검사
-        boolean isHostsRoom = qnaRoomService.validateRoomOwnership(roomNo, hostEmail);
-        ParticipantListCountResponse response = qnaPresenceService.getActiveParticipantSnapshot(roomNo);
+        boolean ownsRoom = qnaRoomService.validateRoomOwnership(roomNo, hostEmail);
+        ParticipantPresenceResponse response = qnaPresenceService.getActiveParticipantSnapshot(roomNo);
 
-        if (isHostsRoom) {
+        if (ownsRoom) {
             return ResponseEntity.ok(response);
         } else {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body("해당 방에 대한 권한이 없습니다.");
@@ -113,10 +113,10 @@ public class HostQnaController {
         String hostEmail = authentication.getName();
 
         // host의 방 소유권 검사
-        boolean isHostsRoom = qnaRoomService.validateRoomOwnership(roomNo, hostEmail);
+        boolean ownsRoom = qnaRoomService.validateRoomOwnership(roomNo, hostEmail);
         List<QuestionResponse> response = questionService.getQuestionList(roomNo);
 
-        if (isHostsRoom) {
+        if (ownsRoom) {
             return ResponseEntity.ok(response);
         } else {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body("해당 방에 대한 권한이 없습니다.");
@@ -131,9 +131,9 @@ public class HostQnaController {
         String hostEmail = authentication.getName();
 
         // host의 방 소유권 검사
-        boolean isHostsRoom = qnaRoomService.validateRoomOwnership(roomNo, hostEmail);
+        boolean ownsRoom = qnaRoomService.validateRoomOwnership(roomNo, hostEmail);
 
-        if (!isHostsRoom) {
+        if (!ownsRoom) {
             throw new RuntimeException("방에 대한 권한이 없습니다.");
         }
         QnaPhaseResponse response = qnaRoomService.updateQnaPhase(hostEmail, roomNo, QnaPhase.ANSWERING);

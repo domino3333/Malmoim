@@ -28,12 +28,12 @@ public class QnaWebSocketController {
 
     @MessageMapping("/qna/register")
     // 참여자가 보낸 질문을 같은 방의 모든 구독자에게 전달
-    public void registerAndBroadcastQuestion(SubmitQuestionMessage dto, Authentication authentication) {
+    public void createAndBroadcastQuestion(SubmitQuestionMessage dto, Authentication authentication) {
 
 
         //참여자가 보낸 질문 로그로 테스트
-        log.info("registerAndBroadcastQuestion 함수로 들어온 question:{} ", dto.getQuestion());
-        log.info("registerAndBroadcastQuestion 함수로 들어온 roomNo:{}", dto.getRoomNo());
+        log.info("createAndBroadcastQuestion 함수로 들어온 question:{} ", dto.getQuestion());
+        log.info("createAndBroadcastQuestion 함수로 들어온 roomNo:{}", dto.getRoomNo());
 
         ParticipantPrincipal participant = (ParticipantPrincipal) authentication.getPrincipal();
 

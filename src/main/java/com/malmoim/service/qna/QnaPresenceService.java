@@ -1,7 +1,7 @@
 package com.malmoim.service.qna;
 
 import com.malmoim.dto.qna.presence.ActiveParticipantResponse;
-import com.malmoim.dto.qna.presence.ParticipantListCountResponse;
+import com.malmoim.dto.qna.presence.ParticipantPresenceResponse;
 import com.malmoim.websocket.qna.QnaPresenceRegistry;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -16,7 +16,7 @@ public class QnaPresenceService {
     private final QnaPresenceRegistry qnaPresenceRegistry;
 
 
-    public ParticipantListCountResponse getActiveParticipantSnapshot(Long roomNo){
+    public ParticipantPresenceResponse getActiveParticipantSnapshot(Long roomNo){
 
         List<QnaPresenceRegistry.PresenceSession> presenceSession = qnaPresenceRegistry.getActiveParticipants(roomNo);
 
@@ -28,6 +28,6 @@ public class QnaPresenceService {
             activeParticipantList.add(new ActiveParticipantResponse(participantNo,nickname));
         }
 
-        return new ParticipantListCountResponse(activeParticipantList.size(),activeParticipantList);
+        return new ParticipantPresenceResponse(activeParticipantList.size(),activeParticipantList);
     }
 }
