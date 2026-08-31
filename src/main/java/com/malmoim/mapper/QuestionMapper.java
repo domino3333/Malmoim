@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface QuestionMapper {
 
-    void registerQuestion(Question question);
+    void insertQuestion(Question question);
 
     List<QuestionResponse> getQuestionList(Long roomNo);
 
