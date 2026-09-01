@@ -71,7 +71,7 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     @Override
-    public VoteResultResponse getSortedQuestionList(String hostEmail, long roomNo) {
+    public List<VoteResultResponse> getSortedQuestionList(String hostEmail, long roomNo) {
 
         return questionMapper.getSortedQuestionListByRoomNo(roomNo);
     }

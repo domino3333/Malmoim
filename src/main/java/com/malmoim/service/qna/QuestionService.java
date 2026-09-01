@@ -11,5 +11,5 @@ public interface QuestionService {
 
     List<QuestionResponse> getQuestionList(Long roomNo);
 
-    VoteResultResponse getSortedQuestionList(String hostEmail, long roomNo);
+    List<VoteResultResponse> getSortedQuestionList(String hostEmail, long roomNo);
 }

@@ -32,7 +32,6 @@
         select Q.no,Q.participant_no,Q.content,Q.room_no,Q.vote_count,Q.created_at,Q.status,P.nickname
         from question Q join participant P
         on Q.participant_no = P.no
-
         where Q.room_no = #{roomNo}
         order by Q.vote_count desc, Q.created_at desc
     </select>

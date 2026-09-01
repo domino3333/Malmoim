@@ -139,7 +139,7 @@ public class HostQnaController {
         }
 
         QnaPhaseResponse qnaPhaseResponse = qnaRoomService.updateQnaPhase(hostEmail, roomNo, QnaPhase.ANSWERING);
-        VoteResultResponse voteResultResponse = questionService.getSortedQuestionList(hostEmail,roomNo);
+        List<VoteResultResponse> voteResultResponse = questionService.getSortedQuestionList(hostEmail,roomNo);
 
         //ANSWERING 상태가 되었다고 알람을 보내주기
         simpMessagingTemplate.convertAndSend("/topic/qna/"+roomNo+"/phase",qnaPhaseResponse);

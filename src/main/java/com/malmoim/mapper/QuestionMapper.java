@@ -17,5 +17,5 @@ public interface QuestionMapper {
 
     void incrementVoteCount(long questionNo);
 
-    VoteResultResponse getSortedQuestionListByRoomNo(long roomNo);
+    List<VoteResultResponse> getSortedQuestionListByRoomNo(long roomNo);
 }
