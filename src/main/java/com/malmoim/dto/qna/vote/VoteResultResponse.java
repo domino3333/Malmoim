@@ -16,5 +16,6 @@ public class VoteResultResponse {
     private Integer voteCount;
     private LocalDateTime createdAt;
     private String status;
+    private String nickname;
 
 }
