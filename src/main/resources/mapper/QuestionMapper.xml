@@ -29,7 +29,7 @@
     </update>
 
     <select id="getSortedQuestionListByRoomNo" resultType="com.malmoim.dto.qna.vote.VoteResultResponse">
-        select Q.no,Q.participant_no,Q.content,Q.room_no,Q.vote_count,Q.created_at,Q.status,P.nickname
+        select Q.no as questionNo,Q.participant_no,Q.content,Q.room_no,Q.vote_count,Q.created_at,Q.status,P.nickname
         from question Q join participant P
         on Q.participant_no = P.no
         where Q.room_no = #{roomNo}
