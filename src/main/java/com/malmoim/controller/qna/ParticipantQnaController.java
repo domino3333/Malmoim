@@ -80,10 +80,14 @@ public class ParticipantQnaController {
         //todo 좋아요 버튼을 눌렀을때 http로는 줄거있나?
         //다시 돌려줄건 없을거같고, 즉시 db에 좋아요 테이블에 insert만 해주면 될거같음
         // 웹소켓으로는 실시간으로 오르내리는 좋아요 수를 보여줘야하는데
+        /*
+        CONSTRAINT vote_uk
+        UNIQUE (participant_no, question_no) 이기때문에 한 사용자는 하나의 질문에만 좋아요 클릭 가능
+        */
         ParticipantPrincipal participant = (ParticipantPrincipal) authentication.getPrincipal();
         Long roomNo = participant.getRoomNo();
 
-        voteService.castVote(roomNo,questionNo,participant.getParticipantNo());
+        voteService.castVote(roomNo, questionNo, participant.getParticipantNo());
 
 
         return ResponseEntity.ok(null);

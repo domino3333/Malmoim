@@ -136,10 +136,14 @@ public class HostQnaController {
         if (!ownsRoom) {
             throw new RuntimeException("방에 대한 권한이 없습니다.");
         }
+
+        //todo 여기서 좋아요순서대로 정렬된 질문리스트가 내려와야함
         QnaPhaseResponse response = qnaRoomService.updateQnaPhase(hostEmail, roomNo, QnaPhase.ANSWERING);
 
         //ANSWERING 상태가 되었다고 알람을 보내주기
         simpMessagingTemplate.convertAndSend("/topic/qna/"+roomNo+"/phase",response);
+        //todo response 바꾸기
+        simpMessagingTemplate.convertAndSend("/topic/qna/"+roomNo+"/result",response);
 
         return ResponseEntity.ok(response);
 
