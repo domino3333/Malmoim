@@ -1,6 +1,7 @@
 package com.malmoim.controller.qna;
 
 import com.malmoim.domain.QnaPhase;
+import com.malmoim.dto.qna.phase.AnsweringResultResponse;
 import com.malmoim.dto.qna.phase.QnaPhaseResponse;
 import com.malmoim.dto.qna.phase.StartQnaPhaseRequest;
 import com.malmoim.dto.qna.phase.UpdateQnaPhaseRequest;
@@ -141,12 +142,14 @@ public class HostQnaController {
         QnaPhaseResponse qnaPhaseResponse = qnaRoomService.updateQnaPhase(hostEmail, roomNo, QnaPhase.ANSWERING);
         List<VoteResultResponse> voteResultResponse = questionService.getSortedQuestionList(hostEmail,roomNo);
 
+
+        AnsweringResultResponse answeringResultResponse = new AnsweringResultResponse(qnaPhaseResponse,voteResultResponse);
         //ANSWERING 상태가 되었다고 알람을 보내주기
         simpMessagingTemplate.convertAndSend("/topic/qna/"+roomNo+"/phase",qnaPhaseResponse);
         //웹소켓으로 정렬된  질문 리스트 내려주기
         simpMessagingTemplate.convertAndSend("/topic/qna/"+roomNo+"/result",voteResultResponse);
 
-        return ResponseEntity.ok(qnaPhaseResponse);
+        return ResponseEntity.ok(answeringResultResponse);
 
 
     }
