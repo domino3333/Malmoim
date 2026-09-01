@@ -26,7 +26,7 @@ public class QuestionServiceImpl implements QuestionService {
 
     private final QuestionMapper questionMapper;
     private final QnaRoomMapper qnaRoomMapper;
-    private final QnaRoomSer
+    //ㅇㅇㅇ
 
     @Override
     @Transactional

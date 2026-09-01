@@ -138,13 +138,12 @@ public class HostQnaController {
             throw new RuntimeException("방에 대한 권한이 없습니다.");
         }
 
-        //todo 여기서 좋아요순서대로 정렬된 질문리스트가 내려와야함
         QnaPhaseResponse qnaPhaseResponse = qnaRoomService.updateQnaPhase(hostEmail, roomNo, QnaPhase.ANSWERING);
         VoteResultResponse voteResultResponse = questionService.getSortedQuestionList(hostEmail,roomNo);
 
         //ANSWERING 상태가 되었다고 알람을 보내주기
         simpMessagingTemplate.convertAndSend("/topic/qna/"+roomNo+"/phase",qnaPhaseResponse);
-        //todo response 바꾸기
+        //웹소켓으로 정렬된  질문 리스트 내려주기
         simpMessagingTemplate.convertAndSend("/topic/qna/"+roomNo+"/result",voteResultResponse);
 
         return ResponseEntity.ok(qnaPhaseResponse);
