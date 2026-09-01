@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 @Builder
 public class VoteResultResponse {
 
-    private Long no; // question테이블의 pk
+    private Long questionNo; // question테이블의 pk
     private Long participantNo;
     private String content;
     private Long roomNo;
