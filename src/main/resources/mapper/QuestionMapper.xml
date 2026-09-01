@@ -27,4 +27,10 @@
     <update id="incrementVoteCount">
         update question set vote_count=vote_count+1 where no = #{questionNo}
     </update>
+
+    <select id="getSortedQuestionListByRoomNo" resultType="com.malmoim.dto.qna.vote.VoteResultResponse">
+        select no,participant_no,content,room_no,vote_count,created_at,status
+        from question
+        order by vote_count desc, created_at desc
+    </select>
 </mapper>

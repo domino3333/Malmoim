@@ -3,12 +3,16 @@ package com.malmoim.service.qna.impl;
 import com.malmoim.domain.QnaPhase;
 import com.malmoim.domain.QnaRoom;
 import com.malmoim.domain.Question;
+import com.malmoim.dto.qna.presence.ParticipantPresenceResponse;
 import com.malmoim.dto.qna.question.QuestionCreatedMessage;
 import com.malmoim.dto.qna.question.QuestionResponse;
+import com.malmoim.dto.qna.vote.VoteResultResponse;
 import com.malmoim.mapper.QnaRoomMapper;
 import com.malmoim.mapper.QuestionMapper;
 import com.malmoim.service.qna.QuestionService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,6 +26,7 @@ public class QuestionServiceImpl implements QuestionService {
 
     private final QuestionMapper questionMapper;
     private final QnaRoomMapper qnaRoomMapper;
+    private final QnaRoomSer
 
     @Override
     @Transactional
@@ -64,5 +69,11 @@ public class QuestionServiceImpl implements QuestionService {
     public List<QuestionResponse> getQuestionList(Long roomNo) {
 
         return questionMapper.getQuestionList(roomNo);
+    }
+
+    @Override
+    public VoteResultResponse getSortedQuestionList(String hostEmail, long roomNo) {
+
+        return questionMapper.getSortedQuestionListByRoomNo(roomNo);
     }
 }

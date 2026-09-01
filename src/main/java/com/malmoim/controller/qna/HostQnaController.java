@@ -8,6 +8,7 @@ import com.malmoim.dto.qna.presence.ParticipantPresenceResponse;
 import com.malmoim.dto.qna.question.QuestionResponse;
 import com.malmoim.dto.qna.room.CreateQnaRoomRequest;
 import com.malmoim.dto.qna.room.QnaRoomInfoResponse;
+import com.malmoim.dto.qna.vote.VoteResultResponse;
 import com.malmoim.service.qna.QnaPresenceService;
 import com.malmoim.service.qna.QnaRoomService;
 import com.malmoim.service.qna.QuestionService;
@@ -138,14 +139,15 @@ public class HostQnaController {
         }
 
         //todo 여기서 좋아요순서대로 정렬된 질문리스트가 내려와야함
-        QnaPhaseResponse response = qnaRoomService.updateQnaPhase(hostEmail, roomNo, QnaPhase.ANSWERING);
+        QnaPhaseResponse qnaPhaseResponse = qnaRoomService.updateQnaPhase(hostEmail, roomNo, QnaPhase.ANSWERING);
+        VoteResultResponse voteResultResponse = questionService.getSortedQuestionList(hostEmail,roomNo);
 
         //ANSWERING 상태가 되었다고 알람을 보내주기
-        simpMessagingTemplate.convertAndSend("/topic/qna/"+roomNo+"/phase",response);
+        simpMessagingTemplate.convertAndSend("/topic/qna/"+roomNo+"/phase",qnaPhaseResponse);
         //todo response 바꾸기
-        simpMessagingTemplate.convertAndSend("/topic/qna/"+roomNo+"/result",response);
+        simpMessagingTemplate.convertAndSend("/topic/qna/"+roomNo+"/result",voteResultResponse);
 
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok(qnaPhaseResponse);
 
 
     }
