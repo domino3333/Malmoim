@@ -10,5 +10,5 @@ import java.util.List;
 @AllArgsConstructor
 public class AnsweringResultResponse {
     private QnaPhaseResponse qnaPhaseResponse;
-    private List<VoteResultResponse> voteResultResponseList;
+    private List<VoteResultResponse> questions;
 }
