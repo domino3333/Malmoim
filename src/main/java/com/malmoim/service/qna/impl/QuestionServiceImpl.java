@@ -73,6 +73,13 @@ public class QuestionServiceImpl implements QuestionService {
     @Override
     public List<VoteResultResponse> getSortedQuestionList(String hostEmail, long roomNo) {
 
+        //방의 현 상태가 투표 종료인지 검사
+        QnaRoom qnaRoom = qnaRoomMapper.selectQnaRoomByRoomNo(roomNo);
+        if(qnaRoom.getStatus()!=QnaPhase.VOTING_CLOSED){
+            throw new RuntimeException("방의 현 status가 투표 종료 상태가 아닙니다.");
+        }
+
+
         return questionMapper.getSortedQuestionListByRoomNo(roomNo);
     }
 }
