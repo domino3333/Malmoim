@@ -77,7 +77,6 @@ public class QuestionServiceImpl implements QuestionService {
 
         //방의 현 상태가 투표 종료인지 검사
         QnaRoom qnaRoom = qnaRoomMapper.selectQnaRoomByRoomNo(roomNo);
-        log.info("qnaRoom.getStatus():{}",qnaRoom.getStatus());
         if(qnaRoom.getStatus()!=QnaPhase.VOTING_CLOSED){
             throw new RuntimeException("방의 현 status가 투표 종료 상태가 아닙니다.");
         }

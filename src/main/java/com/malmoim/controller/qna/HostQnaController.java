@@ -139,8 +139,9 @@ public class HostQnaController {
             throw new RuntimeException("방에 대한 권한이 없습니다.");
         }
 
-        QnaPhaseResponse qnaPhaseResponse = qnaRoomService.updateQnaPhase(hostEmail, roomNo, QnaPhase.ANSWERING);
+
         List<VoteResultResponse> voteResultResponse = questionService.getSortedQuestionList(hostEmail,roomNo);
+        QnaPhaseResponse qnaPhaseResponse = qnaRoomService.updateQnaPhase(hostEmail, roomNo, QnaPhase.ANSWERING);
 
 
         AnsweringResultResponse answeringResultResponse = new AnsweringResultResponse(qnaPhaseResponse,voteResultResponse);
