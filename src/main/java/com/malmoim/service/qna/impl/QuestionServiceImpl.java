@@ -76,6 +76,8 @@ public class QuestionServiceImpl implements QuestionService {
     public List<VoteResultResponse> getSortedQuestionList(String hostEmail, long roomNo) {
 
         //방의 현 상태가 투표 종료인지 검사
+        //todo 현재 메서드는 리스트만 내려주는 것으로 바꾸고
+        // 새로운 메서드를 만들어서 호스트인증 + 상태전이 검사하는 것으로 수정하기
         QnaRoom qnaRoom = qnaRoomMapper.selectQnaRoomByRoomNo(roomNo);
         if(qnaRoom.getStatus()!=QnaPhase.VOTING_CLOSED){
             throw new RuntimeException("방의 현 status가 투표 종료 상태가 아닙니다.");
