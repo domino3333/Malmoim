@@ -11,6 +11,7 @@ import com.malmoim.mapper.QnaRoomMapper;
 import com.malmoim.mapper.QuestionMapper;
 import com.malmoim.service.qna.QuestionService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -21,6 +22,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class QuestionServiceImpl implements QuestionService {
 
 
@@ -75,6 +77,7 @@ public class QuestionServiceImpl implements QuestionService {
 
         //방의 현 상태가 투표 종료인지 검사
         QnaRoom qnaRoom = qnaRoomMapper.selectQnaRoomByRoomNo(roomNo);
+        log.info("qnaRoom.getStatus():{}",qnaRoom.getStatus());
         if(qnaRoom.getStatus()!=QnaPhase.VOTING_CLOSED){
             throw new RuntimeException("방의 현 status가 투표 종료 상태가 아닙니다.");
         }
