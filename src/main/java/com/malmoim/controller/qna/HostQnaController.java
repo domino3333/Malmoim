@@ -132,12 +132,7 @@ public class HostQnaController {
 
         String hostEmail = authentication.getName();
 
-        // host의 방 소유권 검사
-        boolean ownsRoom = qnaRoomService.validateRoomOwnership(roomNo, hostEmail);
 
-        if (!ownsRoom) {
-            throw new RuntimeException("방에 대한 권한이 없습니다.");
-        }
 
 
         List<VoteResultResponse> voteResultResponse = questionService.getSortedQuestionList(hostEmail,roomNo);
