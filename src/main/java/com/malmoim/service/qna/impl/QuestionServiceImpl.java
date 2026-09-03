@@ -9,6 +9,7 @@ import com.malmoim.dto.qna.question.QuestionResponse;
 import com.malmoim.dto.qna.vote.VoteResultResponse;
 import com.malmoim.mapper.QnaRoomMapper;
 import com.malmoim.mapper.QuestionMapper;
+import com.malmoim.service.qna.QnaRoomService;
 import com.malmoim.service.qna.QuestionService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,6 +29,7 @@ public class QuestionServiceImpl implements QuestionService {
 
     private final QuestionMapper questionMapper;
     private final QnaRoomMapper qnaRoomMapper;
+    private final QnaRoomService qnaRoomService;
 
     @Override
     @Transactional
@@ -75,15 +77,32 @@ public class QuestionServiceImpl implements QuestionService {
     @Override
     public List<VoteResultResponse> getSortedQuestionList(String hostEmail, long roomNo) {
 
-        //방의 현 상태가 투표 종료인지 검사
+        return questionMapper.getSortedQuestionListByRoomNo(roomNo);
+    }
+
+    @Override
+    public List<VoteResultResponse> revealResults(String hostEmail, long roomNo) {
+
+
         //todo 현재 메서드는 리스트만 내려주는 것으로 바꾸고
         // 새로운 메서드를 만들어서 호스트인증 + 상태전이 검사하는 것으로 수정하기
+        
+        // host의 방 소유권 검사
+        boolean ownsRoom = qnaRoomService.validateRoomOwnership(roomNo, hostEmail);
+
+        if (!ownsRoom) {
+            throw new RuntimeException("방에 대한 권한이 없습니다.");
+        }
+
+        //방의 현 상태가 투표 종료인지 검사
         QnaRoom qnaRoom = qnaRoomMapper.selectQnaRoomByRoomNo(roomNo);
         if(qnaRoom.getStatus()!=QnaPhase.VOTING_CLOSED){
             throw new RuntimeException("방의 현 status가 투표 종료 상태가 아닙니다.");
         }
 
+        return getSortedQuestionList(hostEmail,roomNo);
 
-        return questionMapper.getSortedQuestionListByRoomNo(roomNo);
     }
+
+
 }
