@@ -1,5 +1,6 @@
 package com.malmoim.service.qna;
 
+import com.malmoim.dto.qna.phase.AnsweringResultResponse;
 import com.malmoim.dto.qna.question.QuestionCreatedMessage;
 import com.malmoim.dto.qna.question.QuestionResponse;
 import com.malmoim.dto.qna.vote.VoteResultResponse;
@@ -13,5 +14,5 @@ public interface QuestionService {
 
     List<VoteResultResponse> getSortedQuestionList(long roomNo);
 
-    List<VoteResultResponse> revealResults(String hostEmail, long roomNo);
+    AnsweringResultResponse revealResults(String hostEmail, long roomNo);
 }
