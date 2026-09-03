@@ -3,6 +3,7 @@ package com.malmoim.service.qna.impl;
 import com.malmoim.domain.QnaPhase;
 import com.malmoim.domain.QnaRoom;
 import com.malmoim.domain.Question;
+import com.malmoim.dto.qna.phase.QnaPhaseResponse;
 import com.malmoim.dto.qna.presence.ParticipantPresenceResponse;
 import com.malmoim.dto.qna.question.QuestionCreatedMessage;
 import com.malmoim.dto.qna.question.QuestionResponse;
@@ -81,6 +82,7 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     @Override
+    @Transactional
     public List<VoteResultResponse> revealResults(String hostEmail, long roomNo) {
 
         // host의 방 소유권 검사
@@ -95,6 +97,8 @@ public class QuestionServiceImpl implements QuestionService {
         if(qnaRoom.getStatus()!=QnaPhase.VOTING_CLOSED){
             throw new RuntimeException("방의 현 status가 투표 종료 상태가 아닙니다.");
         }
+
+        QnaPhaseResponse qnaPhaseResponse = qnaRoomService.updateQnaPhase(hostEmail, roomNo, QnaPhase.ANSWERING);
 
         return getSortedQuestionList(roomNo);
 
