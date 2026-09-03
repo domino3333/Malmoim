@@ -83,10 +83,6 @@ public class QuestionServiceImpl implements QuestionService {
     @Override
     public List<VoteResultResponse> revealResults(String hostEmail, long roomNo) {
 
-
-        //todo 현재 메서드는 리스트만 내려주는 것으로 바꾸고
-        // 새로운 메서드를 만들어서 호스트인증 + 상태전이 검사하는 것으로 수정하기
-        
         // host의 방 소유권 검사
         boolean ownsRoom = qnaRoomService.validateRoomOwnership(roomNo, hostEmail);
 

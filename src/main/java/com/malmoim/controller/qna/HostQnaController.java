@@ -135,7 +135,7 @@ public class HostQnaController {
 
 
 
-        List<VoteResultResponse> voteResultResponse = questionService.getSortedQuestionList(hostEmail,roomNo);
+        List<VoteResultResponse> voteResultResponse = questionService.revealResults(hostEmail,roomNo);
         QnaPhaseResponse qnaPhaseResponse = qnaRoomService.updateQnaPhase(hostEmail, roomNo, QnaPhase.ANSWERING);
 
 
