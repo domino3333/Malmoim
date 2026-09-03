@@ -12,6 +12,9 @@ public interface QuestionService {
 
     List<QuestionResponse> getQuestionList(Long roomNo);
 
+    // 호스트 소유권 확인 후 질문 목록 조회
+    List<QuestionResponse> getHostQuestionList(long roomNo, String hostEmail);
+
     List<VoteResultResponse> getSortedQuestionList(long roomNo);
 
     AnsweringResultResponse revealResults(String hostEmail, long roomNo);

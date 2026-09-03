@@ -24,6 +24,4 @@ public interface QnaRoomService {
     //넘겨받은 status로 방의 상태를 업데이트
     QnaPhaseResponse updateQnaPhase(String hostEmail, long roomNo, QnaPhase status);
 
-    //호스트의 room인지 검증
-    boolean validateRoomOwnership(long roomNo,String hostEmail);
 }

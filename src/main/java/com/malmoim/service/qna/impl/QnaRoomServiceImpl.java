@@ -11,6 +11,7 @@ import com.malmoim.mapper.MemberMapper;
 import com.malmoim.mapper.QnaRoomMapper;
 import com.malmoim.mapper.RoomMapper;
 import com.malmoim.service.qna.QnaRoomService;
+import com.malmoim.service.room.RoomService;
 import com.malmoim.util.RoomCodeGenerator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -31,6 +32,7 @@ public class QnaRoomServiceImpl implements QnaRoomService {
     private final MemberMapper memberMapper;
     private final RoomMapper roomMapper;
     private final PasswordEncoder passwordEncoder;
+    private final RoomService roomService;
 
     @Override
     @Transactional
@@ -74,9 +76,9 @@ public class QnaRoomServiceImpl implements QnaRoomService {
     @Override
     // 로그인한 호스트 소유의 Q&A 방 조회
     public QnaRoomInfoResponse getOwnedRoomByNo(long roomNo, String hostEmail) {
-        Member host = memberMapper.getMemberByEmail(hostEmail);
+        roomService.validateRoomOwnership(roomNo, hostEmail);
 
-        return roomMapper.selectRoomByNoAndHostNo(roomNo, host.getNo());
+        return roomMapper.selectRoomByNo(roomNo);
     }
 
     @Override
@@ -89,16 +91,11 @@ public class QnaRoomServiceImpl implements QnaRoomService {
     @Transactional
     // 질문 시간 저장 및 방 상태를 QUESTION_OPEN으로 변경
     public QnaPhaseResponse startQuestionPhase(String hostEmail, long durationSeconds, long roomNo) {
-        Member host = memberMapper.getMemberByEmail(hostEmail);
+        roomService.validateRoomOwnership(roomNo, hostEmail);
 
         LocalDateTime startedAt = LocalDateTime.now();
         LocalDateTime endedAt = startedAt.plusSeconds(durationSeconds);
         log.info("startQuestionPhase 질문 시작 시간 :{}", startedAt);
-
-        Integer roomExists = roomMapper.existsByRoomNoAndHostNo(roomNo, host.getNo());
-        if (roomExists < 1) {
-            throw new RuntimeException("호스트의 방을 찾을 수 없습니다.");
-        }
 
         qnaRoomMapper.updateQuestionPeriod(roomNo, startedAt, endedAt);
         qnaRoomMapper.updateQnaPhase(roomNo, QnaPhase.QUESTION_OPEN);
@@ -110,16 +107,11 @@ public class QnaRoomServiceImpl implements QnaRoomService {
     @Transactional
     // 투표 시작
     public QnaPhaseResponse startVotingPhase(String hostEmail, long durationSeconds, long roomNo) {
-        Member host = memberMapper.getMemberByEmail(hostEmail);
+        roomService.validateRoomOwnership(roomNo, hostEmail);
 
         LocalDateTime startedAt = LocalDateTime.now();
         LocalDateTime endedAt = startedAt.plusSeconds(durationSeconds);
         log.info("startVotingPhase 투표 시작 시간 :{}", startedAt);
-
-        Integer roomExists = roomMapper.existsByRoomNoAndHostNo(roomNo, host.getNo());
-        if (roomExists < 1) {
-            throw new RuntimeException("호스트의 방을 찾을 수 없습니다.");
-        }
 
         QnaRoom qnaRoom = qnaRoomMapper.selectQnaRoomByRoomNo(roomNo);
         if(qnaRoom == null || qnaRoom.getStatus()!=QnaPhase.QUESTION_CLOSED){
@@ -135,11 +127,7 @@ public class QnaRoomServiceImpl implements QnaRoomService {
     @Override
     @Transactional
     public QnaPhaseResponse updateQnaPhase(String hostEmail, long roomNo, QnaPhase status) {
-        Member host = memberMapper.getMemberByEmail(hostEmail);
-
-        if (roomMapper.existsByRoomNoAndHostNo(roomNo, host.getNo()) != 1) {
-            throw new RuntimeException("%s 에 해당하는 방이 없습니다.".formatted(hostEmail));
-        }
+        roomService.validateRoomOwnership(roomNo, hostEmail);
 
         qnaRoomMapper.updateQnaPhase(roomNo, status);
         QnaRoom room = qnaRoomMapper.selectQnaRoomByRoomNo(roomNo);
@@ -149,17 +137,4 @@ public class QnaRoomServiceImpl implements QnaRoomService {
 
     }
 
-    @Override
-    public boolean validateRoomOwnership(long roomNo, String hostEmail) {
-        Member host = memberMapper.getMemberByEmail(hostEmail);
-
-        QnaRoomInfoResponse room = roomMapper.selectRoomByNoAndHostNo(roomNo, host.getNo());
-
-        if(room==null){
-            return false;
-        }
-
-        return true;
-
-    }
 }

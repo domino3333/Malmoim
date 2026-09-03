@@ -16,7 +16,6 @@ import com.malmoim.service.qna.QuestionService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.security.core.Authentication;
@@ -96,16 +95,9 @@ public class HostQnaController {
 
         String hostEmail = authentication.getName();
 
-        // host의 방 소유권 검사
-        boolean ownsRoom = qnaRoomService.validateRoomOwnership(roomNo, hostEmail);
-        ParticipantPresenceResponse response = qnaPresenceService.getActiveParticipantSnapshot(roomNo);
+        ParticipantPresenceResponse response = qnaPresenceService.getHostParticipantSnapshot(roomNo, hostEmail);
 
-        if (ownsRoom) {
-            return ResponseEntity.ok(response);
-        } else {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("해당 방에 대한 권한이 없습니다.");
-
-        }
+        return ResponseEntity.ok(response);
     }
 
     //질문 리스트(http스냅샷)
@@ -114,16 +106,9 @@ public class HostQnaController {
 
         String hostEmail = authentication.getName();
 
-        // host의 방 소유권 검사
-        boolean ownsRoom = qnaRoomService.validateRoomOwnership(roomNo, hostEmail);
-        List<QuestionResponse> response = questionService.getQuestionList(roomNo);
+        List<QuestionResponse> response = questionService.getHostQuestionList(roomNo, hostEmail);
 
-        if (ownsRoom) {
-            return ResponseEntity.ok(response);
-        } else {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("해당 방에 대한 권한이 없습니다.");
-
-        }
+        return ResponseEntity.ok(response);
 
     }
 
