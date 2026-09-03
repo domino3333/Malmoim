@@ -75,7 +75,7 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     @Override
-    public List<VoteResultResponse> getSortedQuestionList(String hostEmail, long roomNo) {
+    public List<VoteResultResponse> getSortedQuestionList(long roomNo) {
 
         return questionMapper.getSortedQuestionListByRoomNo(roomNo);
     }
@@ -96,7 +96,7 @@ public class QuestionServiceImpl implements QuestionService {
             throw new RuntimeException("방의 현 status가 투표 종료 상태가 아닙니다.");
         }
 
-        return getSortedQuestionList(hostEmail,roomNo);
+        return getSortedQuestionList(roomNo);
 
     }
 

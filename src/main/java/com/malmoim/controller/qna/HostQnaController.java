@@ -132,9 +132,6 @@ public class HostQnaController {
 
         String hostEmail = authentication.getName();
 
-
-
-
         List<VoteResultResponse> voteResultResponse = questionService.revealResults(hostEmail,roomNo);
         QnaPhaseResponse qnaPhaseResponse = qnaRoomService.updateQnaPhase(hostEmail, roomNo, QnaPhase.ANSWERING);
 
