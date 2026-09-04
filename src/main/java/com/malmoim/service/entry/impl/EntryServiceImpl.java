@@ -63,6 +63,19 @@ public class EntryServiceImpl implements EntryService {
     @Transactional
     // 참가자 저장 및 발급된 참가자 번호 반환
     public JoinRoomResponse joinRoom(JoinRoomRequest dto) {
+
+        QnaRoomInfoResponse room = roomMapper.selectRoomByNo(dto.getRoomNo());
+
+        if (room == null) {
+            throw new RuntimeException("방을 찾을 수 없습니다.");
+        }
+
+        if (!passwordEncoder.matches(dto.getPassword(), room.getPassword())) {
+            log.info("joinRoom service 방 비밀번호 불일치");
+            throw new RuntimeException("방의 비밀번호가 일치하지 않습니다.");
+        }
+
+
         Participant participant = Participant.builder()
                 .roomNo(dto.getRoomNo())
                 .nickname(dto.getNickname())
