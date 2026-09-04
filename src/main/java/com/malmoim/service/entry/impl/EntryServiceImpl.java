@@ -70,11 +70,10 @@ public class EntryServiceImpl implements EntryService {
             throw new RuntimeException("방을 찾을 수 없습니다.");
         }
 
-        if (!passwordEncoder.matches(dto.getPassword(), room.getPassword())) {
-            log.info("joinRoom service 방 비밀번호 불일치");
+        if ("PRIVATE".equals(room.getVisibility())
+                && !passwordEncoder.matches(dto.getPassword(), room.getPassword())) {
             throw new RuntimeException("방의 비밀번호가 일치하지 않습니다.");
         }
-
 
         Participant participant = Participant.builder()
                 .roomNo(dto.getRoomNo())
