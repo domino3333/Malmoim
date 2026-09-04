@@ -51,19 +51,22 @@
 
     <!-- 방 번호 기준 단일 방 조회 -->
     <select id="selectRoomByNo" resultType="com.malmoim.dto.qna.room.QnaRoomInfoResponse">
-        select R.no AS roomNo,
-               R.host_no AS hostNo,
-               R.password,
-               R.title,
-               R.code,
-               R.capacity,
-               R.created_at AS createdAt,
-               R.type,
-               R.visibility,
-               Q.status
-        from room R
-        join qna_room Q on R.no = Q.room_no
-        where R.no = #{roomNo}
+        select
+            R.no as roomNo,
+            R.host_no as hostNo,
+            R.password as password,
+            R.title as title,
+            R.code as code,
+            R.capacity as capacity,
+            R.created_at as createdAt,
+            R.type as type,
+            R.visibility as visibility,
+            Q.status as status,
+            Q.question_started_at as questionStartedAt,
+            Q.question_ended_at as questionEndedAt,
+            Q.voting_started_at as votingStartedAt,
+            Q.voting_ended_at as votingEndedAt
+        from room R join qna_room Q on R.no = Q.room_no where Q.room_no = #{roomNo};
     </select>
 
 </mapper>
