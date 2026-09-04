@@ -37,6 +37,6 @@
     </select>
 
     <select id="isExistsQuestionInTheRoom" resultType="Integer">
-        select exists (select 1 from question where room_no = #{roomNo} and no = #{questioNo})
+        select exists (select 1 from question where room_no = #{roomNo} and no = #{questionNo})
     </select>
 </mapper>
