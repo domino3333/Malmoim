@@ -35,4 +35,8 @@
         where Q.room_no = #{roomNo}
         order by Q.vote_count desc, Q.created_at desc
     </select>
+
+    <select id="isExistsQuestionInTheRoom" resultType="Integer">
+        select exists (select 1 from question where room_no = #{roomNo} and no = #{questioNo})
+    </select>
 </mapper>
