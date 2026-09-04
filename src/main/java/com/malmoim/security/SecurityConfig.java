@@ -37,9 +37,9 @@ public class SecurityConfig {
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests(auth->auth
                                 .requestMatchers("/api/auth/**").permitAll()
-                                .requestMatchers("/api/room/**").permitAll()
-                                .requestMatchers("/api/host/qna/**").permitAll()
-                                .requestMatchers("/api/participant/qna/**").permitAll()
+                                .requestMatchers("/api/room/**").hasRole("NORMAL")
+                                .requestMatchers("/api/host/qna/**").hasRole("NORMAL")
+                                .requestMatchers("/api/participant/qna/**").hasRole("PARTICIPANT")
                                 .requestMatchers("/api/entry/**").permitAll()
                                 .requestMatchers("/ws","/ws/**").permitAll()
 
