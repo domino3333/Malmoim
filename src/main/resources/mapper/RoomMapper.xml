@@ -10,7 +10,17 @@
     </insert>
 
     <select id="selectRoomsByHostNo" resultType="Room">
-        select * from room where host_no = #{hostNo} order by created_at desc
+        select no,
+               host_no,
+               title,
+               code,
+               capacity,
+               created_at,
+               type,
+               visibility
+        from room
+        where host_no = #{hostNo}
+        order by created_at desc
         limit #{size} offset #{offset}
 
     </select>

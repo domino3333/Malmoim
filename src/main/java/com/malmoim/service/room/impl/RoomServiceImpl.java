@@ -1,6 +1,8 @@
 package com.malmoim.service.room.impl;
 
 import com.malmoim.domain.Member;
+import com.malmoim.domain.Room;
+import com.malmoim.dto.room.MyRoomResponse;
 import com.malmoim.dto.room.MyRoomsResponse;
 import com.malmoim.mapper.MemberMapper;
 import com.malmoim.mapper.RoomMapper;
@@ -9,6 +11,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -35,7 +40,23 @@ public class RoomServiceImpl implements RoomService {
         MyRoomsResponse dto = new MyRoomsResponse();
         int offset = (page - 1) * size;
 
-        dto.setRooms(roomMapper.selectRoomsByHostNo(host.getNo(), offset, size));
+        List<Room> rooms = roomMapper.selectRoomsByHostNo(host.getNo(), offset, size);
+        List<MyRoomResponse> roomResponses = new ArrayList<>();
+
+        for (Room room : rooms) {
+            roomResponses.add(MyRoomResponse.builder()
+                    .no(room.getNo())
+                    .hostNo(room.getHostNo())
+                    .title(room.getTitle())
+                    .code(room.getCode())
+                    .capacity(room.getCapacity())
+                    .createdAt(room.getCreatedAt())
+                    .type(room.getType())
+                    .visibility(room.getVisibility())
+                    .build());
+        }
+
+        dto.setRooms(roomResponses);
         dto.setTotalCount(roomMapper.countRoomsByHostNo(host.getNo()));
 
         return dto;
