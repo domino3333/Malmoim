@@ -2,10 +2,8 @@ package com.malmoim.mapper;
 
 
 import com.malmoim.domain.Question;
-import com.malmoim.domain.Room;
 import com.malmoim.dto.qna.question.QuestionResponse;
 import com.malmoim.dto.qna.vote.VoteResultResponse;
-import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -18,4 +16,6 @@ public interface QuestionMapper {
     void incrementVoteCount(long questionNo);
 
     List<VoteResultResponse> getSortedQuestionListByRoomNo(long roomNo);
+
+    Integer isExistsQuestionInTheRoom(long roomNo, long questionNo);
 }
