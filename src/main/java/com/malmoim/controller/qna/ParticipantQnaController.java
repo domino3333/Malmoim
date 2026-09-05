@@ -33,7 +33,7 @@ public class ParticipantQnaController {
     public ResponseEntity<?> getParticipantQnaRoom(Authentication authentication, @PathVariable Long roomNo) {
 
         ParticipantPrincipal participant = (ParticipantPrincipal) authentication.getPrincipal();
-        QnaRoomInfoResponse room = qnaRoomService.getParticipantQnaRoom(participant.getParticipantNo(),participant.getRoomNo());
+        QnaRoomInfoResponse room = qnaRoomService.getParticipantQnaRoom(participant.getParticipantNo(),roomNo);
 
         return ResponseEntity.ok(room);
     }
