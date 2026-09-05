@@ -9,7 +9,6 @@ import java.time.LocalDateTime;
 public class QnaRoomInfoResponse {
     private Long roomNo;
     private Long hostNo;
-    private String password;
     private String title;
     private String code;
     private Integer capacity;
