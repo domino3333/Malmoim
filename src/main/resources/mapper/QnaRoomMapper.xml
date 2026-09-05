@@ -58,12 +58,4 @@
         where room_no = #{roomNo}
     </update>
 
-    <select id="isParticipantOfThisRoom" resultType="integer">
-        select exists (
-            select 1
-            from participant
-            where no = #{participantNo}
-              and room_no = #{roomNo}
-        )
-    </select>
 </mapper>

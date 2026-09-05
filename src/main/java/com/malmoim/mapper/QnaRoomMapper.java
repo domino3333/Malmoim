@@ -27,6 +27,4 @@ public interface QnaRoomMapper {
     QnaRoom selectQnaRoomByRoomNo(long roomNo);
 
     void updateVotingPeriod(long roomNo, LocalDateTime startedAt, LocalDateTime endedAt);
-
-    Integer isParticipantOfThisRoom(Long participantNo, Long roomNo);
 }

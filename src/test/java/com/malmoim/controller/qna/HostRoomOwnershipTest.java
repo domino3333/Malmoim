@@ -7,6 +7,7 @@ import com.malmoim.dto.qna.phase.QnaPhaseResponse;
 import com.malmoim.dto.qna.question.QuestionResponse;
 import com.malmoim.dto.qna.room.QnaRoomInfoResponse;
 import com.malmoim.mapper.MemberMapper;
+import com.malmoim.mapper.ParticipantMapper;
 import com.malmoim.mapper.QnaRoomMapper;
 import com.malmoim.mapper.QuestionMapper;
 import com.malmoim.mapper.RoomMapper;
@@ -54,6 +55,7 @@ class HostRoomOwnershipTest {
 
     private AnnotationConfigApplicationContext context;
     private MemberMapper memberMapper;
+    private ParticipantMapper participantMapper;
     private RoomMapper roomMapper;
     private QnaRoomMapper qnaRoomMapper;
     private QuestionMapper questionMapper;
@@ -65,6 +67,7 @@ class HostRoomOwnershipTest {
     @BeforeEach
     void setUp() {
         memberMapper = mock(MemberMapper.class);
+        participantMapper = mock(ParticipantMapper.class);
         roomMapper = mock(RoomMapper.class);
         qnaRoomMapper = mock(QnaRoomMapper.class);
         questionMapper = mock(QuestionMapper.class);
@@ -79,6 +82,7 @@ class HostRoomOwnershipTest {
                 .thenReturn(Member.builder().no(8L).email(OTHER_HOST).build());
         when(roomMapper.existsByRoomNoAndHostNo(ROOM_NO, 7L)).thenReturn(1);
         when(roomMapper.existsByRoomNoAndHostNo(ROOM_NO, 8L)).thenReturn(0);
+        when(participantMapper.isParticipantOfThisRoom(99L, ROOM_NO)).thenReturn(1);
 
         QnaRoomInfoResponse room = new QnaRoomInfoResponse();
         room.setRoomNo(ROOM_NO);
@@ -108,6 +112,7 @@ class HostRoomOwnershipTest {
 
         context = new AnnotationConfigApplicationContext();
         context.registerBean(MemberMapper.class, () -> memberMapper);
+        context.registerBean(ParticipantMapper.class, () -> participantMapper);
         context.registerBean(RoomMapper.class, () -> roomMapper);
         context.registerBean(QnaRoomMapper.class, () -> qnaRoomMapper);
         context.registerBean(QuestionMapper.class, () -> questionMapper);
@@ -197,6 +202,15 @@ class HostRoomOwnershipTest {
                 .andExpect(jsonPath("$.participants[0].participantNo").value(99));
 
         verifyNoInteractions(memberMapper, roomMapper);
+    }
+
+    @Test
+    void participantRoomLookupChecksParticipantMembership() throws Exception {
+        mvc.perform(get("/api/participant/qna/" + ROOM_NO + "/participant").principal(participant()))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.roomNo").value(ROOM_NO));
+
+        verify(participantMapper).isParticipantOfThisRoom(99L, ROOM_NO);
     }
 
     private MockHttpServletRequestBuilder hostRequest(String endpoint) {

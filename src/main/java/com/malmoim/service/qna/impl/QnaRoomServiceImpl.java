@@ -8,6 +8,7 @@ import com.malmoim.dto.qna.phase.QnaPhaseResponse;
 import com.malmoim.dto.qna.room.CreateQnaRoomRequest;
 import com.malmoim.dto.qna.room.QnaRoomInfoResponse;
 import com.malmoim.mapper.MemberMapper;
+import com.malmoim.mapper.ParticipantMapper;
 import com.malmoim.mapper.QnaRoomMapper;
 import com.malmoim.mapper.RoomMapper;
 import com.malmoim.service.qna.QnaRoomService;
@@ -31,6 +32,7 @@ public class QnaRoomServiceImpl implements QnaRoomService {
 
     private final QnaRoomMapper qnaRoomMapper;
     private final MemberMapper memberMapper;
+    private final ParticipantMapper participantMapper;
     private final RoomMapper roomMapper;
     private final PasswordEncoder passwordEncoder;
     private final RoomService roomService;
@@ -142,7 +144,7 @@ public class QnaRoomServiceImpl implements QnaRoomService {
     public QnaRoomInfoResponse getParticipantQnaRoom(Long participantNo, Long roomNo) {
 
         //실제로 참여자가 그 방에 있는지 검사
-        Integer isMember = qnaRoomMapper.isParticipantOfThisRoom(participantNo, roomNo);
+        Integer isMember = participantMapper.isParticipantOfThisRoom(participantNo, roomNo);
         if (isMember == 0) {
             throw new AccessDeniedException("%d번 참여자가 %d번 방에 속해 있지 않습니다".formatted(participantNo,roomNo));
         }
