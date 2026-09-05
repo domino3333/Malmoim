@@ -15,6 +15,7 @@ import com.malmoim.service.room.RoomService;
 import com.malmoim.util.RoomCodeGenerator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -114,7 +115,7 @@ public class QnaRoomServiceImpl implements QnaRoomService {
         log.info("startVotingPhase 투표 시작 시간 :{}", startedAt);
 
         QnaRoom qnaRoom = qnaRoomMapper.selectQnaRoomByRoomNo(roomNo);
-        if(qnaRoom == null || qnaRoom.getStatus()!=QnaPhase.QUESTION_CLOSED){
+        if (qnaRoom == null || qnaRoom.getStatus() != QnaPhase.QUESTION_CLOSED) {
             throw new RuntimeException("현재 질문 종료 페이즈가 아니므로 투표를 시작할 수 없습니다.");
         }
 
@@ -132,8 +133,21 @@ public class QnaRoomServiceImpl implements QnaRoomService {
         qnaRoomMapper.updateQnaPhase(roomNo, status);
         QnaRoom room = qnaRoomMapper.selectQnaRoomByRoomNo(roomNo);
 
-        return new QnaPhaseResponse(roomNo,room.getStatus(),null,null);
+        return new QnaPhaseResponse(roomNo, room.getStatus(), null, null);
 
+
+    }
+
+    @Override
+    public QnaRoomInfoResponse getParticipantQnaRoom(Long participantNo, Long roomNo) {
+
+        //실제로 참여자가 그 방에 있는지 검사
+        Integer isMember = qnaRoomMapper.isParticipantOfThisRoom(participantNo, roomNo);
+        if(isMember == null) {
+            throw new AccessDeniedException("%d번 참여자가 %d번 방에 속해 있지 않습니다".formatted(participantNo,roomNo));
+        }
+
+        return getRoomByNo(roomNo);
 
     }
 

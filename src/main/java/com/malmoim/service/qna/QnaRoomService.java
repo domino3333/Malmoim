@@ -24,4 +24,5 @@ public interface QnaRoomService {
     //넘겨받은 status로 방의 상태를 업데이트
     QnaPhaseResponse updateQnaPhase(String hostEmail, long roomNo, QnaPhase status);
 
+    QnaRoomInfoResponse getParticipantQnaRoom(Long participantNo, Long roomNo);
 }
