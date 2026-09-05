@@ -143,7 +143,7 @@ public class QnaRoomServiceImpl implements QnaRoomService {
 
         //실제로 참여자가 그 방에 있는지 검사
         Integer isMember = qnaRoomMapper.isParticipantOfThisRoom(participantNo, roomNo);
-        if(isMember == null) {
+        if (isMember == 0) {
             throw new AccessDeniedException("%d번 참여자가 %d번 방에 속해 있지 않습니다".formatted(participantNo,roomNo));
         }
 
