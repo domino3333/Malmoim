@@ -41,9 +41,11 @@ public class QnaRoomServiceImpl implements QnaRoomService {
     @Transactional
     public void createQnaRoom(CreateQnaRoomRequest dto, String hostEmail) {
         String code = RoomCodeGenerator.generate();
-        log.info("random code:{}", code);
+        String encodedPassword = null;
+        if (dto.getPassword() != null) {
+            encodedPassword = passwordEncoder.encode(dto.getPassword());
+        }
 
-        String encodedPassword = passwordEncoder.encode(dto.getPassword());
 
         // code가 이미 존재한다면 다시 발급
         while (roomMapper.countRoomsByCode(code) >= 1) {
@@ -146,7 +148,7 @@ public class QnaRoomServiceImpl implements QnaRoomService {
         //실제로 참여자가 그 방에 있는지 검사
         Integer isMember = participantMapper.isParticipantOfThisRoom(participantNo, roomNo);
         if (isMember == 0) {
-            throw new AccessDeniedException("%d번 참여자가 %d번 방에 속해 있지 않습니다".formatted(participantNo,roomNo));
+            throw new AccessDeniedException("%d번 참여자가 %d번 방에 속해 있지 않습니다".formatted(participantNo, roomNo));
         }
 
         return getRoomByNo(roomNo);
