@@ -64,7 +64,7 @@ public class EntryServiceImpl implements EntryService {
     // 참가자 저장 및 발급된 참가자 번호 반환
     public JoinRoomResponse joinRoom(JoinRoomRequest dto) {
 
-        QnaRoomInfoResponse room = roomMapper.selectRoomByNo(dto.getRoomNo());
+        Room room = roomMapper.selectRoomForPasswordVerification(dto.getRoomNo());
 
         if (room == null) {
             throw new RuntimeException("방을 찾을 수 없습니다.");
