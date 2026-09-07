@@ -92,4 +92,7 @@
         where Q.room_no = #{roomNo}
     </select>
 
+    <select id="selectRoomForPasswordVerification" resultType="Room">
+        select * from room where no =#{roomNo}
+    </select>
 </mapper>
