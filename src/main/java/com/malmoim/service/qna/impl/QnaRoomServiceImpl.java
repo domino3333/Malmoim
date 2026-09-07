@@ -41,11 +41,12 @@ public class QnaRoomServiceImpl implements QnaRoomService {
     @Transactional
     public void createQnaRoom(CreateQnaRoomRequest dto, String hostEmail) {
         String code = RoomCodeGenerator.generate();
+
         String encodedPassword = null;
+
         if (dto.getPassword() != null) {
             encodedPassword = passwordEncoder.encode(dto.getPassword());
         }
-
 
         // code가 이미 존재한다면 다시 발급
         while (roomMapper.countRoomsByCode(code) >= 1) {
@@ -71,7 +72,7 @@ public class QnaRoomServiceImpl implements QnaRoomService {
 
         roomMapper.insertRoom(room);
 
-        // room에 종속받는 1:1 구조의 qna_room 생성
+        // room에 종속되는 1:1 구조의 qna_room 생성
         qnaRoomMapper.insertQnaRoom(QnaRoom.builder()
                 .roomNo(room.getNo())
                 .status(QnaPhase.READY)
