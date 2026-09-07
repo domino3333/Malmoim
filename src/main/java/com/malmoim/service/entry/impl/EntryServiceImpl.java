@@ -45,7 +45,7 @@ public class EntryServiceImpl implements EntryService {
     @Override
     // 입력한 비밀번호와 저장된 방 비밀번호 비교
     public CheckPasswordResponse verifyRoomPassword(CheckPasswordRequest dto) {
-        QnaRoomInfoResponse room = roomMapper.selectRoomByNo(dto.getRoomNo());
+        Room room = roomMapper.selectRoomForPasswordVerification(dto.getRoomNo());
 
         if (room == null) {
             throw new RuntimeException("방을 찾을 수 없습니다.");
