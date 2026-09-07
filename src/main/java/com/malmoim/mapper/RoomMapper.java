@@ -31,4 +31,9 @@ public interface RoomMapper {
 
     // 방 번호 기준 단일 방 조회
     QnaRoomInfoResponse selectRoomByNo(@Param("roomNo") Long roomNo);
+
+    Room selectRoomForPasswordVerification(Long roomNo);
+
+
+
 }
