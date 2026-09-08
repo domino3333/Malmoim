@@ -90,8 +90,9 @@ public class StompJwtChannelInterceptor implements ChannelInterceptor {
         }
 
         Authentication authentication;
+        String type = jwtTokenProvider.extractType(token);
 
-        if ("PARTICIPANT".equals(jwtTokenProvider.extractType(token))) {
+        if ("PARTICIPANT".equals(type)) {
             ParticipantPrincipal participant =
                     new ParticipantPrincipal(
                             jwtTokenProvider.extractRoomNo(token),
@@ -102,12 +103,15 @@ public class StompJwtChannelInterceptor implements ChannelInterceptor {
             authentication
                     = new UsernamePasswordAuthenticationToken(participant, null, participant.getAuthorities());
 
-        } else {
+        } else if(type ==null){
+            //호스트일 경우
             UserDetails member =
                     memberUserDetailsService.loadUserByUsername(jwtTokenProvider.extractEmail(token));
             authentication = new UsernamePasswordAuthenticationToken(member, null, member.getAuthorities());
-        }
+        } else{
+            throw new MessagingException("알 수 없는 사용자의 토큰입니다.");
 
+        }    
         // 현재 STOMP/WebSocket 세션의 사용자 정보로 등록
         // 이후 같은 연결에서 SEND 프레임이 오면 컨트롤러에서 인증정보로부터 사용자를 꺼낼 수 있음
         accessor.setUser(authentication);
