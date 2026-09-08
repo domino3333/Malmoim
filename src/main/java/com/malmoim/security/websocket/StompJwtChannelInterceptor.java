@@ -53,7 +53,7 @@ public class StompJwtChannelInterceptor implements ChannelInterceptor {
         }
 
         if (StompCommand.CONNECT.equals(accessor.getCommand())) {
-            authorizeConnect(accessor);
+            authenticateConnect(accessor);
         }
 
         if (StompCommand.SUBSCRIBE.equals(accessor.getCommand())) {
@@ -70,7 +70,7 @@ public class StompJwtChannelInterceptor implements ChannelInterceptor {
 
     }
 
-    private void authorizeConnect(StompHeaderAccessor accessor) {
+    private void authenticateConnect(StompHeaderAccessor accessor) {
 
         String header = accessor.getFirstNativeHeader("Authorization");
 
