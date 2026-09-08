@@ -185,17 +185,39 @@ public class StompJwtChannelInterceptor implements ChannelInterceptor {
         }
 
         if (principal instanceof MemberPrincipal member) {
-            try {
-                roomService.validateRoomOwnership(requestedRoomNo, member.getUsername());
-            } catch (AccessDeniedException e) {
-                throw new MessagingException("소유하지 않은 방의 채널은 구독할 수 없습니다", e);
-            }
+            roomService.validateRoomOwnership(requestedRoomNo, member.getUsername());
             return;
         }
 
         throw new MessagingException("구독 권한을 확인할 수 없는 사용자입니다.");
 
         }
+
+
+
+        private void authorizeSend(StompHeaderAccessor accessor){
+            Authentication authentication = requireAuthentication(accessor);
+
+            String destination = accessor.getDestination();
+
+            if(destination == null){
+                throw new MessagingException("메세지의 목적지가 없습니다.");
+            }
+
+            //클라이언트가 브로커 채널에 직접 메시지를 보내는 행위 차단
+            if(destination.startsWith("/topic")){
+                throw new MessagingException("/topic 채널로 직접 발행할 수 없습니다.");
+            }
+
+
+
+
+        }
+
+
+
+
+
 
 
 
