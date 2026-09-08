@@ -191,34 +191,33 @@ public class StompJwtChannelInterceptor implements ChannelInterceptor {
 
         throw new MessagingException("구독 권한을 확인할 수 없는 사용자입니다.");
 
+    }
+
+
+    private void authorizeSend(StompHeaderAccessor accessor) {
+        Authentication authentication = requireAuthentication(accessor);
+
+        String destination = accessor.getDestination();
+
+        if (destination == null) {
+            throw new MessagingException("메세지의 목적지가 없습니다.");
         }
 
-
-
-        private void authorizeSend(StompHeaderAccessor accessor){
-            Authentication authentication = requireAuthentication(accessor);
-
-            String destination = accessor.getDestination();
-
-            if(destination == null){
-                throw new MessagingException("메세지의 목적지가 없습니다.");
-            }
-
-            //클라이언트가 브로커 채널에 직접 메시지를 보내는 행위 차단
-            if(destination.startsWith("/topic")){
-                throw new MessagingException("/topic 채널로 직접 발행할 수 없습니다.");
-            }
-
-
-
-
+        //클라이언트가 브로커 채널에 직접 메시지를 보내는 행위 차단
+        if (destination.startsWith("/topic")) {
+            throw new MessagingException("/topic 채널로 직접 발행할 수 없습니다.");
         }
 
+        if ("/app/qna/register".equals(destination)) {
+            if (!(authentication.getPrincipal() instanceof ParticipantPrincipal)) {
+                throw new MessagingException("참여자만 질문을 등록할 수 있습니다.");
+            }
+            return;
+        }
 
-
-
-
-
-
+        throw new MessagingException("허용되지 않은 메시지 목적지입니다.");
 
     }
+
+
+}
