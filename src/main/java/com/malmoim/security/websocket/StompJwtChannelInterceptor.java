@@ -19,6 +19,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
+import java.nio.file.AccessDeniedException;
+import java.util.Objects;
+
 @Component
 @RequiredArgsConstructor
 public class StompJwtChannelInterceptor implements ChannelInterceptor {
@@ -46,22 +49,21 @@ public class StompJwtChannelInterceptor implements ChannelInterceptor {
 
          */
 
-        if(accessor == null ||  accessor.getCommand() ==null){
+        if (accessor == null || accessor.getCommand() == null) {
             return message;
         }
 
         if (StompCommand.CONNECT.equals(accessor.getCommand())) {
             authenticateConnect(accessor);
         }
-        
-        if(StompCommand.SUBSCRIBE.equals(accessor.getCommand())){
+
+        if (StompCommand.SUBSCRIBE.equals(accessor.getCommand())) {
             authenticateSubscribe(accessor);
         }
-        
-        if(StompCommand.SEND.equals(accessor.getCommand())){
+
+        if (StompCommand.SEND.equals(accessor.getCommand())) {
             authenticateSend(accessor);
         }
-
 
 
         //검사가 끝난 connect 메시지를 다음 처리단계로 통과시킴
@@ -73,10 +75,10 @@ public class StompJwtChannelInterceptor implements ChannelInterceptor {
     }
 
     private void authenticateSubscribe(StompHeaderAccessor accessor) {
-        
+
     }
 
-    private void authenticateConnect(StompHeaderAccessor accessor){
+    private void authenticateConnect(StompHeaderAccessor accessor) {
 
         String header = accessor.getFirstNativeHeader("Authorization");
 
@@ -103,12 +105,12 @@ public class StompJwtChannelInterceptor implements ChannelInterceptor {
             authentication
                     = new UsernamePasswordAuthenticationToken(participant, null, participant.getAuthorities());
 
-        } else if(type ==null){
+        } else if (type == null) {
             //호스트일 경우
             UserDetails member =
                     memberUserDetailsService.loadUserByUsername(jwtTokenProvider.extractEmail(token));
             authentication = new UsernamePasswordAuthenticationToken(member, null, member.getAuthorities());
-        } else{
+        } else {
             throw new MessagingException("알 수 없는 사용자의 토큰입니다.");
 
         }
@@ -117,7 +119,7 @@ public class StompJwtChannelInterceptor implements ChannelInterceptor {
         accessor.setUser(authentication);
     }
 
-    private Authentication requireAuthentication(StompHeaderAccessor accessor){
+    private Authentication requireAuthentication(StompHeaderAccessor accessor) {
         if (!(accessor.getUser()
                 instanceof Authentication authentication)
                 || !authentication.isAuthenticated()) {
@@ -131,41 +133,70 @@ public class StompJwtChannelInterceptor implements ChannelInterceptor {
     }
 
 
-    private long extractQnaRoomNo(String destination){
+    private long extractQnaRoomNo(String destination) {
         String prefix = "/topic/qna/";
 
-        if(destination == null || !destination.startsWith(prefix)){
-           throw new MessagingException("허용되지 않은 웹소켓 구독 주소입니다.");
+        if (destination == null || !destination.startsWith(prefix)) {
+            throw new MessagingException("허용되지 않은 웹소켓 구독 주소입니다.");
         }
 
         String remainingPath = destination.substring(prefix.length());
 
-        String[] parts = remainingPath.split("/",-1);
+        String[] parts = remainingPath.split("/", -1);
 
-        if(parts.length ==0 || parts[0].isBlank()|| parts.length>2 ){
+        if (parts.length == 0 || parts[0].isBlank() || parts.length > 2) {
             throw new MessagingException("잘못된 웹소켓 구독 주소입니다.");
         }
 
-        if(parts.length == 2){
+        if (parts.length == 2) {
             String suffix = parts[1];
 
             boolean allowedSuffix = "phase".equals(suffix)
                     || "participants".equals(suffix) || "result".equals(suffix);
 
-            if(!allowedSuffix){
+            if (!allowedSuffix) {
                 throw new MessagingException("허용되지 않은 QnA 채널입니다.");
             }
 
         }
 
-        try{
+        try {
             return Long.parseLong(parts[0]);
-        } catch (NumberFormatException e){
-            throw new MessagingException("구독 주소의 방 번호가 잘못되었습니다.",e);
+        } catch (NumberFormatException e) {
+            throw new MessagingException("구독 주소의 방 번호가 잘못되었습니다.", e);
         }
 
     }
 
 
+    private void authorizeSubscribe(StompHeaderAccessor accessor) {
+        Authentication authentication = requireAuthentication(accessor);
 
-}
+        long requestedRoomNo = extractQnaRoomNo(accessor.getDestination());
+        Object principal = authentication.getPrincipal();
+
+
+        if (principal instanceof ParticipantPrincipal participant) {
+
+            if (!Objects.equals(participant.getRoomNo(), requestedRoomNo)) {
+                throw new MessagingException("다른 방의 채널은 구독할 수 없습니다.");
+            }
+            return;
+        }
+
+        if (principal instanceof MemberPrincipal member) {
+            try {
+                roomService.validateRoomOwnership(requestedRoomNo, member.getUsername());
+            } catch (AccessDeniedException e) {
+                throw new MessagingException("소유하지 않은 방의 채널은 구독할 수 없습니다", e);
+            }
+            return;
+        }
+
+        throw new MessagingException("구독 권한을 확인할 수 없는 사용자입니다.");
+
+        }
+
+
+
+    }
