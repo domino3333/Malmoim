@@ -131,6 +131,40 @@ public class StompJwtChannelInterceptor implements ChannelInterceptor {
     }
 
 
+    private long extractQnaRoomNo(String destination){
+        String prefix = "/topic/qna/";
+
+        if(destination == null || !destination.startsWith(prefix)){
+           throw new MessagingException("허용되지 않은 웹소켓 구독 주소입니다.");
+        }
+
+        String remainingPath = destination.substring(prefix.length());
+
+        String[] parts = remainingPath.split("/",-1);
+
+        if(parts.length ==0 || parts[0].isBlank()|| parts.length>2 ){
+            throw new MessagingException("잘못된 웹소켓 구독 주소입니다.");
+        }
+
+        if(parts.length == 2){
+            String suffix = parts[1];
+
+            boolean allowedSuffix = "phase".equals(suffix)
+                    || "participants".equals(suffix) || "result".equals(suffix);
+
+            if(!allowedSuffix){
+                throw new MessagingException("허용되지 않은 QnA 채널입니다.");
+            }
+
+        }
+
+        try{
+            return Long.parseLong(parts[0]);
+        } catch (NumberFormatException e){
+            throw new MessagingException("구독 주소의 방 번호가 잘못되었습니다.",e);
+        }
+
+    }
 
 
 
