@@ -4,6 +4,7 @@ import com.malmoim.security.MemberPrincipal;
 import com.malmoim.security.MemberUserDetailsService;
 import com.malmoim.security.ParticipantPrincipal;
 import com.malmoim.security.jwt.JwtTokenProvider;
+import com.malmoim.service.room.RoomService;
 import lombok.RequiredArgsConstructor;
 import org.jspecify.annotations.Nullable;
 import org.springframework.messaging.Message;
@@ -25,6 +26,7 @@ public class StompJwtChannelInterceptor implements ChannelInterceptor {
 
     private final JwtTokenProvider jwtTokenProvider;
     private final MemberUserDetailsService memberUserDetailsService;
+    private final RoomService roomService;
 
 
     @Override
@@ -44,10 +46,23 @@ public class StompJwtChannelInterceptor implements ChannelInterceptor {
 
          */
 
-        // connect일때는 jwt를 검사하는데, 다른 명령일 때는 검사하지 않고 message 바로 리턴
-        if (accessor == null || !StompCommand.CONNECT.equals(accessor.getCommand())) {
+        if(accessor == null ||  accessor.getCommand() ==null){
             return message;
         }
+
+
+        if (StompCommand.CONNECT.equals(accessor.getCommand())) {
+            authenticateConnect(accessor);
+        }
+
+
+
+        //검사가 끝난 connect 메시지를 다음 처리단계로 통과시킴
+        return message;
+
+    }
+
+    private void authenticateConnect(StompHeaderAccessor accessor){
 
         String header = accessor.getFirstNativeHeader("Authorization");
 
@@ -82,10 +97,10 @@ public class StompJwtChannelInterceptor implements ChannelInterceptor {
         // 현재 STOMP/WebSocket 세션의 사용자 정보로 등록
         // 이후 같은 연결에서 SEND 프레임이 오면 컨트롤러에서 인증정보로부터 사용자를 꺼낼 수 있음
         accessor.setUser(authentication);
-
-
-        //검사가 끝난 connect 메시지를 다음 처리단계로 통과시킴
-        return message;
-
     }
+
+
+
+
+
 }
