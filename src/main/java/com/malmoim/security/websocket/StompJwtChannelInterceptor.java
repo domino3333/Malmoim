@@ -111,10 +111,23 @@ public class StompJwtChannelInterceptor implements ChannelInterceptor {
         } else{
             throw new MessagingException("알 수 없는 사용자의 토큰입니다.");
 
-        }    
+        }
         // 현재 STOMP/WebSocket 세션의 사용자 정보로 등록
         // 이후 같은 연결에서 SEND 프레임이 오면 컨트롤러에서 인증정보로부터 사용자를 꺼낼 수 있음
         accessor.setUser(authentication);
+    }
+
+    private Authentication requireAuthentication(StompHeaderAccessor accessor){
+        if (!(accessor.getUser()
+                instanceof Authentication authentication)
+                || !authentication.isAuthenticated()) {
+
+            throw new MessagingException(
+                    "인증되지 않은 WebSocket 요청입니다"
+            );
+        }
+
+        return authentication;
     }
 
 
