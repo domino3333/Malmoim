@@ -3,15 +3,12 @@ package com.malmoim.service.qna.impl;
 import com.malmoim.domain.QnaPhase;
 import com.malmoim.domain.QnaRoom;
 import com.malmoim.domain.Question;
-import com.malmoim.dto.qna.phase.AnsweringResultResponse;
-import com.malmoim.dto.qna.phase.QnaPhaseResponse;
 import com.malmoim.dto.qna.presence.ParticipantPresenceResponse;
 import com.malmoim.dto.qna.question.QuestionCreatedMessage;
 import com.malmoim.dto.qna.question.QuestionResponse;
 import com.malmoim.dto.qna.vote.VoteResultResponse;
 import com.malmoim.mapper.QnaRoomMapper;
 import com.malmoim.mapper.QuestionMapper;
-import com.malmoim.service.qna.QnaRoomService;
 import com.malmoim.service.qna.QuestionService;
 import com.malmoim.service.room.RoomService;
 import lombok.RequiredArgsConstructor;
@@ -32,7 +29,6 @@ public class QuestionServiceImpl implements QuestionService {
 
     private final QuestionMapper questionMapper;
     private final QnaRoomMapper qnaRoomMapper;
-    private final QnaRoomService qnaRoomService;
     private final RoomService roomService;
 
     @Override
@@ -89,27 +85,6 @@ public class QuestionServiceImpl implements QuestionService {
     public List<VoteResultResponse> getSortedQuestionList(long roomNo) {
 
         return questionMapper.getSortedQuestionListByRoomNo(roomNo);
-    }
-
-    @Override
-    @Transactional
-    public AnsweringResultResponse revealResults(String hostEmail, long roomNo) {
-
-        roomService.validateRoomOwnership(roomNo, hostEmail);
-
-        //방의 현 상태가 투표 종료인지 검사
-        QnaRoom qnaRoom = qnaRoomMapper.selectQnaRoomByRoomNo(roomNo);
-        if(qnaRoom == null || qnaRoom.getStatus()!=QnaPhase.VOTING_CLOSED){
-            throw new RuntimeException("방의 현 status가 투표 종료 상태가 아닙니다.");
-        }
-
-        QnaPhaseResponse qnaPhaseResponse = qnaRoomService.updateQnaPhase(hostEmail, roomNo, QnaPhase.ANSWERING);
-        List<VoteResultResponse> list = getSortedQuestionList(roomNo);
-
-
-        
-        return new AnsweringResultResponse(qnaPhaseResponse,list);
-
     }
 
 

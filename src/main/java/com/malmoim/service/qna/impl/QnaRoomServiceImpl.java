@@ -4,14 +4,17 @@ import com.malmoim.domain.Member;
 import com.malmoim.domain.QnaPhase;
 import com.malmoim.domain.QnaRoom;
 import com.malmoim.domain.Room;
+import com.malmoim.dto.qna.phase.AnsweringResultResponse;
 import com.malmoim.dto.qna.phase.QnaPhaseResponse;
 import com.malmoim.dto.qna.room.CreateQnaRoomRequest;
 import com.malmoim.dto.qna.room.QnaRoomInfoResponse;
+import com.malmoim.dto.qna.vote.VoteResultResponse;
 import com.malmoim.mapper.MemberMapper;
 import com.malmoim.mapper.ParticipantMapper;
 import com.malmoim.mapper.QnaRoomMapper;
 import com.malmoim.mapper.RoomMapper;
 import com.malmoim.service.qna.QnaRoomService;
+import com.malmoim.service.qna.QuestionService;
 import com.malmoim.service.room.RoomService;
 import com.malmoim.util.RoomCodeGenerator;
 import lombok.RequiredArgsConstructor;
@@ -36,6 +39,7 @@ public class QnaRoomServiceImpl implements QnaRoomService {
     private final RoomMapper roomMapper;
     private final PasswordEncoder passwordEncoder;
     private final RoomService roomService;
+    private final QuestionService questionService;
 
     @Override
     @Transactional
@@ -84,13 +88,13 @@ public class QnaRoomServiceImpl implements QnaRoomService {
     public QnaRoomInfoResponse getOwnedRoomByNo(long roomNo, String hostEmail) {
         roomService.validateRoomOwnership(roomNo, hostEmail);
 
-        return roomMapper.selectRoomByNo(roomNo);
+        return qnaRoomMapper.selectQnaRoomInfoByRoomNo(roomNo);
     }
 
     @Override
     // 방 번호 기준 단일 Q&A 방 조회
     public QnaRoomInfoResponse getRoomByNo(Long roomNo) {
-        return roomMapper.selectRoomByNo(roomNo);
+        return qnaRoomMapper.selectQnaRoomInfoByRoomNo(roomNo);
     }
 
     @Override
@@ -141,6 +145,23 @@ public class QnaRoomServiceImpl implements QnaRoomService {
         return new QnaPhaseResponse(roomNo, room.getStatus(), null, null);
 
 
+    }
+
+    @Override
+    @Transactional
+    public AnsweringResultResponse revealResults(String hostEmail, long roomNo) {
+        roomService.validateRoomOwnership(roomNo, hostEmail);
+
+        // 방의 현재 상태가 투표 종료인지 검사
+        QnaRoom qnaRoom = qnaRoomMapper.selectQnaRoomByRoomNo(roomNo);
+        if (qnaRoom == null || qnaRoom.getStatus() != QnaPhase.VOTING_CLOSED) {
+            throw new RuntimeException("방의 현 status가 투표 종료 상태가 아닙니다.");
+        }
+
+        QnaPhaseResponse qnaPhaseResponse = updateQnaPhase(hostEmail, roomNo, QnaPhase.ANSWERING);
+        List<VoteResultResponse> list = questionService.getSortedQuestionList(roomNo);
+
+        return new AnsweringResultResponse(qnaPhaseResponse, list);
     }
 
     @Override

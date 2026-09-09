@@ -117,7 +117,7 @@ public class HostQnaController {
 
         String hostEmail = authentication.getName();
 
-        AnsweringResultResponse voteResultResponse = questionService.revealResults(hostEmail,roomNo);
+        AnsweringResultResponse voteResultResponse = qnaRoomService.revealResults(hostEmail,roomNo);
 
         //ANSWERING 상태가 되었다고 알람을 보내주기
         simpMessagingTemplate.convertAndSend("/topic/qna/"+roomNo+"/phase",voteResultResponse.getQnaPhaseResponse());

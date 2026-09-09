@@ -89,8 +89,7 @@ class HostRoomOwnershipTest {
         room.setHostNo(7L);
         room.setTitle("Test room");
         room.setStatus(QnaPhase.READY);
-        when(roomMapper.selectRoomByNoAndHostNo(ROOM_NO, 7L)).thenReturn(room);
-        when(roomMapper.selectRoomByNo(ROOM_NO)).thenReturn(room);
+        when(qnaRoomMapper.selectQnaRoomInfoByRoomNo(ROOM_NO)).thenReturn(room);
 
         qnaRoom = QnaRoom.builder().roomNo(ROOM_NO).status(QnaPhase.VOTING_CLOSED).build();
         when(qnaRoomMapper.selectQnaRoomByRoomNo(ROOM_NO)).thenReturn(qnaRoom);
