@@ -26,8 +26,6 @@ public class RoomController {
         String hostEmail = authentication.getName();
         MyRoomsResponse dto = roomService.getMyRooms(hostEmail,page,size);
 
-        log.info("MyRoomsResponse:{}",dto);
-
         return ResponseEntity.ok(dto);
     }
 
