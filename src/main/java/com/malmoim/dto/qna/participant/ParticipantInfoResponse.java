@@ -1,4 +1,4 @@
-package com.malmoim.dto.qna.presence;
+package com.malmoim.dto.qna.participant;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

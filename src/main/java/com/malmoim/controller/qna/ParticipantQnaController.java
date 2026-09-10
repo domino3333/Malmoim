@@ -1,6 +1,6 @@
 package com.malmoim.controller.qna;
 
-import com.malmoim.dto.qna.presence.ParticipantInfoResponse;
+import com.malmoim.dto.qna.participant.ParticipantInfoResponse;
 import com.malmoim.dto.qna.presence.ParticipantPresenceResponse;
 import com.malmoim.dto.qna.question.QuestionResponse;
 import com.malmoim.dto.qna.room.QnaRoomInfoResponse;
