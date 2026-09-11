@@ -9,7 +9,7 @@
         values(#{hostNo},#{title},#{code},#{capacity},#{password},#{visibility},#{type})
     </insert>
 
-    <select id="selectRoomsByHostNo" resultType="Room">
+    <select id="selectRoomsByHostNo" resultType="com.malmoim.dto.room.MyRoomResponse">
         select no,
                host_no,
                title,
