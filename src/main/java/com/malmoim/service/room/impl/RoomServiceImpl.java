@@ -1,7 +1,6 @@
 package com.malmoim.service.room.impl;
 
 import com.malmoim.domain.Member;
-import com.malmoim.domain.Room;
 import com.malmoim.dto.room.MyRoomResponse;
 import com.malmoim.dto.room.MyRoomsResponse;
 import com.malmoim.mapper.MemberMapper;
@@ -12,7 +11,6 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
