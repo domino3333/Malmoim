@@ -19,6 +19,7 @@ import com.malmoim.service.room.RoomService;
 import com.malmoim.util.RoomCodeGenerator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cglib.core.Local;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -26,6 +27,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -176,5 +178,35 @@ public class QnaRoomServiceImpl implements QnaRoomService {
         return getRoomByNo(roomNo);
 
     }
+
+    @Override
+    public List<QnaPhaseResponse> closeExpiredPhases() {
+
+        List<QnaPhaseResponse> response = new ArrayList<>();
+
+        LocalDateTime now = LocalDateTime.now();
+
+        List<Long> expiredQuestionPhaseRoomNos = qnaRoomMapper.selectExpiredQuestionPhaseRoomNos(now);
+
+        for(Long no : expiredQuestionPhaseRoomNos){
+            int updateRow = qnaRoomMapper.closeExpiredQuestionPhase(no,now);
+            if(updateRow ==1){
+                response.add(new QnaPhaseResponse(no,QnaPhase.QUESTION_CLOSED,null,null));
+            }
+        }
+
+        List<Long> expiredVotingPhaseRoomNos = qnaRoomMapper.selectExpiredVotingPhaseRoomNos(now);
+
+        for(Long no : expiredVotingPhaseRoomNos){
+            int updateRow = qnaRoomMapper.closeExpiredVotingPhase(no,now);
+            if(updateRow ==1){
+                response.add(new QnaPhaseResponse(no,QnaPhase.VOTING_CLOSED,null,null));
+            }
+        }
+
+        return response;
+
+    }
+
 
 }

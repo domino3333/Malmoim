@@ -6,6 +6,8 @@ import com.malmoim.dto.qna.phase.QnaPhaseResponse;
 import com.malmoim.dto.qna.room.CreateQnaRoomRequest;
 import com.malmoim.dto.qna.room.QnaRoomInfoResponse;
 
+import java.util.List;
+
 public interface QnaRoomService {
 
     void createQnaRoom(CreateQnaRoomRequest dto, String hostEmail);
@@ -29,4 +31,6 @@ public interface QnaRoomService {
     AnsweringResultResponse revealResults(String hostEmail, long roomNo);
 
     QnaRoomInfoResponse getParticipantQnaRoom(Long participantNo, Long roomNo);
+
+    List<QnaPhaseResponse> closeExpiredPhases();
 }
