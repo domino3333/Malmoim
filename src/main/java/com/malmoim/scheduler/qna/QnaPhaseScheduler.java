@@ -25,7 +25,7 @@ public class QnaPhaseScheduler {
 
         for(QnaPhaseResponse response:closedPhases){
 
-            simpMessagingTemplate.convertAndSend("/topic/qna"+response.getRoomNo()+"/phase",response);
+            simpMessagingTemplate.convertAndSend("/topic/qna/"+response.getRoomNo()+"/phase",response);
 
             log.info("스케쥴러에 의해 qna room 자동 종료된 방:{}",response.getRoomNo());
         }
