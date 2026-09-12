@@ -121,7 +121,7 @@ public class HostQnaController {
 
         //ANSWERING 상태가 되었다고 알람을 보내주기
         simpMessagingTemplate.convertAndSend("/topic/qna/"+roomNo+"/phase",voteResultResponse.getQnaPhaseResponse());
-        //웹소켓으로 정렬된  질문 리스트 내려주기
+        //웹소켓으로 정렬된 질문 리스트 내려주기
         simpMessagingTemplate.convertAndSend("/topic/qna/"+roomNo+"/result",voteResultResponse.getQuestions());
 
         return ResponseEntity.ok(voteResultResponse);
