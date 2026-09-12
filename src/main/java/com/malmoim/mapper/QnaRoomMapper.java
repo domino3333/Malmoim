@@ -42,4 +42,6 @@ public interface QnaRoomMapper {
     //투표 시간이 종료된 방들을 받아옴
     List<Long> selectExpiredVotingPhaseRoomNos(@Param("now")LocalDateTime now);
 
+    //질문이 시간이 만료된 방의 상태를 question_closed로 바꾸는 매퍼
+    int closeExpiredQuestionPhase(Long roomNo, LocalDateTime now);
 }

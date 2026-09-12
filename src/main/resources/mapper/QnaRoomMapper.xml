@@ -102,4 +102,12 @@
         where status='VOTING_OPEN'
           and voting_ended_at &lt;= #{now}
     </select>
+
+    <update id="closeExpiredQuestionPhase">
+        update qna_room set status='QUESTION_CLOSED'
+            where room_no=#{roomNo}
+                and status = 'QUESTION_OPEN'
+                and question_ended_at &lt;= #{now}
+
+    </update>
 </mapper>
