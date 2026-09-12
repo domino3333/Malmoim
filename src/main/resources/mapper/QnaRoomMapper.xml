@@ -115,6 +115,6 @@
         update qna_room set status='VOTING_CLOSED'
             where room_no=#{roomNo}
                 and status = 'VOTING_OPEN'
-                and question_ended_at &lt;= #{now}
+                and voting_ended_at &lt;= #{now}
     </update>
 </mapper>
