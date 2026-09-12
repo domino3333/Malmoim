@@ -13,6 +13,7 @@ import com.malmoim.service.qna.QuestionService;
 import com.malmoim.service.room.RoomService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cglib.core.Local;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -37,7 +38,9 @@ public class QuestionServiceImpl implements QuestionService {
 
         QnaRoom qnaRoom = qnaRoomMapper.selectQnaRoomByRoomNo(roomNo);
 
-        if (qnaRoom == null || qnaRoom.getStatus() != QnaPhase.QUESTION_OPEN) {
+        LocalDateTime now = LocalDateTime.now();
+        if (qnaRoom == null || qnaRoom.getStatus() != QnaPhase.QUESTION_OPEN
+            || !now.isBefore(qnaRoom.getQuestionEndedAt())) {
             throw new RuntimeException("질문 등록이 가능한 상태가 아닙니다");
         }
 
