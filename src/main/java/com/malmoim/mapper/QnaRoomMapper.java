@@ -8,6 +8,7 @@ import com.malmoim.dto.qna.room.QnaRoomInfoResponse;
 import org.apache.ibatis.annotations.Param;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 public interface QnaRoomMapper {
 
@@ -31,4 +32,14 @@ public interface QnaRoomMapper {
     QnaRoom selectQnaRoomByRoomNo(long roomNo);
 
     void updateVotingPeriod(long roomNo, LocalDateTime startedAt, LocalDateTime endedAt);
+
+    /**
+    *  시간이 만료된 방을 db에서 검증해서 내려주기 위해 추가한 매퍼
+    * */
+    //질문 시간이 종료된 방들을 받아옴
+    List<Long> selectExpiredQuestionPhaseRoomNos(@Param("now")LocalDateTime now);
+
+    //투표 시간이 종료된 방들을 받아옴
+    List<Long> selectExpiredVotingPhaseRoomNos(@Param("now")LocalDateTime now);
+
 }

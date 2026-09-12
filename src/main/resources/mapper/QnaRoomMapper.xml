@@ -91,4 +91,9 @@
         where room_no = #{roomNo}
     </update>
 
+    <select id="selectExpiredQuestionPhaseRoomNos" resultType="Long">
+        select room_no from qna_room
+        where status='QUESTION_OPEN'
+          and question_ended_at &lt;= #{now}
+    </select>
 </mapper>
