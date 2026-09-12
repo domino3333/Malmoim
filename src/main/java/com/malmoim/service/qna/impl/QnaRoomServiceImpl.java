@@ -180,6 +180,7 @@ public class QnaRoomServiceImpl implements QnaRoomService {
     }
 
     @Override
+    @Transactional
     public List<QnaPhaseResponse> closeExpiredPhases() {
 
         List<QnaPhaseResponse> response = new ArrayList<>();
