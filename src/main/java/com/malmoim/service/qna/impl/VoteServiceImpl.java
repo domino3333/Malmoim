@@ -7,8 +7,11 @@ import com.malmoim.mapper.QuestionMapper;
 import com.malmoim.mapper.VoteMapper;
 import com.malmoim.service.qna.VoteService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDateTime;
 
 @Service
 @RequiredArgsConstructor
@@ -21,13 +24,13 @@ public class VoteServiceImpl implements VoteService {
 
     @Override
     @Transactional
-    public void castVote(long roomNo,long questionNo, Long participantNo) {
+    public void castVote(long roomNo, long questionNo, Long participantNo) {
 
         // questionNo를 받았을 때 그 질문이 실제로 넘겨받은 roomNo에 있는지 검증
-        Integer isExistsQuestion = questionMapper.isExistsQuestionInTheRoom(roomNo,questionNo);
+        Integer isExistsQuestion = questionMapper.isExistsQuestionInTheRoom(roomNo, questionNo);
 
-        if(isExistsQuestion==0){
-            throw new RuntimeException("%d번 질문에 해당하는 방이 %d번방에 존재하지 않습니다".formatted(questionNo,roomNo));
+        if (isExistsQuestion == 0) {
+            throw new RuntimeException("%d번 질문에 해당하는 방이 %d번방에 존재하지 않습니다".formatted(questionNo, roomNo));
         }
 
 
@@ -35,11 +38,12 @@ public class VoteServiceImpl implements VoteService {
 
         QnaPhase status = qnaRoom.getStatus();
 
-        if(status != QnaPhase.VOTING_OPEN){
-            throw new RuntimeException("현재 방의 status가 voting_open이 아닙니다");
+        LocalDateTime now = LocalDateTime.now();
+        if (status != QnaPhase.VOTING_OPEN || !now.isBefore(qnaRoom.getQuestionEndedAt())) {
+            throw new RuntimeException("현재, 투표가 가능한 상태가 아닙니다.");
         }
 
-        voteMapper.castVote(questionNo,participantNo);
+        voteMapper.castVote(questionNo, participantNo);
         questionMapper.incrementVoteCount(questionNo);
 
 
