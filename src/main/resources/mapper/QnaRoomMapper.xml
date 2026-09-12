@@ -96,4 +96,10 @@
         where status='QUESTION_OPEN'
           and question_ended_at &lt;= #{now}
     </select>
+
+    <select id="selectExpiredVotingPhaseRoomNos" resultType="Long">
+        select room_no from qna_room
+        where status='VOTING_OPEN'
+          and voting_ended_at &lt;= #{now}
+    </select>
 </mapper>
