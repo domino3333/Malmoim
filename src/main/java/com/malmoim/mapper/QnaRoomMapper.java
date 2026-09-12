@@ -43,8 +43,8 @@ public interface QnaRoomMapper {
     List<Long> selectExpiredVotingPhaseRoomNos(@Param("now")LocalDateTime now);
 
     //질문 시간이 만료된 방의 상태를 question_closed로 바꾸는 매퍼
-    int closeExpiredQuestionPhase(Long roomNo, LocalDateTime now);
+    int closeExpiredQuestionPhase(@Param("roomNo") Long roomNo, @Param("now") LocalDateTime now);
 
     //투표 시간이 만료된 방의 상태를 voting_closed로 바꾸는 매퍼
-    int closeExpiredVotingPhase(Long roomNo, LocalDateTime now);
+    int closeExpiredVotingPhase(@Param("roomNo") Long roomNo, @Param("now") LocalDateTime now);
 }

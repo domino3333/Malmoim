@@ -39,7 +39,7 @@ public class VoteServiceImpl implements VoteService {
         QnaPhase status = qnaRoom.getStatus();
 
         LocalDateTime now = LocalDateTime.now();
-        if (status != QnaPhase.VOTING_OPEN || !now.isBefore(qnaRoom.getQuestionEndedAt())) {
+        if (status != QnaPhase.VOTING_OPEN || !now.isBefore(qnaRoom.getVotingEndedAt())) {
             throw new RuntimeException("현재, 투표가 가능한 상태가 아닙니다.");
         }
 

@@ -1,7 +1,7 @@
 package com.malmoim.service.room;
 
 import com.malmoim.domain.Member;
-import com.malmoim.domain.Room;
+import com.malmoim.dto.room.MyRoomResponse;
 import com.malmoim.dto.room.MyRoomsResponse;
 import com.malmoim.mapper.MemberMapper;
 import com.malmoim.mapper.RoomMapper;
@@ -26,13 +26,12 @@ class RoomServiceImplTest {
         RoomServiceImpl roomService = new RoomServiceImpl(roomMapper, memberMapper);
 
         Member host = Member.builder().no(7L).email("host@example.test").build();
-        Room room = Room.builder()
+        MyRoomResponse room = MyRoomResponse.builder()
                 .no(43L)
                 .hostNo(7L)
                 .title("Q&A room")
                 .code("ABC123")
                 .capacity(30)
-                .password("encoded-password")
                 .type("QNA")
                 .visibility("PRIVATE")
                 .build();
