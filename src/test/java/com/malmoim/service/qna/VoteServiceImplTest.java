@@ -30,7 +30,7 @@ class VoteServiceImplTest {
                 .questionEndedAt(now.minusHours(1))
                 .votingEndedAt(now.plusHours(1))
                 .build();
-        when(questionMapper.isExistsQuestionInTheRoom(43L, 10L)).thenReturn(1);
+        when(questionMapper.existsByRoomNoAndQuestionNo(43L, 10L)).thenReturn(1);
         when(qnaRoomMapper.selectQnaRoomByRoomNo(43L)).thenReturn(room);
 
         voteService.castVote(43L, 10L, 99L);
@@ -48,7 +48,7 @@ class VoteServiceImplTest {
                 .questionEndedAt(now.minusHours(2))
                 .votingEndedAt(now.minusHours(1))
                 .build();
-        when(questionMapper.isExistsQuestionInTheRoom(43L, 10L)).thenReturn(1);
+        when(questionMapper.existsByRoomNoAndQuestionNo(43L, 10L)).thenReturn(1);
         when(qnaRoomMapper.selectQnaRoomByRoomNo(43L)).thenReturn(room);
 
         assertThatThrownBy(() -> voteService.castVote(43L, 10L, 99L))

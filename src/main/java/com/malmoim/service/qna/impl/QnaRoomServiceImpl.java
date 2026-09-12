@@ -183,29 +183,29 @@ public class QnaRoomServiceImpl implements QnaRoomService {
     @Transactional
     public List<QnaPhaseResponse> closeExpiredPhases() {
 
-        List<QnaPhaseResponse> response = new ArrayList<>();
+        List<QnaPhaseResponse> closedPhases = new ArrayList<>();
 
         LocalDateTime now = LocalDateTime.now();
 
         List<Long> expiredQuestionPhaseRoomNos = qnaRoomMapper.selectExpiredQuestionPhaseRoomNos(now);
 
         for(Long no : expiredQuestionPhaseRoomNos){
-            int updateRow = qnaRoomMapper.closeExpiredQuestionPhase(no,now);
-            if(updateRow ==1){
-                response.add(new QnaPhaseResponse(no,QnaPhase.QUESTION_CLOSED,null,null));
+            int updatedRows = qnaRoomMapper.closeExpiredQuestionPhase(no,now);
+            if(updatedRows ==1){
+                closedPhases.add(new QnaPhaseResponse(no,QnaPhase.QUESTION_CLOSED,null,null));
             }
         }
 
         List<Long> expiredVotingPhaseRoomNos = qnaRoomMapper.selectExpiredVotingPhaseRoomNos(now);
 
         for(Long no : expiredVotingPhaseRoomNos){
-            int updateRow = qnaRoomMapper.closeExpiredVotingPhase(no,now);
-            if(updateRow ==1){
-                response.add(new QnaPhaseResponse(no,QnaPhase.VOTING_CLOSED,null,null));
+            int updatedRows = qnaRoomMapper.closeExpiredVotingPhase(no,now);
+            if(updatedRows ==1){
+                closedPhases.add(new QnaPhaseResponse(no,QnaPhase.VOTING_CLOSED,null,null));
             }
         }
 
-        return response;
+        return closedPhases;
 
     }
 

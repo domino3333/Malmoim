@@ -26,14 +26,14 @@ public class EntryServiceImpl implements EntryService {
 
     @Override
     // 입장 코드에 해당하는 참가자용 방 정보 응답 생성
-    public CheckCodeResponse getRoomEntryInfo(String code) {
+    public RoomEntryInfoResponse getRoomEntryInfo(String code) {
         if (roomMapper.countRoomsByCode(code) < 1) {
             throw new RuntimeException("코드에 해당하는 방이 존재하지 않습니다.");
         }
 
         Room room = roomMapper.selectRoomByCode(code);
 
-        return CheckCodeResponse.builder()
+        return RoomEntryInfoResponse.builder()
                 .roomNo(room.getNo())
                 .title(room.getTitle())
                 .code(room.getCode())

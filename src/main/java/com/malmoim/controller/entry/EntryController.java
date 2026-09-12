@@ -23,7 +23,7 @@ public class EntryController {
     // 입장 코드 기반 참가자용 방 정보 조회
     public ResponseEntity<?> getRoomEntryInfo(@RequestBody CheckCodeRequest dto){
 
-        CheckCodeResponse response = entryService.getRoomEntryInfo(dto.getCode());
+        RoomEntryInfoResponse response = entryService.getRoomEntryInfo(dto.getCode());
         return ResponseEntity.ok(response);
 
     }

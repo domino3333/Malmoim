@@ -4,7 +4,7 @@ import com.malmoim.dto.entry.*;
 
 public interface EntryService {
     // 입장 코드 기반 참가자용 방 정보 조회
-    CheckCodeResponse getRoomEntryInfo(String code);
+    RoomEntryInfoResponse getRoomEntryInfo(String code);
 
     // 입력한 방 비밀번호의 일치 여부 검증
     CheckPasswordResponse verifyRoomPassword(CheckPasswordRequest dto);

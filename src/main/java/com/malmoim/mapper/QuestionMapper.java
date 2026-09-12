@@ -17,5 +17,5 @@ public interface QuestionMapper {
 
     List<VoteResultResponse> getSortedQuestionListByRoomNo(long roomNo);
 
-    Integer isExistsQuestionInTheRoom(long roomNo, long questionNo);
+    Integer existsByRoomNoAndQuestionNo(long roomNo, long questionNo);
 }

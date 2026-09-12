@@ -26,11 +26,11 @@ public class QnaPresenceService {
 
     public ParticipantPresenceResponse getActiveParticipantSnapshot(Long roomNo){
 
-        List<QnaPresenceRegistry.PresenceSession> presenceSession = qnaPresenceRegistry.getActiveParticipants(roomNo);
+        List<QnaPresenceRegistry.PresenceSession> presenceSessions = qnaPresenceRegistry.getActiveParticipants(roomNo);
 
         List<ActiveParticipantResponse> activeParticipantList = new ArrayList<>();
 
-        for (QnaPresenceRegistry.PresenceSession session : presenceSession) {
+        for (QnaPresenceRegistry.PresenceSession session : presenceSessions) {
             Long participantNo = session.getParticipantNo();
             String nickname = session.getNickname();
             activeParticipantList.add(new ActiveParticipantResponse(participantNo,nickname));

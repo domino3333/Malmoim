@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class CheckCodeResponse {
+public class RoomEntryInfoResponse {
 
     private long roomNo;
     private String title;

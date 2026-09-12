@@ -27,9 +27,9 @@ public class VoteServiceImpl implements VoteService {
     public void castVote(long roomNo, long questionNo, Long participantNo) {
 
         // questionNo를 받았을 때 그 질문이 실제로 넘겨받은 roomNo에 있는지 검증
-        Integer isExistsQuestion = questionMapper.isExistsQuestionInTheRoom(roomNo, questionNo);
+        Integer questionExists = questionMapper.existsByRoomNoAndQuestionNo(roomNo, questionNo);
 
-        if (isExistsQuestion == 0) {
+        if (questionExists == 0) {
             throw new RuntimeException("%d번 질문에 해당하는 방이 %d번방에 존재하지 않습니다".formatted(questionNo, roomNo));
         }
 
