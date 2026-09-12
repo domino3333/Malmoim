@@ -2,7 +2,9 @@ package com.malmoim.controller.qna;
 
 import com.malmoim.dto.qna.participant.ParticipantInfoResponse;
 import com.malmoim.dto.qna.presence.ParticipantPresenceResponse;
+import com.malmoim.dto.qna.question.QuestionCreatedMessage;
 import com.malmoim.dto.qna.question.QuestionResponse;
+import com.malmoim.dto.qna.question.SubmitQuestionMessage;
 import com.malmoim.dto.qna.room.QnaRoomInfoResponse;
 import com.malmoim.security.ParticipantPrincipal;
 import com.malmoim.service.qna.QnaPresenceService;
@@ -12,6 +14,7 @@ import com.malmoim.service.qna.VoteService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,6 +30,7 @@ public class ParticipantQnaController {
     private final QnaPresenceService qnaPresenceService;
     private final QuestionService questionService;
     private final VoteService voteService;
+    private final SimpMessagingTemplate simpMessagingTemplate;
 
     // 참가자가 입장한 Q&A 방 정보 조회
     @GetMapping("/{roomNo}/participant")
@@ -73,6 +77,20 @@ public class ParticipantQnaController {
 
 
         return ResponseEntity.ok(response);
+    }
+
+    // 질문 등록 및 같은 방 구독자에게 방송
+    @PostMapping("/questions")
+    public ResponseEntity<QuestionCreatedMessage> createQuestion(
+            @RequestBody SubmitQuestionMessage dto, Authentication authentication) {
+        ParticipantPrincipal participant = (ParticipantPrincipal) authentication.getPrincipal();
+
+        QuestionCreatedMessage saved = questionService.createQuestion(
+                participant.getRoomNo(), participant.getParticipantNo(),
+                dto.getQuestion(), participant.getNickname());
+
+        simpMessagingTemplate.convertAndSend("/topic/qna/" + participant.getRoomNo(), saved);
+        return ResponseEntity.status(201).body(saved);
     }
 
     //참여자가 좋아요 버튼을 눌렀을 때의 api
