@@ -20,12 +20,15 @@ import com.malmoim.util.RoomCodeGenerator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cglib.core.Local;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -50,8 +53,15 @@ public class QnaRoomServiceImpl implements QnaRoomService {
 
         String encodedPassword = null;
 
-        if (dto.getPassword() != null) {
-            encodedPassword = passwordEncoder.encode(dto.getPassword());
+        if (Boolean.TRUE.equals(dto.getIsPrivate())) {
+            String password = dto.getPassword();
+            if (password == null || password.isBlank()) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "비밀번호를 입력해주세요");
+            }
+            if (password.getBytes(StandardCharsets.UTF_8).length > 72) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "비밀번호는 UTF-8 기준 72바이트 이하여야 합니다");
+            }
+            encodedPassword = passwordEncoder.encode(password);
         }
 
         // code가 이미 존재한다면 다시 발급
