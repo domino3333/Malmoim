@@ -6,6 +6,7 @@ import com.malmoim.dto.auth.LoginResponse;
 import com.malmoim.dto.auth.SignUpRequest;
 import com.malmoim.security.jwt.JwtTokenProvider;
 import com.malmoim.service.member.MemberService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -43,7 +44,7 @@ public class AuthController {
 
 
     @PostMapping("/signUp")
-    public ResponseEntity<?> signUp(@RequestBody SignUpRequest dto){
+    public ResponseEntity<?> signUp(@RequestBody @Valid SignUpRequest dto){
 
         log.info("signUp 진입");
         log.info("email:{}",dto.getEmail());
