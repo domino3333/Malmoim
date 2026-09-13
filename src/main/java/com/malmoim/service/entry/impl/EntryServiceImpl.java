@@ -10,9 +10,13 @@ import com.malmoim.security.jwt.JwtTokenProvider;
 import com.malmoim.service.entry.EntryService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
+
+import java.nio.charset.StandardCharsets;
 
 @Service
 @RequiredArgsConstructor
@@ -51,7 +55,15 @@ public class EntryServiceImpl implements EntryService {
             throw new RuntimeException("방을 찾을 수 없습니다.");
         }
 
-        if (!passwordEncoder.matches(dto.getPassword(), room.getPassword())) {
+        String password = dto.getPassword();
+        if (password == null || password.isBlank()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "비밀번호를 입력해주세요");
+        }
+        if (password.getBytes(StandardCharsets.UTF_8).length > 72) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "비밀번호는 UTF-8 기준 72바이트 이하여야 합니다");
+        }
+
+        if (!passwordEncoder.matches(password, room.getPassword())) {
             log.info("verifyRoomPassword service 방 비밀번호 불일치");
             throw new RuntimeException("방의 비밀번호가 일치하지 않습니다.");
         }
@@ -70,9 +82,17 @@ public class EntryServiceImpl implements EntryService {
             throw new RuntimeException("방을 찾을 수 없습니다.");
         }
 
-        if ("PRIVATE".equals(room.getVisibility())
-                && !passwordEncoder.matches(dto.getPassword(), room.getPassword())) {
-            throw new RuntimeException("방의 비밀번호가 일치하지 않습니다.");
+        if ("PRIVATE".equals(room.getVisibility())) {
+            String password = dto.getPassword();
+            if (password == null || password.isBlank()) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "비밀번호를 입력해주세요");
+            }
+            if (password.getBytes(StandardCharsets.UTF_8).length > 72) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "비밀번호는 UTF-8 기준 72바이트 이하여야 합니다");
+            }
+            if (!passwordEncoder.matches(password, room.getPassword())) {
+                throw new RuntimeException("방의 비밀번호가 일치하지 않습니다.");
+            }
         }
 
         Participant participant = Participant.builder()
