@@ -11,6 +11,7 @@ import com.malmoim.service.qna.QnaPresenceService;
 import com.malmoim.service.qna.QnaRoomService;
 import com.malmoim.service.qna.QuestionService;
 import com.malmoim.service.qna.VoteService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -82,7 +83,7 @@ public class ParticipantQnaController {
     // 질문 등록 및 같은 방 구독자에게 방송
     @PostMapping("/questions")
     public ResponseEntity<QuestionCreatedMessage> createQuestion(
-            @RequestBody SubmitQuestionMessage dto, Authentication authentication) {
+            @RequestBody @Valid SubmitQuestionMessage dto, Authentication authentication) {
         ParticipantPrincipal participant = (ParticipantPrincipal) authentication.getPrincipal();
 
         QuestionCreatedMessage saved = questionService.createQuestion(

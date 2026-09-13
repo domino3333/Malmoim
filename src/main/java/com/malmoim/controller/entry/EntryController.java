@@ -3,6 +3,7 @@ package com.malmoim.controller.entry;
 
 import com.malmoim.dto.entry.*;
 import com.malmoim.service.entry.EntryService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -31,7 +32,7 @@ public class EntryController {
 
     @PostMapping("/check-password")
     // 참가자가 입력한 방 비밀번호 검증
-    public ResponseEntity<?> verifyRoomPassword(@RequestBody CheckPasswordRequest dto){
+    public ResponseEntity<?> verifyRoomPassword(@RequestBody @Valid CheckPasswordRequest dto){
 
         CheckPasswordResponse response = entryService.verifyRoomPassword(dto);
         return ResponseEntity.ok(response);
@@ -41,7 +42,7 @@ public class EntryController {
 
     @PostMapping("/insert-participant")
     // 참가자 정보 저장 및 방 입장 처리
-    public ResponseEntity<?> joinRoom(@RequestBody JoinRoomRequest dto){
+    public ResponseEntity<?> joinRoom(@RequestBody @Valid JoinRoomRequest dto){
 
         JoinRoomResponse response = entryService.joinRoom(dto);
         return ResponseEntity.ok(response);

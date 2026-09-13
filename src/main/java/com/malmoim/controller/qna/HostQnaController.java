@@ -35,7 +35,7 @@ public class HostQnaController {
     private final QuestionService questionService;
 
     @PostMapping("/create")
-    public ResponseEntity<?> createQnaRoom(Authentication authentication, @RequestBody CreateQnaRoomRequest dto) {
+    public ResponseEntity<?> createQnaRoom(Authentication authentication, @RequestBody @Valid CreateQnaRoomRequest dto) {
         String hostEmail = authentication.getName();
         qnaRoomService.createQnaRoom(dto, hostEmail);
 
