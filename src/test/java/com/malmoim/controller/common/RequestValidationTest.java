@@ -224,10 +224,50 @@ class RequestValidationTest {
     }
 
     private ResultActions request(String path, Map<String, Object> body) throws Exception {
-        Authentication authentication = path.equals(CREATE)
+        Authentication authentication = path.startsWith("/api/host/")
                 ? new UsernamePasswordAuthenticationToken(OWNER, null, List.of()) : participant;
         return mvc.perform(post(path).principal(authentication).contentType(MediaType.APPLICATION_JSON)
                 .content(JSON.writeValueAsString(body)));
+    }
+
+    @Test
+    void missingEntryCodeReturns404WithMessage() throws Exception {
+        request("/api/entry/check-code", Map.of("code", "ABSENT"))
+                .andExpect(status().isNotFound())
+                .andExpect(content().string(not(emptyOrNullString())));
+        assertNothingSaved();
+    }
+
+    @ParameterizedTest
+    @MethodSource("entryRequests")
+    void missingRoomReturns404WithoutIssuingParticipantToken(String path, Map<String, Object> body) throws Exception {
+        when(roomMapper.selectRoomForPasswordVerification(43L)).thenReturn(null);
+        request(path, body).andExpect(status().isNotFound())
+                .andExpect(content().string(not(emptyOrNullString())));
+        assertNothingSaved();
+    }
+
+    @ParameterizedTest
+    @MethodSource("entryRequests")
+    void wrongPasswordReturns400WithoutIssuingParticipantToken(String path, Map<String, Object> body) throws Exception {
+        request(path, body).andExpect(status().isBadRequest())
+                .andExpect(content().string(not(emptyOrNullString())));
+        assertNothingSaved();
+    }
+
+    static Stream<Arguments> entryRequests() {
+        return Stream.of(Arguments.of(VERIFY, VERIFY_BODY),
+                Arguments.of(JOIN, with(JOIN_BODY, "password", "wrong-password")));
+    }
+
+    @Test
+    void votingStartInWrongPhaseReturns409WithoutUpdatesOrBroadcast() throws Exception {
+        request("/api/host/qna/43/start-voting", Map.of("durationSeconds", 300))
+                .andExpect(status().isConflict())
+                .andExpect(content().string(not(emptyOrNullString())));
+        verify(qnaRoomMapper, never()).updateVotingPeriod(anyLong(), any(), any());
+        verify(qnaRoomMapper, never()).updateQnaPhase(anyLong(), any());
+        verifyNoInteractions(messagingTemplate);
     }
 
     private void assertNothingSaved() {
