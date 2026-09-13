@@ -32,7 +32,7 @@ public class EntryServiceImpl implements EntryService {
     // 입장 코드에 해당하는 참가자용 방 정보 응답 생성
     public RoomEntryInfoResponse getRoomEntryInfo(String code) {
         if (roomMapper.countRoomsByCode(code) < 1) {
-            throw new RuntimeException("코드에 해당하는 방이 존재하지 않습니다.");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "코드에 해당하는 방이 존재하지 않습니다.");
         }
 
         Room room = roomMapper.selectRoomByCode(code);
@@ -52,7 +52,7 @@ public class EntryServiceImpl implements EntryService {
         Room room = roomMapper.selectRoomForPasswordVerification(dto.getRoomNo());
 
         if (room == null) {
-            throw new RuntimeException("방을 찾을 수 없습니다.");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "방을 찾을 수 없습니다.");
         }
 
         String password = dto.getPassword();
@@ -65,7 +65,7 @@ public class EntryServiceImpl implements EntryService {
 
         if (!passwordEncoder.matches(password, room.getPassword())) {
             log.info("verifyRoomPassword service 방 비밀번호 불일치");
-            throw new RuntimeException("방의 비밀번호가 일치하지 않습니다.");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "방의 비밀번호가 일치하지 않습니다.");
         }
 
         return new CheckPasswordResponse("비밀번호 일치");
@@ -79,7 +79,7 @@ public class EntryServiceImpl implements EntryService {
         Room room = roomMapper.selectRoomForPasswordVerification(dto.getRoomNo());
 
         if (room == null) {
-            throw new RuntimeException("방을 찾을 수 없습니다.");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "방을 찾을 수 없습니다.");
         }
 
         if ("PRIVATE".equals(room.getVisibility())) {
@@ -91,7 +91,7 @@ public class EntryServiceImpl implements EntryService {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "비밀번호는 UTF-8 기준 72바이트 이하여야 합니다");
             }
             if (!passwordEncoder.matches(password, room.getPassword())) {
-                throw new RuntimeException("방의 비밀번호가 일치하지 않습니다.");
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "방의 비밀번호가 일치하지 않습니다.");
             }
         }
 

@@ -8,8 +8,11 @@ import com.malmoim.mapper.VoteMapper;
 import com.malmoim.service.qna.VoteService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cglib.core.Local;
+import org.springframework.dao.DuplicateKeyException;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
 
@@ -30,20 +33,28 @@ public class VoteServiceImpl implements VoteService {
         Integer questionExists = questionMapper.existsByRoomNoAndQuestionNo(roomNo, questionNo);
 
         if (questionExists == 0) {
-            throw new RuntimeException("%d번 질문에 해당하는 방이 %d번방에 존재하지 않습니다".formatted(questionNo, roomNo));
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND,
+                    "%d번 질문이 %d번 방에 존재하지 않습니다".formatted(questionNo, roomNo));
         }
 
 
         QnaRoom qnaRoom = qnaRoomMapper.selectQnaRoomByRoomNo(roomNo);
+        if (qnaRoom == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "방을 찾을 수 없습니다.");
+        }
 
         QnaPhase status = qnaRoom.getStatus();
 
         LocalDateTime now = LocalDateTime.now();
         if (status != QnaPhase.VOTING_OPEN || !now.isBefore(qnaRoom.getVotingEndedAt())) {
-            throw new RuntimeException("현재, 투표가 가능한 상태가 아닙니다.");
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "현재, 투표가 가능한 상태가 아닙니다.");
         }
 
-        voteMapper.castVote(questionNo, participantNo);
+        try {
+            voteMapper.castVote(questionNo, participantNo);
+        } catch (DuplicateKeyException e) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "이미 투표한 질문입니다.", e);
+        }
         questionMapper.incrementVoteCount(questionNo);
 
 
