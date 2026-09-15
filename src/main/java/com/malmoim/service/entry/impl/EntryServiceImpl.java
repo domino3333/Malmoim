@@ -3,7 +3,6 @@ package com.malmoim.service.entry.impl;
 import com.malmoim.domain.Participant;
 import com.malmoim.domain.Room;
 import com.malmoim.dto.entry.*;
-import com.malmoim.dto.qna.room.QnaRoomInfoResponse;
 import com.malmoim.mapper.ParticipantMapper;
 import com.malmoim.mapper.RoomMapper;
 import com.malmoim.security.jwt.JwtTokenProvider;
@@ -73,7 +72,7 @@ public class EntryServiceImpl implements EntryService {
 
     @Override
     @Transactional
-    // 참가자 저장 및 발급된 참가자 번호 반환
+    // 참가자 입장 후 저장 및 발급된 참가자 번호 반환
     public JoinRoomResponse joinRoom(JoinRoomRequest dto) {
 
         Room room = roomMapper.selectRoomForPasswordVerification(dto.getRoomNo());
