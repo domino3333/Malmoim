@@ -10,7 +10,7 @@
         values (#{nickname}, #{roomNo}, NOW())
     </insert>
 
-    <select id="isParticipantOfThisRoom" resultType="integer">
+    <select id="existsByParticipantNoAndRoomNo" resultType="integer">
         select exists (
             select 1
             from participant

@@ -82,7 +82,7 @@ class HostRoomOwnershipTest {
                 .thenReturn(Member.builder().no(8L).email(OTHER_HOST).build());
         when(roomMapper.existsByRoomNoAndHostNo(ROOM_NO, 7L)).thenReturn(1);
         when(roomMapper.existsByRoomNoAndHostNo(ROOM_NO, 8L)).thenReturn(0);
-        when(participantMapper.isParticipantOfThisRoom(99L, ROOM_NO)).thenReturn(1);
+        when(participantMapper.existsByParticipantNoAndRoomNo(99L, ROOM_NO)).thenReturn(1);
 
         QnaRoomInfoResponse room = new QnaRoomInfoResponse();
         room.setRoomNo(ROOM_NO);
@@ -209,7 +209,7 @@ class HostRoomOwnershipTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.roomNo").value(ROOM_NO));
 
-        verify(participantMapper).isParticipantOfThisRoom(99L, ROOM_NO);
+        verify(participantMapper).existsByParticipantNoAndRoomNo(99L, ROOM_NO);
     }
 
     private MockHttpServletRequestBuilder hostRequest(String endpoint) {

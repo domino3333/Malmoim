@@ -51,7 +51,7 @@ public class VoteServiceImpl implements VoteService {
         }
 
         try {
-            voteMapper.castVote(questionNo, participantNo);
+            voteMapper.insertVote(questionNo, participantNo);
         } catch (DuplicateKeyException e) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "이미 투표한 질문입니다.", e);
         }

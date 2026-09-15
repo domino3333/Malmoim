@@ -39,7 +39,7 @@ class VoteServiceImplTest {
 
         voteService.castVote(43L, 10L, 99L);
 
-        verify(voteMapper).castVote(10L, 99L);
+        verify(voteMapper).insertVote(10L, 99L);
         verify(questionMapper).incrementVoteCount(10L);
     }
 
@@ -66,7 +66,7 @@ class VoteServiceImplTest {
     @Test
     void duplicateVoteReturns409WithoutIncrementingCount() {
         allowVoting();
-        doThrow(new DuplicateKeyException("vote_uk")).when(voteMapper).castVote(10L, 99L);
+        doThrow(new DuplicateKeyException("vote_uk")).when(voteMapper).insertVote(10L, 99L);
 
         assertThatThrownBy(() -> voteService.castVote(43L, 10L, 99L))
                 .isInstanceOfSatisfying(ResponseStatusException.class, error -> {
@@ -80,7 +80,7 @@ class VoteServiceImplTest {
     void unrelatedDatabaseFailureIsNotReportedAsDuplicateVote() {
         allowVoting();
         var failure = new DataIntegrityViolationException("foreign key failure");
-        doThrow(failure).when(voteMapper).castVote(10L, 99L);
+        doThrow(failure).when(voteMapper).insertVote(10L, 99L);
         assertThatThrownBy(() -> voteService.castVote(43L, 10L, 99L)).isSameAs(failure);
         verify(questionMapper, never()).incrementVoteCount(anyLong());
     }

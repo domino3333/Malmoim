@@ -7,7 +7,7 @@ public interface ParticipantMapper {
 
     void insertParticipant(Participant participant);
 
-    Integer isParticipantOfThisRoom(
+    Integer existsByParticipantNoAndRoomNo(
             @Param("participantNo") Long participantNo,
             @Param("roomNo") Long roomNo
     );

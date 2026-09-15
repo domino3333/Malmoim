@@ -117,14 +117,14 @@ public class HostQnaController {
 
         String hostEmail = authentication.getName();
 
-        AnsweringResultResponse voteResultResponse = qnaRoomService.revealResults(hostEmail,roomNo);
+        AnsweringResultResponse answeringResult = qnaRoomService.revealResults(hostEmail,roomNo);
 
         //ANSWERING 상태가 되었다고 알람을 보내주기
-        simpMessagingTemplate.convertAndSend("/topic/qna/"+roomNo+"/phase",voteResultResponse.getQnaPhaseResponse());
+        simpMessagingTemplate.convertAndSend("/topic/qna/"+roomNo+"/phase",answeringResult.getQnaPhaseResponse());
         //웹소켓으로 정렬된 질문 리스트 내려주기
-        simpMessagingTemplate.convertAndSend("/topic/qna/"+roomNo+"/result",voteResultResponse.getQuestions());
+        simpMessagingTemplate.convertAndSend("/topic/qna/"+roomNo+"/result",answeringResult.getQuestions());
 
-        return ResponseEntity.ok(voteResultResponse);
+        return ResponseEntity.ok(answeringResult);
 
 
     }
