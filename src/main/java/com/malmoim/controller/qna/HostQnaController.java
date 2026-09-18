@@ -136,9 +136,11 @@ public class HostQnaController {
 
         String hostEmail = authentication.getName();
 
+        log.info("completeAnswer진입");
+
         CompleteAnswerResponse response = questionService.updateQuestionStatusToAnswered(hostEmail,dto.getRoomNo(),dto.getQuestionNo());
 
-        simpMessagingTemplate.convertAndSend("/topic/qna"+dto.getRoomNo()+"/complete",response);
+        simpMessagingTemplate.convertAndSend("/topic/qna/"+dto.getRoomNo()+"/complete",response);
 
         return ResponseEntity.ok(response);
 
