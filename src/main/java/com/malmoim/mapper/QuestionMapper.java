@@ -19,5 +19,7 @@ public interface QuestionMapper {
 
     Integer existsByRoomNoAndQuestionNo(long roomNo, long questionNo);
 
-    void updateQuestionStatus(Long questionNo,String status);
+    Integer updateQuestionStatus(Long questionNo,String status);
+
+    Question selectQuestionByQuestionNo(Long questionNo);
 }
