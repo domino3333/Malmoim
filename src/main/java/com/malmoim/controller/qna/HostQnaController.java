@@ -129,4 +129,16 @@ public class HostQnaController {
 
     }
 
+    @PostMapping("/{roomNo}/complete-answer")
+    public ResponseEntity<?> completeAnswer(Authentication authentication, @PathVariable long roomNo) {
+
+        String hostEmail = authentication.getName();
+
+
+
+        return ResponseEntity.ok(null);
+
+
+    }
+
 }
