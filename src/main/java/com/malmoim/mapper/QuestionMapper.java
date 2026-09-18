@@ -2,6 +2,7 @@ package com.malmoim.mapper;
 
 
 import com.malmoim.domain.Question;
+import com.malmoim.domain.QuestionStatus;
 import com.malmoim.dto.qna.question.QuestionResponse;
 import com.malmoim.dto.qna.vote.VoteResultResponse;
 
@@ -19,7 +20,7 @@ public interface QuestionMapper {
 
     Integer existsByRoomNoAndQuestionNo(long roomNo, long questionNo);
 
-    Integer updateQuestionStatus(Long questionNo,String status);
+    Integer updateQuestionStatus(Long questionNo, QuestionStatus status);
 
     Question selectQuestionByQuestionNo(Long questionNo);
 }

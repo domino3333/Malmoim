@@ -3,6 +3,7 @@ package com.malmoim.service.qna.impl;
 import com.malmoim.domain.QnaPhase;
 import com.malmoim.domain.QnaRoom;
 import com.malmoim.domain.Question;
+import com.malmoim.domain.QuestionStatus;
 import com.malmoim.dto.qna.presence.ParticipantPresenceResponse;
 import com.malmoim.dto.qna.question.CompleteAnswerRequest;
 import com.malmoim.dto.qna.question.CompleteAnswerResponse;
@@ -93,7 +94,7 @@ public class QuestionServiceImpl implements QuestionService {
         return questionMapper.getSortedQuestionListByRoomNo(roomNo);
     }
 
-    public Integer updateQuestionStatus(long questionNo, String status) {
+    public Integer updateQuestionStatus(long questionNo, QuestionStatus status) {
 
         return questionMapper.updateQuestionStatus(questionNo, status);
     }
@@ -111,7 +112,7 @@ public class QuestionServiceImpl implements QuestionService {
         if (exist == null||exist == 0) {
             throw new AccessDeniedException("roomNo와 questionNo가 교차하는 row가 존재하지 않습니다.");
         }
-        updateQuestionStatus(questionNo, "ANSWERED");
+        updateQuestionStatus(questionNo, QuestionStatus.ANSWERED);
 
         Question question = questionMapper.selectQuestionByQuestionNo(questionNo);
 
