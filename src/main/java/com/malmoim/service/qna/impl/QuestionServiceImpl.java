@@ -93,29 +93,29 @@ public class QuestionServiceImpl implements QuestionService {
         return questionMapper.getSortedQuestionListByRoomNo(roomNo);
     }
 
-    public Integer updateQuestionStatus(long questionNo,String status){
+    public Integer updateQuestionStatus(long questionNo, String status) {
 
-        return questionMapper.updateQuestionStatus(questionNo,status);
+        return questionMapper.updateQuestionStatus(questionNo, status);
     }
 
     @Override
     @Transactional
-    public CompleteAnswerResponse updateQuestionStatusToAnswered(String hostEmail,Long roomNo, Long questionNo) {
+    public CompleteAnswerResponse updateQuestionStatusToAnswered(String hostEmail, Long roomNo, Long questionNo) {
 
-        roomService.validateRoomOwnership(roomNo,hostEmail);
+        roomService.validateRoomOwnership(roomNo, hostEmail);
 
         Integer exist = questionMapper.existsByRoomNoAndQuestionNo(roomNo, questionNo);
 
-        log.info(" updateQuestionStatusToAnswered exist:{}",exist);
+        log.info(" updateQuestionStatusToAnswered exist:{}", exist);
 
-        if (exist == null) {
+        if (exist == null||exist == 0) {
             throw new AccessDeniedException("roomNo와 questionNo가 교차하는 row가 존재하지 않습니다.");
         }
-        updateQuestionStatus(questionNo,"ANSWERED");
+        updateQuestionStatus(questionNo, "ANSWERED");
 
         Question question = questionMapper.selectQuestionByQuestionNo(questionNo);
 
-        return new CompleteAnswerResponse(question.getNo(),question.getStatus());
+        return new CompleteAnswerResponse(question.getNo(), question.getStatus());
 
 
     }
