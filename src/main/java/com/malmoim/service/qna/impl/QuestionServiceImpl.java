@@ -5,6 +5,7 @@ import com.malmoim.domain.QnaRoom;
 import com.malmoim.domain.Question;
 import com.malmoim.dto.qna.presence.ParticipantPresenceResponse;
 import com.malmoim.dto.qna.question.CompleteAnswerRequest;
+import com.malmoim.dto.qna.question.CompleteAnswerResponse;
 import com.malmoim.dto.qna.question.QuestionCreatedMessage;
 import com.malmoim.dto.qna.question.QuestionResponse;
 import com.malmoim.dto.qna.vote.VoteResultResponse;
@@ -99,7 +100,7 @@ public class QuestionServiceImpl implements QuestionService {
 
     @Override
     @Transactional
-    public void updateQuestionStatusToAnswered(Long roomNo, Long questionNo) {
+    public CompleteAnswerResponse updateQuestionStatusToAnswered(Long roomNo, Long questionNo) {
         Integer exist = questionMapper.existsByRoomNoAndQuestionNo(roomNo, questionNo);
 
         if (exist == null) {
@@ -109,7 +110,7 @@ public class QuestionServiceImpl implements QuestionService {
 
         Question question = questionMapper.selectQuestionByQuestionNo(questionNo);
 
-
+        return new CompleteAnswerResponse(question.getNo(),question.getStatus());
 
 
     }
