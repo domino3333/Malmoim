@@ -106,6 +106,8 @@ public class QuestionServiceImpl implements QuestionService {
 
         Integer exist = questionMapper.existsByRoomNoAndQuestionNo(roomNo, questionNo);
 
+        log.info(" updateQuestionStatusToAnswered exist:{}",exist);
+
         if (exist == null) {
             throw new AccessDeniedException("roomNo와 questionNo가 교차하는 row가 존재하지 않습니다.");
         }
