@@ -44,7 +44,7 @@
         update question set status = #{status} where no = #{questionNo}
     </update>
 
-    <select id="selectQuestionByQuestionNo">
+    <select id="selectQuestionByQuestionNo" resultType="Question">
         select * from question where no = #{questionNo}
     </select>
 </mapper>
