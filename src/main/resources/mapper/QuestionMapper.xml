@@ -39,4 +39,8 @@
     <select id="existsByRoomNoAndQuestionNo" resultType="Integer">
         select exists (select 1 from question where room_no = #{roomNo} and no = #{questionNo})
     </select>
+
+    <update id="updateQuestionStatus">
+        update question set status = #{status} where no = #{questionNo}
+    </update>
 </mapper>

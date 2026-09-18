@@ -18,4 +18,6 @@ public interface QuestionMapper {
     List<VoteResultResponse> getSortedQuestionListByRoomNo(long roomNo);
 
     Integer existsByRoomNoAndQuestionNo(long roomNo, long questionNo);
+
+    void updateQuestionStatus(Long questionNo,String status);
 }

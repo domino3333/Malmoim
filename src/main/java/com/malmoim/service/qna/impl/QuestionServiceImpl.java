@@ -4,6 +4,7 @@ import com.malmoim.domain.QnaPhase;
 import com.malmoim.domain.QnaRoom;
 import com.malmoim.domain.Question;
 import com.malmoim.dto.qna.presence.ParticipantPresenceResponse;
+import com.malmoim.dto.qna.question.CompleteAnswerRequest;
 import com.malmoim.dto.qna.question.QuestionCreatedMessage;
 import com.malmoim.dto.qna.question.QuestionResponse;
 import com.malmoim.dto.qna.vote.VoteResultResponse;
@@ -16,6 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.cglib.core.Local;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -40,7 +42,7 @@ public class QuestionServiceImpl implements QuestionService {
 
         LocalDateTime now = LocalDateTime.now();
         if (qnaRoom == null || qnaRoom.getStatus() != QnaPhase.QUESTION_OPEN
-            || !now.isBefore(qnaRoom.getQuestionEndedAt())) {
+                || !now.isBefore(qnaRoom.getQuestionEndedAt())) {
             throw new RuntimeException("질문 등록이 가능한 상태가 아닙니다");
         }
 
@@ -88,6 +90,26 @@ public class QuestionServiceImpl implements QuestionService {
     public List<VoteResultResponse> getSortedQuestionList(long roomNo) {
 
         return questionMapper.getSortedQuestionListByRoomNo(roomNo);
+    }
+
+    public Integer updateQuestionStatus(long questionNo,String status){
+
+        return questionMapper.updateQuestionStatus(questionNo,status);
+    }
+
+    @Override
+    @Transactional
+    public void updateQuestionStatusToAnswered(Long roomNo, Long questionNo) {
+        Integer exist = questionMapper.existsByRoomNoAndQuestionNo(roomNo, questionNo);
+
+        if (exist == null) {
+            throw new AccessDeniedException("roomNo와 questionNo가 교차하는 row가 존재하지 않습니다.");
+        }
+
+        updateQuestionStatus(questionNo,"ANSWERED");
+
+
+
     }
 
 
