@@ -138,7 +138,7 @@ public class HostQnaController {
 
         CompleteAnswerResponse response = questionService.updateQuestionStatusToAnswered(hostEmail,dto.getRoomNo(),dto.getQuestionNo());
 
-        simpMessagingTemplate.convertAndSend("/topic/qna"+dto.getQuestionNo()+"/complete",response);
+        simpMessagingTemplate.convertAndSend("/topic/qna"+dto.getRoomNo()+"/complete",response);
 
         return ResponseEntity.ok(response);
 
