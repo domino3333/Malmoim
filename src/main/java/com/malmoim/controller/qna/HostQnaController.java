@@ -135,9 +135,8 @@ public class HostQnaController {
     public ResponseEntity<?> completeAnswer(Authentication authentication, @RequestBody CompleteAnswerRequest dto) {
 
         String hostEmail = authentication.getName();
-        //dto에 해당하는 question을 ANSWERED 상태로 변경
-        CompleteAnswerResponse response = questionService.updateQuestionStatusToAnswered(dto.getRoomNo(),dto.getQuestionNo());
 
+        CompleteAnswerResponse response = questionService.updateQuestionStatusToAnswered(hostEmail,dto.getRoomNo(),dto.getQuestionNo());
 
         simpMessagingTemplate.convertAndSend("/topic/qna"+dto.getQuestionNo()+"/complete",response);
 

@@ -18,5 +18,5 @@ public interface QuestionService {
 
     List<VoteResultResponse> getSortedQuestionList(long roomNo);
 
-    CompleteAnswerResponse updateQuestionStatusToAnswered(Long roomNo, Long questionNo);
+    CompleteAnswerResponse updateQuestionStatusToAnswered(String hostEmail,Long roomNo, Long questionNo);
 }

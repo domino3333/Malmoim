@@ -100,7 +100,10 @@ public class QuestionServiceImpl implements QuestionService {
 
     @Override
     @Transactional
-    public CompleteAnswerResponse updateQuestionStatusToAnswered(Long roomNo, Long questionNo) {
+    public CompleteAnswerResponse updateQuestionStatusToAnswered(String hostEmail,Long roomNo, Long questionNo) {
+
+        roomService.validateRoomOwnership(roomNo,hostEmail);
+
         Integer exist = questionMapper.existsByRoomNoAndQuestionNo(roomNo, questionNo);
 
         if (exist == null) {
