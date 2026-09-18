@@ -7,6 +7,7 @@ import com.malmoim.dto.qna.phase.StartQnaPhaseRequest;
 import com.malmoim.dto.qna.phase.UpdateQnaPhaseRequest;
 import com.malmoim.dto.qna.presence.ParticipantPresenceResponse;
 import com.malmoim.dto.qna.question.CompleteAnswerRequest;
+import com.malmoim.dto.qna.question.CompleteAnswerResponse;
 import com.malmoim.dto.qna.question.QuestionResponse;
 import com.malmoim.dto.qna.room.CreateQnaRoomRequest;
 import com.malmoim.dto.qna.room.QnaRoomInfoResponse;
@@ -135,12 +136,12 @@ public class HostQnaController {
 
         String hostEmail = authentication.getName();
         //dto에 해당하는 question을 ANSWERED 상태로 변경
-        questionService.updateQuestionStatusToAnswered(dto.getRoomNo(),dto.getQuestionNo());
+        CompleteAnswerResponse response = questionService.updateQuestionStatusToAnswered(dto.getRoomNo(),dto.getQuestionNo());
 
 
-        //simpMessagingTemplate.convertAndSend("/topic/qna"+dto.getQuestionNo()+"/complete",);
+        simpMessagingTemplate.convertAndSend("/topic/qna"+dto.getQuestionNo()+"/complete",response);
 
-        return ResponseEntity.ok(null);
+        return ResponseEntity.ok(response);
 
 
     }
