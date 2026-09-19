@@ -101,18 +101,22 @@ public class QuestionServiceImpl implements QuestionService {
 
     @Override
     @Transactional
-    public CompleteAnswerResponse updateQuestionStatusToAnswered(String hostEmail, Long roomNo, Long questionNo) {
+    public CompleteAnswerResponse updateQuestionStatusToggle(String hostEmail, Long roomNo, Long questionNo,QuestionStatus status) {
 
         roomService.validateRoomOwnership(roomNo, hostEmail);
 
         Integer exist = questionMapper.existsByRoomNoAndQuestionNo(roomNo, questionNo);
 
-        log.info(" updateQuestionStatusToAnswered exist:{}", exist);
-
         if (exist == null||exist == 0) {
             throw new AccessDeniedException("roomNo와 questionNo가 교차하는 row가 존재하지 않습니다.");
         }
-        updateQuestionStatus(questionNo, QuestionStatus.ANSWERED);
+
+        if(status.equals(QuestionStatus.WAITING)){
+            updateQuestionStatus(questionNo, QuestionStatus.ANSWERED);
+
+        }else if(status.equals(QuestionStatus.ANSWERED)){
+            updateQuestionStatus(questionNo, QuestionStatus.WAITING);
+        }
 
         Question question = questionMapper.selectQuestionByQuestionNo(questionNo);
 

@@ -1,5 +1,6 @@
 package com.malmoim.service.qna;
 
+import com.malmoim.domain.QuestionStatus;
 import com.malmoim.dto.qna.question.CompleteAnswerRequest;
 import com.malmoim.dto.qna.question.CompleteAnswerResponse;
 import com.malmoim.dto.qna.question.QuestionCreatedMessage;
@@ -18,5 +19,5 @@ public interface QuestionService {
 
     List<VoteResultResponse> getSortedQuestionList(long roomNo);
 
-    CompleteAnswerResponse updateQuestionStatusToAnswered(String hostEmail,Long roomNo, Long questionNo);
+    CompleteAnswerResponse updateQuestionStatusToggle(String hostEmail, Long roomNo, Long questionNo, QuestionStatus status);
 }
