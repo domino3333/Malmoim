@@ -8,4 +8,5 @@ public class CompleteAnswerRequest {
 
     private Long roomNo;
     private Long questionNo;
+    private String status;
 }
