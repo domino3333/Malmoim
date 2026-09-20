@@ -17,5 +17,6 @@ public class QuestionResponse {
     private Integer voteCount;
     private LocalDateTime createdAt;
     private String status;
+    private Integer voteRank;
 
 }
