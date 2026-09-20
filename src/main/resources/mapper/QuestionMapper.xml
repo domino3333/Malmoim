@@ -16,7 +16,8 @@
             Q.room_no,
             Q.vote_count,
             Q.created_at,
-            Q.status
+            Q.status,
+            dense_rank() over(order by Q.vote_rank desc) as voteRank
         FROM question Q
                  JOIN participant P
                       ON Q.participant_no = P.no
