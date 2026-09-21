@@ -1,6 +1,6 @@
 package com.malmoim.dto.qna.phase;
 
-import com.malmoim.dto.qna.vote.VoteResultResponse;
+import com.malmoim.dto.qna.question.QuestionResponse;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -10,5 +10,5 @@ import java.util.List;
 @AllArgsConstructor
 public class AnsweringResultResponse {
     private QnaPhaseResponse qnaPhaseResponse;
-    private List<VoteResultResponse> questions;
+    private List<QuestionResponse> questions;
 }

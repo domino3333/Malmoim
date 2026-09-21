@@ -1,11 +1,10 @@
 package com.malmoim.dto.qna.question;
 
-
 import com.malmoim.domain.QuestionStatus;
 import lombok.Data;
 
 @Data
-public class CompleteAnswerRequest {
+public class ToggleAnswerStatusRequest {
 
     private Long roomNo;
     private Long questionNo;

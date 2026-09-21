@@ -29,7 +29,7 @@
         update question set vote_count=vote_count+1 where no = #{questionNo}
     </update>
 
-    <select id="getSortedQuestionListByRoomNo" resultType="com.malmoim.dto.qna.vote.VoteResultResponse">
+    <select id="getSortedQuestionListByRoomNo" resultType="com.malmoim.dto.qna.question.QuestionResponse">
         select Q.no as questionNo,Q.participant_no,Q.content,Q.room_no,Q.vote_count,Q.created_at,Q.status,P.nickname,
                dense_rank() over (order by Q.vote_count desc) as voteRank
         from question Q join participant P

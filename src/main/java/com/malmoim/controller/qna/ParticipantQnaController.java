@@ -4,7 +4,7 @@ import com.malmoim.dto.qna.participant.ParticipantInfoResponse;
 import com.malmoim.dto.qna.presence.ParticipantPresenceResponse;
 import com.malmoim.dto.qna.question.QuestionCreatedMessage;
 import com.malmoim.dto.qna.question.QuestionResponse;
-import com.malmoim.dto.qna.question.SubmitQuestionMessage;
+import com.malmoim.dto.qna.question.CreateQuestionRequest;
 import com.malmoim.dto.qna.room.QnaRoomInfoResponse;
 import com.malmoim.security.ParticipantPrincipal;
 import com.malmoim.service.qna.QnaPresenceService;
@@ -83,7 +83,7 @@ public class ParticipantQnaController {
     // 질문 등록 및 같은 방 구독자에게 방송
     @PostMapping("/questions")
     public ResponseEntity<QuestionCreatedMessage> createQuestion(
-            @RequestBody @Valid SubmitQuestionMessage dto, Authentication authentication) {
+            @RequestBody @Valid CreateQuestionRequest dto, Authentication authentication) {
         ParticipantPrincipal participant = (ParticipantPrincipal) authentication.getPrincipal();
 
         QuestionCreatedMessage saved = questionService.createQuestion(

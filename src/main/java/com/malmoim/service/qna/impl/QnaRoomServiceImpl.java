@@ -8,7 +8,7 @@ import com.malmoim.dto.qna.phase.AnsweringResultResponse;
 import com.malmoim.dto.qna.phase.QnaPhaseResponse;
 import com.malmoim.dto.qna.room.CreateQnaRoomRequest;
 import com.malmoim.dto.qna.room.QnaRoomInfoResponse;
-import com.malmoim.dto.qna.vote.VoteResultResponse;
+import com.malmoim.dto.qna.question.QuestionResponse;
 import com.malmoim.mapper.MemberMapper;
 import com.malmoim.mapper.ParticipantMapper;
 import com.malmoim.mapper.QnaRoomMapper;
@@ -171,7 +171,7 @@ public class QnaRoomServiceImpl implements QnaRoomService {
         }
 
         QnaPhaseResponse qnaPhaseResponse = updateQnaPhase(hostEmail, roomNo, QnaPhase.ANSWERING);
-        List<VoteResultResponse> list = questionService.getSortedQuestionList(roomNo);
+        List<QuestionResponse> list = questionService.getSortedQuestionList(roomNo);
 
         return new AnsweringResultResponse(qnaPhaseResponse, list);
     }

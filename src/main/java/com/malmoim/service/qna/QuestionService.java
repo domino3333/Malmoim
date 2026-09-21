@@ -1,11 +1,9 @@
 package com.malmoim.service.qna;
 
 import com.malmoim.domain.QuestionStatus;
-import com.malmoim.dto.qna.question.CompleteAnswerRequest;
-import com.malmoim.dto.qna.question.CompleteAnswerResponse;
+import com.malmoim.dto.qna.question.ToggleAnswerStatusResponse;
 import com.malmoim.dto.qna.question.QuestionCreatedMessage;
 import com.malmoim.dto.qna.question.QuestionResponse;
-import com.malmoim.dto.qna.vote.VoteResultResponse;
 
 import java.util.List;
 
@@ -17,7 +15,7 @@ public interface QuestionService {
     // 호스트 소유권 확인 후 질문 목록 조회
     List<QuestionResponse> getHostQuestionList(long roomNo, String hostEmail);
 
-    List<VoteResultResponse> getSortedQuestionList(long roomNo);
+    List<QuestionResponse> getSortedQuestionList(long roomNo);
 
-    CompleteAnswerResponse toggleQuestionStatus(String hostEmail, Long roomNo, Long questionNo, QuestionStatus status);
+    ToggleAnswerStatusResponse toggleQuestionStatus(String hostEmail, Long roomNo, Long questionNo, QuestionStatus status);
 }

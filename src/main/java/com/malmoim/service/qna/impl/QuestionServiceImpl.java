@@ -5,11 +5,9 @@ import com.malmoim.domain.QnaRoom;
 import com.malmoim.domain.Question;
 import com.malmoim.domain.QuestionStatus;
 import com.malmoim.dto.qna.presence.ParticipantPresenceResponse;
-import com.malmoim.dto.qna.question.CompleteAnswerRequest;
-import com.malmoim.dto.qna.question.CompleteAnswerResponse;
+import com.malmoim.dto.qna.question.ToggleAnswerStatusResponse;
 import com.malmoim.dto.qna.question.QuestionCreatedMessage;
 import com.malmoim.dto.qna.question.QuestionResponse;
-import com.malmoim.dto.qna.vote.VoteResultResponse;
 import com.malmoim.mapper.QnaRoomMapper;
 import com.malmoim.mapper.QuestionMapper;
 import com.malmoim.service.qna.QuestionService;
@@ -89,7 +87,7 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     @Override
-    public List<VoteResultResponse> getSortedQuestionList(long roomNo) {
+    public List<QuestionResponse> getSortedQuestionList(long roomNo) {
 
         return questionMapper.getSortedQuestionListByRoomNo(roomNo);
     }
@@ -101,7 +99,7 @@ public class QuestionServiceImpl implements QuestionService {
 
     @Override
     @Transactional
-    public CompleteAnswerResponse toggleQuestionStatus(String hostEmail, Long roomNo, Long questionNo,QuestionStatus status) {
+    public ToggleAnswerStatusResponse toggleQuestionStatus(String hostEmail, Long roomNo, Long questionNo,QuestionStatus status) {
 
         roomService.validateRoomOwnership(roomNo, hostEmail);
 
@@ -120,7 +118,7 @@ public class QuestionServiceImpl implements QuestionService {
 
         Question question = questionMapper.selectQuestionByQuestionNo(questionNo);
 
-        return new CompleteAnswerResponse(question.getNo(), question.getStatus());
+        return new ToggleAnswerStatusResponse(question.getNo(), question.getStatus());
 
 
     }

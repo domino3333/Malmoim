@@ -6,12 +6,11 @@ import com.malmoim.dto.qna.phase.QnaPhaseResponse;
 import com.malmoim.dto.qna.phase.StartQnaPhaseRequest;
 import com.malmoim.dto.qna.phase.UpdateQnaPhaseRequest;
 import com.malmoim.dto.qna.presence.ParticipantPresenceResponse;
-import com.malmoim.dto.qna.question.CompleteAnswerRequest;
-import com.malmoim.dto.qna.question.CompleteAnswerResponse;
+import com.malmoim.dto.qna.question.ToggleAnswerStatusRequest;
+import com.malmoim.dto.qna.question.ToggleAnswerStatusResponse;
 import com.malmoim.dto.qna.question.QuestionResponse;
 import com.malmoim.dto.qna.room.CreateQnaRoomRequest;
 import com.malmoim.dto.qna.room.QnaRoomInfoResponse;
-import com.malmoim.dto.qna.vote.VoteResultResponse;
 import com.malmoim.service.qna.QnaPresenceService;
 import com.malmoim.service.qna.QnaRoomService;
 import com.malmoim.service.qna.QuestionService;
@@ -131,14 +130,14 @@ public class HostQnaController {
 
     }
 
-    @PostMapping("/complete-answer")
-    public ResponseEntity<?> toggleAnswerStatus(Authentication authentication, @RequestBody CompleteAnswerRequest dto) {
+    @PostMapping("/toggle-answer-status")
+    public ResponseEntity<?> toggleAnswerStatus(Authentication authentication, @RequestBody ToggleAnswerStatusRequest dto) {
 
         String hostEmail = authentication.getName();
 
         log.info("toggleAnswerStatus 진입");
 
-        CompleteAnswerResponse response = questionService.toggleQuestionStatus(hostEmail,dto.getRoomNo(),dto.getQuestionNo(),dto.getStatus());
+        ToggleAnswerStatusResponse response = questionService.toggleQuestionStatus(hostEmail,dto.getRoomNo(),dto.getQuestionNo(),dto.getStatus());
 
         simpMessagingTemplate.convertAndSend("/topic/qna/"+dto.getRoomNo()+"/complete",response);
 
