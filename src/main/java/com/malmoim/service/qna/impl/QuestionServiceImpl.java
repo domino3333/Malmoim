@@ -4,7 +4,6 @@ import com.malmoim.domain.QnaPhase;
 import com.malmoim.domain.QnaRoom;
 import com.malmoim.domain.Question;
 import com.malmoim.domain.QuestionStatus;
-import com.malmoim.dto.qna.presence.ParticipantPresenceResponse;
 import com.malmoim.dto.qna.question.ToggleAnswerStatusResponse;
 import com.malmoim.dto.qna.question.QuestionCreatedMessage;
 import com.malmoim.dto.qna.question.QuestionResponse;
@@ -14,12 +13,11 @@ import com.malmoim.service.qna.QuestionService;
 import com.malmoim.service.room.RoomService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.cglib.core.Local;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -99,7 +97,7 @@ public class QuestionServiceImpl implements QuestionService {
 
     @Override
     @Transactional
-    public ToggleAnswerStatusResponse toggleQuestionStatus(String hostEmail, Long roomNo, Long questionNo,QuestionStatus status) {
+    public ToggleAnswerStatusResponse toggleQuestionStatus(String hostEmail, Long roomNo, Long questionNo) {
 
         roomService.validateRoomOwnership(roomNo, hostEmail);
 
@@ -109,16 +107,23 @@ public class QuestionServiceImpl implements QuestionService {
             throw new AccessDeniedException("roomNo와 questionNo가 교차하는 row가 존재하지 않습니다.");
         }
 
-        if(status.equals(QuestionStatus.WAITING)){
-            updateQuestionStatus(questionNo, QuestionStatus.ANSWERED);
-
-        }else if(status.equals(QuestionStatus.ANSWERED)){
-            updateQuestionStatus(questionNo, QuestionStatus.WAITING);
+        Question question = questionMapper.selectQuestionByQuestionNo(questionNo);
+        if (question == null || question.getStatus() == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "질문을 찾을 수 없습니다.");
         }
 
-        Question question = questionMapper.selectQuestionByQuestionNo(questionNo);
+        QuestionStatus nextStatus;
+        if (QuestionStatus.WAITING.name().equals(question.getStatus())) {
+            nextStatus = QuestionStatus.ANSWERED;
+        } else if (QuestionStatus.ANSWERED.name().equals(question.getStatus())) {
+            nextStatus = QuestionStatus.WAITING;
+        } else {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "변경할 수 없는 질문 상태입니다.");
+        }
 
-        return new ToggleAnswerStatusResponse(question.getNo(), question.getStatus());
+        updateQuestionStatus(questionNo, nextStatus);
+
+        return new ToggleAnswerStatusResponse(question.getNo(), nextStatus.name());
 
 
     }

@@ -107,7 +107,7 @@ class HostRoomOwnershipTest {
                 QuestionResponse.builder().questionNo(10L).participantNo(99L).nickname("guest")
                         .content("A question").roomNo(ROOM_NO).voteCount(0)
                         .createdAt(startedAt).status("WAITING").build()));
-        when(questionMapper.getSortedQuestionListByRoomNo(ROOM_NO)).thenReturn(List.of());
+        when(questionMapper.selectRankedQuestionsByRoomNo(ROOM_NO)).thenReturn(List.of());
 
         context = new AnnotationConfigApplicationContext();
         context.registerBean(MemberMapper.class, () -> memberMapper);

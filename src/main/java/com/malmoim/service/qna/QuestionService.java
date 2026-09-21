@@ -1,6 +1,5 @@
 package com.malmoim.service.qna;
 
-import com.malmoim.domain.QuestionStatus;
 import com.malmoim.dto.qna.question.ToggleAnswerStatusResponse;
 import com.malmoim.dto.qna.question.QuestionCreatedMessage;
 import com.malmoim.dto.qna.question.QuestionResponse;
@@ -17,5 +16,5 @@ public interface QuestionService {
 
     List<QuestionResponse> getRankedQuestionsByRoomNo(long roomNo);
 
-    ToggleAnswerStatusResponse toggleQuestionStatus(String hostEmail, Long roomNo, Long questionNo, QuestionStatus status);
+    ToggleAnswerStatusResponse toggleQuestionStatus(String hostEmail, Long roomNo, Long questionNo);
 }

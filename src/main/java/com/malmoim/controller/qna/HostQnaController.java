@@ -131,13 +131,13 @@ public class HostQnaController {
     }
 
     @PostMapping("/toggle-answer-status")
-    public ResponseEntity<?> toggleAnswerStatus(Authentication authentication, @RequestBody ToggleAnswerStatusRequest dto) {
+    public ResponseEntity<?> toggleAnswerStatus(Authentication authentication, @RequestBody @Valid ToggleAnswerStatusRequest dto) {
 
         String hostEmail = authentication.getName();
 
         log.info("toggleAnswerStatus 진입");
 
-        ToggleAnswerStatusResponse response = questionService.toggleQuestionStatus(hostEmail,dto.getRoomNo(),dto.getQuestionNo(),dto.getStatus());
+        ToggleAnswerStatusResponse response = questionService.toggleQuestionStatus(hostEmail,dto.getRoomNo(),dto.getQuestionNo());
 
         simpMessagingTemplate.convertAndSend("/topic/qna/"+dto.getRoomNo()+"/complete",response);
 
