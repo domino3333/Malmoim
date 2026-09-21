@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class MyRoomResponse {
-    private Long no; // room 테이블 PK
+    private Long roomNo;
     private Long hostNo;
     private String title;
     private String code;

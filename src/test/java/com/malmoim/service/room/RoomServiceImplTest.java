@@ -27,7 +27,7 @@ class RoomServiceImplTest {
 
         Member host = Member.builder().no(7L).email("host@example.test").build();
         MyRoomResponse room = MyRoomResponse.builder()
-                .no(43L)
+                .roomNo(43L)
                 .hostNo(7L)
                 .title("Q&A room")
                 .code("ABC123")

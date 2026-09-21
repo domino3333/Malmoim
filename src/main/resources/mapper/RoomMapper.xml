@@ -10,7 +10,7 @@
     </insert>
 
     <select id="selectRoomsByHostNo" resultType="com.malmoim.dto.room.MyRoomResponse">
-        select no,
+        select no as roomNo,
                host_no,
                title,
                code,
