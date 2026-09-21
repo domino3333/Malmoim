@@ -11,7 +11,7 @@ public interface QuestionMapper {
 
     void insertQuestion(Question question);
 
-    List<QuestionResponse> getQuestionList(Long roomNo);
+    List<QuestionResponse> selectQuestionsByRoomNo(Long roomNo);
 
     void incrementVoteCount(long questionNo);
 

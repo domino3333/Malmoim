@@ -21,7 +21,7 @@ public class QnaPhaseScheduler {
 
     @Scheduled(fixedDelay = 1000)
     public void closeExpiredQnaPhases(){
-        List<QnaPhaseResponse> closedPhases = qnaRoomService.closeExpiredPhases();
+        List<QnaPhaseResponse> closedPhases = qnaRoomService.closeExpiredQnaPhases();
 
         for(QnaPhaseResponse response:closedPhases){
 

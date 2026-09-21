@@ -74,20 +74,20 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     @Override
-    public List<QuestionResponse> getQuestionList(Long roomNo) {
+    public List<QuestionResponse> getQuestionsByRoomNo(Long roomNo) {
 
-        return questionMapper.getQuestionList(roomNo);
+        return questionMapper.selectQuestionsByRoomNo(roomNo);
     }
 
     @Override
     @Transactional(readOnly = true)
     public List<QuestionResponse> getHostQuestionList(long roomNo, String hostEmail) {
         roomService.validateRoomOwnership(roomNo, hostEmail);
-        return getQuestionList(roomNo);
+        return getQuestionsByRoomNo(roomNo);
     }
 
     @Override
-    public List<QuestionResponse> getSortedQuestionList(long roomNo) {
+    public List<QuestionResponse> getRankedQuestionsByRoomNo(long roomNo) {
 
         return questionMapper.getSortedQuestionListByRoomNo(roomNo);
     }

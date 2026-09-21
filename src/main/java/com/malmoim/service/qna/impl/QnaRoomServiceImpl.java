@@ -97,7 +97,7 @@ public class QnaRoomServiceImpl implements QnaRoomService {
 
     @Override
     // 로그인한 호스트 소유의 Q&A 방 조회
-    public QnaRoomInfoResponse getOwnedRoomByNo(long roomNo, String hostEmail) {
+    public QnaRoomInfoResponse getOwnedQnaRoomByRoomNo(long roomNo, String hostEmail) {
         roomService.validateRoomOwnership(roomNo, hostEmail);
 
         return qnaRoomMapper.selectQnaRoomInfoByRoomNo(roomNo);
@@ -105,7 +105,7 @@ public class QnaRoomServiceImpl implements QnaRoomService {
 
     @Override
     // 방 번호 기준 단일 Q&A 방 조회
-    public QnaRoomInfoResponse getRoomByNo(Long roomNo) {
+    public QnaRoomInfoResponse getQnaRoomByRoomNo(Long roomNo) {
         return qnaRoomMapper.selectQnaRoomInfoByRoomNo(roomNo);
     }
 
@@ -171,7 +171,7 @@ public class QnaRoomServiceImpl implements QnaRoomService {
         }
 
         QnaPhaseResponse qnaPhaseResponse = updateQnaPhase(hostEmail, roomNo, QnaPhase.ANSWERING);
-        List<QuestionResponse> list = questionService.getSortedQuestionList(roomNo);
+        List<QuestionResponse> list = questionService.getRankedQuestionsByRoomNo(roomNo);
 
         return new AnsweringResultResponse(qnaPhaseResponse, list);
     }
@@ -185,13 +185,13 @@ public class QnaRoomServiceImpl implements QnaRoomService {
             throw new AccessDeniedException("%d번 참여자가 %d번 방에 속해 있지 않습니다".formatted(participantNo, roomNo));
         }
 
-        return getRoomByNo(roomNo);
+        return getQnaRoomByRoomNo(roomNo);
 
     }
 
     @Override
     @Transactional
-    public List<QnaPhaseResponse> closeExpiredPhases() {
+    public List<QnaPhaseResponse> closeExpiredQnaPhases() {
 
         List<QnaPhaseResponse> closedPhases = new ArrayList<>();
 

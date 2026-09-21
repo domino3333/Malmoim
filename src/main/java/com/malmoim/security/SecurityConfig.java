@@ -50,12 +50,12 @@ public class SecurityConfig {
     }
 
     @Bean
-    public AuthenticationManager provideAuthManager(AuthenticationConfiguration ac) throws Exception{
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration ac) throws Exception{
         return ac.getAuthenticationManager();
     }
 
     @Bean
-    BCryptPasswordEncoder providePasswordEncoder(){
+    BCryptPasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
     }
 

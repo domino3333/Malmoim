@@ -74,7 +74,7 @@ public class ParticipantQnaController {
 
         ParticipantPrincipal participant = (ParticipantPrincipal) authentication.getPrincipal();
         Long roomNo = participant.getRoomNo();
-        List<QuestionResponse> response = questionService.getQuestionList(roomNo);
+        List<QuestionResponse> response = questionService.getQuestionsByRoomNo(roomNo);
 
 
         return ResponseEntity.ok(response);

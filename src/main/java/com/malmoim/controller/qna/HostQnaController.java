@@ -47,7 +47,7 @@ public class HostQnaController {
     @GetMapping("/{roomNo}/host")
     public ResponseEntity<?> getHostQnaRoom(Authentication authentication, @PathVariable Long roomNo) {
         String hostEmail = authentication.getName();
-        QnaRoomInfoResponse room = qnaRoomService.getOwnedRoomByNo(roomNo, hostEmail);
+        QnaRoomInfoResponse room = qnaRoomService.getOwnedQnaRoomByRoomNo(roomNo, hostEmail);
 
         return ResponseEntity.ok(room);
     }

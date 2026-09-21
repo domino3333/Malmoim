@@ -103,7 +103,7 @@ class HostRoomOwnershipTest {
                 new QnaPhaseResponse(ROOM_NO, QnaPhase.QUESTION_OPEN, startedAt, startedAt.plusMinutes(5)));
         when(qnaRoomMapper.selectVotingPhaseByRoomNo(ROOM_NO)).thenReturn(
                 new QnaPhaseResponse(ROOM_NO, QnaPhase.VOTING_OPEN, startedAt, startedAt.plusMinutes(5)));
-        when(questionMapper.getQuestionList(ROOM_NO)).thenReturn(List.of(
+        when(questionMapper.selectQuestionsByRoomNo(ROOM_NO)).thenReturn(List.of(
                 QuestionResponse.builder().questionNo(10L).participantNo(99L).nickname("guest")
                         .content("A question").roomNo(ROOM_NO).voteCount(0)
                         .createdAt(startedAt).status("WAITING").build()));

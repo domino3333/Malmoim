@@ -13,10 +13,10 @@ public interface QnaRoomService {
     void createQnaRoom(CreateQnaRoomRequest dto, String hostEmail);
 
     // 로그인한 호스트 소유의 Q&A 방 조회
-    QnaRoomInfoResponse getOwnedRoomByNo(long roomNo, String hostEmail);
+    QnaRoomInfoResponse getOwnedQnaRoomByRoomNo(long roomNo, String hostEmail);
 
     // 방 번호 기준 단일 Q&A 방 조회
-    QnaRoomInfoResponse getRoomByNo(Long roomNo);
+    QnaRoomInfoResponse getQnaRoomByRoomNo(Long roomNo);
 
     // 질문 시간 설정 및 질문 접수 단계 시작
     QnaPhaseResponse startQuestionPhase(String hostEmail, long durationSeconds, long roomNo);
@@ -32,5 +32,5 @@ public interface QnaRoomService {
 
     QnaRoomInfoResponse getParticipantQnaRoom(Long participantNo, Long roomNo);
 
-    List<QnaPhaseResponse> closeExpiredPhases();
+    List<QnaPhaseResponse> closeExpiredQnaPhases();
 }
