@@ -132,13 +132,13 @@ public class HostQnaController {
     }
 
     @PostMapping("/complete-answer")
-    public ResponseEntity<?> completeAnswer(Authentication authentication, @RequestBody CompleteAnswerRequest dto) {
+    public ResponseEntity<?> toggleAnswerStatus(Authentication authentication, @RequestBody CompleteAnswerRequest dto) {
 
         String hostEmail = authentication.getName();
 
-        log.info("completeAnswer진입");
+        log.info("toggleAnswerStatus 진입");
 
-        CompleteAnswerResponse response = questionService.updateQuestionStatusToggle(hostEmail,dto.getRoomNo(),dto.getQuestionNo(),dto.getStatus());
+        CompleteAnswerResponse response = questionService.toggleQuestionStatus(hostEmail,dto.getRoomNo(),dto.getQuestionNo(),dto.getStatus());
 
         simpMessagingTemplate.convertAndSend("/topic/qna/"+dto.getRoomNo()+"/complete",response);
 
