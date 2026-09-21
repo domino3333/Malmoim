@@ -89,7 +89,7 @@ public class QuestionServiceImpl implements QuestionService {
     @Override
     public List<QuestionResponse> getRankedQuestionsByRoomNo(long roomNo) {
 
-        return questionMapper.getSortedQuestionListByRoomNo(roomNo);
+        return questionMapper.selectRankedQuestionsByRoomNo(roomNo);
     }
 
     public Integer updateQuestionStatus(long questionNo, QuestionStatus status) {

@@ -15,7 +15,7 @@ public interface QuestionMapper {
 
     void incrementVoteCount(long questionNo);
 
-    List<QuestionResponse> getSortedQuestionListByRoomNo(long roomNo);
+    List<QuestionResponse> selectRankedQuestionsByRoomNo(long roomNo);
 
     Integer existsByRoomNoAndQuestionNo(long roomNo, long questionNo);
 
