@@ -29,5 +29,5 @@ public interface RoomMapper {
     Room selectRoomByRoomNo(Long roomNo);
 
 
-    List<MyRoomResponse> selectMyRecentRooms(long hostNo);
+    List<MyRoomResponse> selectRecentRoomsByHostNo(long hostNo);
 }
