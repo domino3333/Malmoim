@@ -19,6 +19,8 @@ public class RoomServiceImpl implements RoomService {
 
     private final RoomMapper roomMapper;
     private final MemberMapper memberMapper;
+    private final RoomService roomService;
+
 
     @Override
     @Transactional(readOnly = true)
@@ -28,6 +30,15 @@ public class RoomServiceImpl implements RoomService {
         if (host == null || roomMapper.existsByRoomNoAndHostNo(roomNo, host.getNo()) != 1) {
             throw new AccessDeniedException("해당 방에 대한 권한이 없습니다.");
         }
+    }
+
+    @Override
+    public MyRoomResponse getMyRecentRooms(String hostEmail, long roomNo) {
+        roomService.validateRoomOwnership(roomNo,hostEmail);
+
+        Member host = memberMapper.selectMemberByEmail(hostEmail);
+
+        return roomMapper.selectMyRecentRooms(host.getNo());
     }
 
     @Override

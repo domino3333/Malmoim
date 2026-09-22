@@ -1,5 +1,6 @@
 package com.malmoim.service.room;
 
+import com.malmoim.dto.room.MyRoomResponse;
 import com.malmoim.dto.room.MyRoomsResponse;
 
 public interface RoomService {
@@ -8,4 +9,6 @@ public interface RoomService {
 
     // 방 소유권 검증 및 권한이 없는 요청 차단
     void validateRoomOwnership(long roomNo, String hostEmail);
+
+    MyRoomResponse getMyRecentRooms(String hostEmail, long roomNo);
 }

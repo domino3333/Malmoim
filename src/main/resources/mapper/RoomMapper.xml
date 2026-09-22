@@ -45,4 +45,8 @@
     <select id="selectRoomByRoomNo" resultType="Room">
         select * from room where no =#{roomNo}
     </select>
+
+    <select id="selectMyRecentRooms" resultType="com.malmoim.dto.room.MyRoomResponse">
+        select * from room where host_no = #{hostNo} order by created_at desc
+    </select>
 </mapper>

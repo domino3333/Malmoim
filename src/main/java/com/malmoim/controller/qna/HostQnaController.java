@@ -11,9 +11,11 @@ import com.malmoim.dto.qna.question.ToggleAnswerStatusResponse;
 import com.malmoim.dto.qna.question.QuestionResponse;
 import com.malmoim.dto.qna.room.CreateQnaRoomRequest;
 import com.malmoim.dto.qna.room.QnaRoomInfoResponse;
+import com.malmoim.dto.room.MyRoomResponse;
 import com.malmoim.service.qna.QnaPresenceService;
 import com.malmoim.service.qna.QnaRoomService;
 import com.malmoim.service.qna.QuestionService;
+import com.malmoim.service.room.RoomService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -34,6 +36,7 @@ public class HostQnaController {
     private final SimpMessagingTemplate simpMessagingTemplate;
     private final QnaPresenceService qnaPresenceService;
     private final QuestionService questionService;
+    private final RoomService roomService;
 
     @PostMapping("/create")
     public ResponseEntity<?> createQnaRoom(Authentication authentication, @RequestBody @Valid CreateQnaRoomRequest dto) {
@@ -150,6 +153,9 @@ public class HostQnaController {
     public ResponseEntity<?> getRecentRooms(Authentication authentication, @PathVariable long roomNo) {
 
         String hostEmail = authentication.getName();
+
+
+        MyRoomResponse response =  roomService.getMyRecentRooms(hostEmail,roomNo);
 
 
         return ResponseEntity.ok(null);
