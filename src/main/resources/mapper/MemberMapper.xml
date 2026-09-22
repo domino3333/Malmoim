@@ -3,7 +3,7 @@
 <mapper namespace="com.malmoim.mapper.MemberMapper">
 
 
-    <select id="getMemberByEmail" resultType="Member">
+    <select id="selectMemberByEmail" resultType="Member">
         select * from member where email=#{email}
     </select>
 

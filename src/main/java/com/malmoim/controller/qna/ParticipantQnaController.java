@@ -59,7 +59,7 @@ public class ParticipantQnaController {
 
     //참여자 명단과 인원 수를 내려줌(http스냅샷)
     @GetMapping("/participant-list")
-    public ResponseEntity<?> getParticipantList(Authentication authentication) {
+    public ResponseEntity<?> getParticipantPresence(Authentication authentication) {
 
         ParticipantPrincipal participant = (ParticipantPrincipal) authentication.getPrincipal();
         Long roomNo = participant.getRoomNo();

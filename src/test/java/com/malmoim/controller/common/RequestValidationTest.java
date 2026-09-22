@@ -76,12 +76,12 @@ class RequestValidationTest {
         passwordEncoder = spy(new BCryptPasswordEncoder(4));
         room = Room.builder().no(43L).visibility("PRIVATE").password(passwordEncoder.encode("")).build();
         clearInvocations(passwordEncoder);
-        when(roomMapper.selectRoomForPasswordVerification(43L)).thenReturn(room);
+        when(roomMapper.selectRoomByRoomNo(43L)).thenReturn(room);
         when(qnaRoomMapper.selectQnaRoomByRoomNo(43L)).thenReturn(QnaRoom.builder()
                 .roomNo(43L).status(QnaPhase.QUESTION_OPEN)
                 .questionEndedAt(LocalDateTime.now().plusMinutes(5)).build());
         MemberMapper memberMapper = mock(MemberMapper.class);
-        when(memberMapper.getMemberByEmail(OWNER)).thenReturn(Member.builder().no(7L).build());
+        when(memberMapper.selectMemberByEmail(OWNER)).thenReturn(Member.builder().no(7L).build());
         doAnswer(invocation -> {
             Room saved = invocation.getArgument(0);
             saved.setNo(44L);
@@ -241,7 +241,7 @@ class RequestValidationTest {
     @ParameterizedTest
     @MethodSource("entryRequests")
     void missingRoomReturns404WithoutIssuingParticipantToken(String path, Map<String, Object> body) throws Exception {
-        when(roomMapper.selectRoomForPasswordVerification(43L)).thenReturn(null);
+        when(roomMapper.selectRoomByRoomNo(43L)).thenReturn(null);
         request(path, body).andExpect(status().isNotFound())
                 .andExpect(content().string(not(emptyOrNullString())));
         assertNothingSaved();

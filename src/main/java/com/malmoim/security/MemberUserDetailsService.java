@@ -25,7 +25,7 @@ public class MemberUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 
-        Member member = memberMapper.getMemberByEmail(email);
+        Member member = memberMapper.selectMemberByEmail(email);
         if (member == null){
             throw new UsernameNotFoundException("loadUserByUsername: member 없음");
         }

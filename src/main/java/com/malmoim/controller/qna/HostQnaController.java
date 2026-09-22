@@ -92,7 +92,7 @@ public class HostQnaController {
 
     //참여자 명단과 인원 수를 내려줌(http스냅샷)
     @GetMapping("/{roomNo}/participant-list")
-    public ResponseEntity<?> getParticipantList(Authentication authentication, @PathVariable long roomNo) {
+    public ResponseEntity<?> getParticipantPresence(Authentication authentication, @PathVariable long roomNo) {
 
         String hostEmail = authentication.getName();
 
@@ -137,7 +137,7 @@ public class HostQnaController {
 
         log.info("toggleAnswerStatus 진입");
 
-        ToggleAnswerStatusResponse response = questionService.toggleQuestionStatus(hostEmail,dto.getRoomNo(),dto.getQuestionNo());
+        ToggleAnswerStatusResponse response = questionService.toggleAnswerStatus(hostEmail,dto.getRoomNo(),dto.getQuestionNo());
 
         simpMessagingTemplate.convertAndSend("/topic/qna/"+dto.getRoomNo()+"/complete",response);
 

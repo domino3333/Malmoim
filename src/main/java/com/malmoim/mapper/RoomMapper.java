@@ -26,7 +26,7 @@ public interface RoomMapper {
 
     Room selectRoomByCode(String code);
 
-    Room selectRoomForPasswordVerification(Long roomNo);
+    Room selectRoomByRoomNo(Long roomNo);
 
 
 

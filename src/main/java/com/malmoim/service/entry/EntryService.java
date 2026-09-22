@@ -7,7 +7,7 @@ public interface EntryService {
     RoomEntryInfoResponse getRoomEntryInfo(String code);
 
     // 입력한 방 비밀번호의 일치 여부 검증
-    CheckPasswordResponse verifyRoomPassword(CheckPasswordRequest dto);
+    VerifyRoomPasswordResponse verifyRoomPassword(VerifyRoomPasswordRequest dto);
 
     // 참가자 생성 및 방 입장 처리
     JoinRoomResponse joinRoom(JoinRoomRequest dto);

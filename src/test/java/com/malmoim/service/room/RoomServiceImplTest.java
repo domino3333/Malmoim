@@ -36,7 +36,7 @@ class RoomServiceImplTest {
                 .visibility("PRIVATE")
                 .build();
 
-        when(memberMapper.getMemberByEmail(host.getEmail())).thenReturn(host);
+        when(memberMapper.selectMemberByEmail(host.getEmail())).thenReturn(host);
         when(roomMapper.selectRoomsByHostNo(host.getNo(), 0, 5)).thenReturn(List.of(room));
         when(roomMapper.countRoomsByHostNo(host.getNo())).thenReturn(1);
 

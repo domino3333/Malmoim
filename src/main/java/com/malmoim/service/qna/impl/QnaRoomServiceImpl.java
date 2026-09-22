@@ -70,7 +70,7 @@ public class QnaRoomServiceImpl implements QnaRoomService {
         }
 
         // 로그인한 사용자(host)의 정보 가져오기
-        Member host = memberMapper.getMemberByEmail(hostEmail);
+        Member host = memberMapper.selectMemberByEmail(hostEmail);
         if (host == null) {
             throw new UsernameNotFoundException("host가 없습니다.");
         }

@@ -16,5 +16,5 @@ public interface QuestionService {
 
     List<QuestionResponse> getRankedQuestionsByRoomNo(long roomNo);
 
-    ToggleAnswerStatusResponse toggleQuestionStatus(String hostEmail, Long roomNo, Long questionNo);
+    ToggleAnswerStatusResponse toggleAnswerStatus(String hostEmail, Long roomNo, Long questionNo);
 }

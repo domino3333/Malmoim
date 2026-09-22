@@ -42,7 +42,7 @@
         select * from room where code = #{code}
     </select>
 
-    <select id="selectRoomForPasswordVerification" resultType="Room">
+    <select id="selectRoomByRoomNo" resultType="Room">
         select * from room where no =#{roomNo}
     </select>
 </mapper>

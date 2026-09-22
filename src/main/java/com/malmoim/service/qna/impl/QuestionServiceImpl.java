@@ -97,7 +97,7 @@ public class QuestionServiceImpl implements QuestionService {
 
     @Override
     @Transactional
-    public ToggleAnswerStatusResponse toggleQuestionStatus(String hostEmail, Long roomNo, Long questionNo) {
+    public ToggleAnswerStatusResponse toggleAnswerStatus(String hostEmail, Long roomNo, Long questionNo) {
 
         roomService.validateRoomOwnership(roomNo, hostEmail);
 

@@ -7,7 +7,7 @@ import jakarta.validation.constraints.Positive;
 import lombok.Data;
 
 @Data
-public class CheckPasswordRequest {
+public class VerifyRoomPasswordRequest {
 
     @NotNull(message = "방 번호가 필요합니다")
     @Positive(message = "방 번호가 올바르지 않습니다")

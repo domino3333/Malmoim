@@ -35,7 +35,7 @@ class QuestionServiceImplTest {
         when(questionMapper.updateQuestionStatus(10L, QuestionStatus.ANSWERED)).thenReturn(1);
 
         ToggleAnswerStatusResponse response =
-                questionService.toggleQuestionStatus("host@example.com", 43L, 10L);
+                questionService.toggleAnswerStatus("host@example.com", 43L, 10L);
 
         assertThat(response.getQuestionNo()).isEqualTo(10L);
         assertThat(response.getStatus()).isEqualTo("ANSWERED");
@@ -55,7 +55,7 @@ class QuestionServiceImplTest {
         when(questionMapper.updateQuestionStatus(10L, QuestionStatus.WAITING)).thenReturn(1);
 
         ToggleAnswerStatusResponse response =
-                questionService.toggleQuestionStatus("host@example.com", 43L, 10L);
+                questionService.toggleAnswerStatus("host@example.com", 43L, 10L);
 
         assertThat(response.getQuestionNo()).isEqualTo(10L);
         assertThat(response.getStatus()).isEqualTo("WAITING");

@@ -76,9 +76,9 @@ class HostRoomOwnershipTest {
         registry.connect("session-1", ROOM_NO, 99L, "guest");
         clearInvocations(registry);
 
-        when(memberMapper.getMemberByEmail(OWNER))
+        when(memberMapper.selectMemberByEmail(OWNER))
                 .thenReturn(Member.builder().no(7L).email(OWNER).build());
-        when(memberMapper.getMemberByEmail(OTHER_HOST))
+        when(memberMapper.selectMemberByEmail(OTHER_HOST))
                 .thenReturn(Member.builder().no(8L).email(OTHER_HOST).build());
         when(roomMapper.existsByRoomNoAndHostNo(ROOM_NO, 7L)).thenReturn(1);
         when(roomMapper.existsByRoomNoAndHostNo(ROOM_NO, 8L)).thenReturn(0);

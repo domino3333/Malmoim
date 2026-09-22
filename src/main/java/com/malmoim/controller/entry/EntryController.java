@@ -32,9 +32,9 @@ public class EntryController {
 
     @PostMapping("/check-password")
     // 참가자가 입력한 방 비밀번호 검증
-    public ResponseEntity<?> verifyRoomPassword(@RequestBody @Valid CheckPasswordRequest dto){
+    public ResponseEntity<?> verifyRoomPassword(@RequestBody @Valid VerifyRoomPasswordRequest dto){
 
-        CheckPasswordResponse response = entryService.verifyRoomPassword(dto);
+        VerifyRoomPasswordResponse response = entryService.verifyRoomPassword(dto);
         return ResponseEntity.ok(response);
 
     }

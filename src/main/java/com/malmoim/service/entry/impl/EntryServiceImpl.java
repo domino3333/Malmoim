@@ -47,8 +47,8 @@ public class EntryServiceImpl implements EntryService {
 
     @Override
     // 입력한 비밀번호와 저장된 방 비밀번호 비교
-    public CheckPasswordResponse verifyRoomPassword(CheckPasswordRequest dto) {
-        Room room = roomMapper.selectRoomForPasswordVerification(dto.getRoomNo());
+    public VerifyRoomPasswordResponse verifyRoomPassword(VerifyRoomPasswordRequest dto) {
+        Room room = roomMapper.selectRoomByRoomNo(dto.getRoomNo());
 
         if (room == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "방을 찾을 수 없습니다.");
@@ -67,7 +67,7 @@ public class EntryServiceImpl implements EntryService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "방의 비밀번호가 일치하지 않습니다.");
         }
 
-        return new CheckPasswordResponse("비밀번호 일치");
+        return new VerifyRoomPasswordResponse("비밀번호 일치");
     }
 
     @Override
@@ -75,7 +75,7 @@ public class EntryServiceImpl implements EntryService {
     // 참가자 입장 후 저장 및 발급된 참가자 번호 반환
     public JoinRoomResponse joinRoom(JoinRoomRequest dto) {
 
-        Room room = roomMapper.selectRoomForPasswordVerification(dto.getRoomNo());
+        Room room = roomMapper.selectRoomByRoomNo(dto.getRoomNo());
 
         if (room == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "방을 찾을 수 없습니다.");

@@ -23,7 +23,7 @@ public class RoomServiceImpl implements RoomService {
     @Override
     @Transactional(readOnly = true)
     public void validateRoomOwnership(long roomNo, String hostEmail) {
-        Member host = memberMapper.getMemberByEmail(hostEmail);
+        Member host = memberMapper.selectMemberByEmail(hostEmail);
 
         if (host == null || roomMapper.existsByRoomNoAndHostNo(roomNo, host.getNo()) != 1) {
             throw new AccessDeniedException("해당 방에 대한 권한이 없습니다.");
@@ -33,7 +33,7 @@ public class RoomServiceImpl implements RoomService {
     @Override
     @Transactional(readOnly = true)
     public MyRoomsResponse getMyRooms(String hostEmail, int page, int size) {
-        Member host = memberMapper.getMemberByEmail(hostEmail);
+        Member host = memberMapper.selectMemberByEmail(hostEmail);
 
         MyRoomsResponse dto = new MyRoomsResponse();
         int offset = (page - 1) * size;
