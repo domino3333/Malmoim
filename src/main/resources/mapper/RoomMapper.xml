@@ -47,6 +47,6 @@
     </select>
 
     <select id="selectMyRecentRooms" resultType="com.malmoim.dto.room.MyRoomResponse">
-        select * from room where host_no = #{hostNo} order by created_at desc, no desc LIMIT 5;
+        select * from room where host_no = #{hostNo} order by created_at desc, no desc LIMIT 5
     </select>
 </mapper>
