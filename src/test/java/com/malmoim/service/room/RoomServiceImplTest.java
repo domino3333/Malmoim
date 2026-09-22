@@ -15,9 +15,25 @@ import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 class RoomServiceImplTest {
+
+    @Test
+    void getMyRecentRoomsUsesAuthenticatedHostNo() {
+        RoomMapper roomMapper = mock(RoomMapper.class);
+        MemberMapper memberMapper = mock(MemberMapper.class);
+        RoomServiceImpl roomService = new RoomServiceImpl(roomMapper, memberMapper);
+
+        Member host = Member.builder().no(7L).email("host@example.test").build();
+        MyRoomResponse room = MyRoomResponse.builder().roomNo(43L).build();
+        when(memberMapper.selectMemberByEmail(host.getEmail())).thenReturn(host);
+        when(roomMapper.selectRecentRoomsByHostNo(host.getNo())).thenReturn(List.of(room));
+
+        assertThat(roomService.getMyRecentRooms(host.getEmail())).containsExactly(room);
+        verify(roomMapper).selectRecentRoomsByHostNo(host.getNo());
+    }
 
     @Test
     void getMyRoomsDoesNotExposeRoomPassword() throws Exception {
