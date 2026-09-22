@@ -46,7 +46,18 @@
         select * from room where no =#{roomNo}
     </select>
 
-    <select id="selectMyRecentRooms" resultType="com.malmoim.dto.room.MyRoomResponse">
-        select * from room where host_no = #{hostNo} order by created_at desc, no desc LIMIT 5
+    <select id="selectRecentRoomsByHostNo" resultType="com.malmoim.dto.room.MyRoomResponse">
+        select no as roomNo,
+               host_no,
+               title,
+               code,
+               capacity,
+               created_at,
+               type,
+               visibility
+        from room
+        where host_no = #{hostNo}
+        order by created_at desc, no desc
+        limit 5
     </select>
 </mapper>
