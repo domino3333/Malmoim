@@ -153,12 +153,9 @@ public class HostQnaController {
     public ResponseEntity<?> getRecentRooms(Authentication authentication, @PathVariable long roomNo) {
 
         String hostEmail = authentication.getName();
+        List<MyRoomResponse> response =  roomService.getMyRecentRooms(hostEmail,roomNo);
 
-
-        MyRoomResponse response =  roomService.getMyRecentRooms(hostEmail,roomNo);
-
-
-        return ResponseEntity.ok(null);
+        return ResponseEntity.ok(response);
 
 
     }
