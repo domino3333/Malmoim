@@ -146,4 +146,15 @@ public class HostQnaController {
 
     }
 
+    @GetMapping("/{roomNo}/recent-rooms")
+    public ResponseEntity<?> getRecentRooms(Authentication authentication, @PathVariable long roomNo) {
+
+        String hostEmail = authentication.getName();
+
+
+        return ResponseEntity.ok(null);
+
+
+    }
+
 }
