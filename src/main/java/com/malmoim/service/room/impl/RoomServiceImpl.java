@@ -19,7 +19,6 @@ public class RoomServiceImpl implements RoomService {
 
     private final RoomMapper roomMapper;
     private final MemberMapper memberMapper;
-    private final RoomService roomService;
 
 
     @Override
@@ -33,12 +32,10 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
-    public List<MyRoomResponse> getMyRecentRooms(String hostEmail, long roomNo) {
-        roomService.validateRoomOwnership(roomNo,hostEmail);
-
+    public List<MyRoomResponse> getMyRecentRooms(String hostEmail) {
         Member host = memberMapper.selectMemberByEmail(hostEmail);
 
-        return roomMapper.selectMyRecentRooms(host.getNo());
+        return roomMapper.selectRecentRoomsByHostNo(host.getNo());
     }
 
     @Override
