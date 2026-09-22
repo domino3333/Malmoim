@@ -12,5 +12,5 @@ public interface RoomService {
     // 방 소유권 검증 및 권한이 없는 요청 차단
     void validateRoomOwnership(long roomNo, String hostEmail);
 
-    List<MyRoomResponse> getMyRecentRooms(String hostEmail, long roomNo);
+    List<MyRoomResponse> getMyRecentRooms(String hostEmail);
 }
