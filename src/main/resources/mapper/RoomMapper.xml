@@ -65,13 +65,13 @@
         select no as roomNo, host_no, title, code, capacity, created_at, type, visibility
         from room
         where host_no = #{hostNo}
-          and title=#{keyword}
+          and title LIKE concat('%',#{keyword},'%')
         order by created_at desc
             limit #{size}
         offset #{offset}
     </select>
 
     <select id="countSearchedRoomsByHostNo" resultType="integer">
-        select count(*) from room where host_no = #{hostNo} and  title =#{keyword}
+        select count(*) from room where host_no = #{hostNo} and  title LIKE concat('%',#{keyword},'%')
     </select>
 </mapper>
