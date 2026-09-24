@@ -17,6 +17,8 @@ public interface RoomMapper {
 
     Integer countRoomsByHostNo(@Param("hostNo") Long hostNo);
 
+    Integer countSearchedRoomsByHostNo(@Param("hostNo") Long hostNo,String keyword);
+
     Integer existsByRoomNoAndHostNo(@Param("roomNo") Long roomNo, @Param("hostNo") Long hostNo);
 
 

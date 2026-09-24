@@ -48,7 +48,7 @@ public class RoomServiceImpl implements RoomService {
         List<MyRoomResponse> rooms = roomMapper.selectSearchedRooms(host.getNo(), keyword,offset, size);
 
         dto.setRooms(rooms);
-        dto.setTotalRoomCount(roomMapper.countRoomsByHostNo(host.getNo()));
+        dto.setTotalRoomCount(roomMapper.countSearchedRoomsByHostNo(host.getNo(),keyword));
 
         return dto;
     }

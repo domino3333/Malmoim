@@ -70,4 +70,8 @@
             limit #{size}
         offset #{offset}
     </select>
+
+    <select id="countSearchedRoomsByHostNo" resultType="integer">
+        select count(*) from room where host_no = #{hostNo} and  title =#{keyword}
+    </select>
 </mapper>

@@ -29,22 +29,22 @@ public class RoomController {
 
 
     @GetMapping
-    public ResponseEntity<?> getMyRooms(Authentication authentication,@RequestParam int page ,@RequestParam int size){
+    public ResponseEntity<?> getMyRooms(Authentication authentication, @RequestParam int page, @RequestParam int size) {
 
 
         String hostEmail = authentication.getName();
-        MyRoomsResponse dto = roomService.getMyRooms(hostEmail,page,size);
+        MyRoomsResponse dto = roomService.getMyRooms(hostEmail, page, size);
 
         return ResponseEntity.ok(dto);
     }
 
     @GetMapping("/search")
-    public ResponseEntity<?> searchRoom(Authentication authentication,@RequestParam String keyword,@RequestParam int page ,@RequestParam int size){
+    public ResponseEntity<?> searchRoom(Authentication authentication, @RequestParam String keyword, @RequestParam int page, @RequestParam int size) {
 
         log.info("searchRoom진입");
 
         String hostEmail = authentication.getName();
-        MyRoomsResponse dto = roomService.getSearchedRooms(hostEmail,keyword,page,size);
+        MyRoomsResponse dto = roomService.getSearchedRooms(hostEmail, keyword, page, size);
 
         return ResponseEntity.ok(dto);
     }
