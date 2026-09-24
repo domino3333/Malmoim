@@ -13,4 +13,6 @@ public interface RoomService {
     void validateRoomOwnership(long roomNo, String hostEmail);
 
     List<MyRoomResponse> getMyRecentRooms(String hostEmail);
+
+    MyRoomsResponse getSearchedRooms(String hostEmail, String keyword,int page, int size);
 }

@@ -39,6 +39,21 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
+    public MyRoomsResponse getSearchedRooms(String hostEmail, String keyword, int page, int size) {
+        Member host = memberMapper.selectMemberByEmail(hostEmail);
+
+        MyRoomsResponse dto = new MyRoomsResponse();
+        int offset = (page - 1) * size;
+
+        List<MyRoomResponse> rooms = roomMapper.selectSearchedRooms(host.getNo(), keyword,offset, size);
+
+        dto.setRooms(rooms);
+        dto.setTotalRoomCount(roomMapper.countRoomsByHostNo(host.getNo()));
+
+        return dto;
+    }
+
+    @Override
     @Transactional(readOnly = true)
     public MyRoomsResponse getMyRooms(String hostEmail, int page, int size) {
         Member host = memberMapper.selectMemberByEmail(hostEmail);

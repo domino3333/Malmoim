@@ -38,4 +38,15 @@ public class RoomController {
         return ResponseEntity.ok(dto);
     }
 
+    @GetMapping("/search")
+    public ResponseEntity<?> searchRoom(Authentication authentication,@RequestParam String keyword,@RequestParam int page ,@RequestParam int size){
+
+        log.info("searchRoom진입");
+
+        String hostEmail = authentication.getName();
+        MyRoomsResponse dto = roomService.getSearchedRooms(hostEmail,keyword,page,size);
+
+        return ResponseEntity.ok(dto);
+    }
+
 }

@@ -30,4 +30,6 @@ public interface RoomMapper {
 
 
     List<MyRoomResponse> selectRecentRoomsByHostNo(long hostNo);
+
+    List<MyRoomResponse> selectSearchedRooms(Long no, String keyword, int offset, int size);
 }
