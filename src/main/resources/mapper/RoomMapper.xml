@@ -74,4 +74,9 @@
     <select id="countSearchedRoomsByHostNo" resultType="integer">
         select count(*) from room where host_no = #{hostNo} and  title LIKE concat('%',#{keyword},'%')
     </select>
+
+    <select id="countPresentRoomPeople" resultType="integer">
+        select COUNT(p.no) from room R join participant p
+        on R.no = p.room_no where R.no = #{roomNo}
+    </select>
 </mapper>

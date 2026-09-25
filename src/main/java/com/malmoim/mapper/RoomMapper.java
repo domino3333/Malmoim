@@ -3,6 +3,7 @@ package com.malmoim.mapper;
 
 import com.malmoim.domain.Room;
 import com.malmoim.dto.room.MyRoomResponse;
+import com.malmoim.dto.room.RoomPresentCount;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -29,6 +30,9 @@ public interface RoomMapper {
     Room selectRoomByCode(String code);
 
     Room selectRoomByRoomNo(Long roomNo);
+
+    //방의 현재 인원 수
+    Integer countPresentRoomPeople(Long roomNo);
 
 
     List<MyRoomResponse> selectRecentRoomsByHostNo(long hostNo);
