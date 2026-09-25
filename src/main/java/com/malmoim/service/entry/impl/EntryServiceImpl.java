@@ -10,6 +10,7 @@ import com.malmoim.service.entry.EntryService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -93,6 +94,13 @@ public class EntryServiceImpl implements EntryService {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "방의 비밀번호가 일치하지 않습니다.");
             }
         }
+
+        //현인원(카운트)이 capacity보다 많은경우 불가
+        if(roomMapper.countPresentRoomPeople(room.getNo()) >= room.getCapacity()){
+            throw new AccessDeniedException("현재 정원이 다 찼습니다.");
+        }
+
+
 
         Participant participant = Participant.builder()
                 .roomNo(dto.getRoomNo())
