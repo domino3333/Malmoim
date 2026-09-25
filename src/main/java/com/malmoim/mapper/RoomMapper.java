@@ -3,7 +3,6 @@ package com.malmoim.mapper;
 
 import com.malmoim.domain.Room;
 import com.malmoim.dto.room.MyRoomResponse;
-import com.malmoim.dto.room.RoomPresentCount;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
