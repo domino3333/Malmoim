@@ -19,5 +19,6 @@ public class RoomEntryInfoResponse {
     private String code;
     private int capacity;
     private Boolean hasPassword;
+    private int activeParticipantCount;
 
 }
