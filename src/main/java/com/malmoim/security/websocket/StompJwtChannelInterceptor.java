@@ -144,7 +144,7 @@ public class StompJwtChannelInterceptor implements ChannelInterceptor {
             String suffix = parts[1];
 
             boolean allowedSuffix = "phase".equals(suffix)
-                    || "participants".equals(suffix) || "result".equals(suffix) || "complete".equals(suffix);
+                    || "participants".equals(suffix) || "result".equals(suffix) || "complete".equals(suffix) || "toggle".equals(suffix);
 
             if (!allowedSuffix) {
                 throw new MessagingException("허용되지 않은 Q&A 채널입니다.");
