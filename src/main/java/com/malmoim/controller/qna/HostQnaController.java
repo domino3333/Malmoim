@@ -139,7 +139,7 @@ public class HostQnaController {
 
         ToggleAnswerStatusResponse response = questionService.toggleAnswerStatus(hostEmail,dto.getRoomNo(),dto.getQuestionNo());
 
-        simpMessagingTemplate.convertAndSend("/topic/qna/"+dto.getRoomNo()+"/complete",response);
+        simpMessagingTemplate.convertAndSend("/topic/qna/"+dto.getRoomNo()+"/toggle",response);
 
         return ResponseEntity.ok(response);
 
