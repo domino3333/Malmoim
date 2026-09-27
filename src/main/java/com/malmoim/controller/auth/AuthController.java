@@ -56,11 +56,11 @@ public class AuthController {
     }
 
     @GetMapping("/check-duplicate")
-    public ResponseEntity<?> checkEmailDuplicate(@RequestParam @Valid CheckEmailDuplicateRequest dto){
+    public ResponseEntity<?> checkEmailDuplicate(@RequestParam @Valid String email){
 
         log.info("check-duplicate 진입");
 
-        memberService.checkEmailDuplicate(dto.getEmail());
+        memberService.checkEmailDuplicate(email);
 
         return ResponseEntity.ok("사용 가능한 이메일입니다.");
     }
