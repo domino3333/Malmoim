@@ -3,10 +3,12 @@ package com.malmoim.service.entry.impl;
 import com.malmoim.domain.Participant;
 import com.malmoim.domain.Room;
 import com.malmoim.dto.entry.*;
+import com.malmoim.dto.qna.presence.ParticipantPresenceResponse;
 import com.malmoim.mapper.ParticipantMapper;
 import com.malmoim.mapper.RoomMapper;
 import com.malmoim.security.jwt.JwtTokenProvider;
 import com.malmoim.service.entry.EntryService;
+import com.malmoim.service.qna.QnaPresenceService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -27,6 +29,7 @@ public class EntryServiceImpl implements EntryService {
     private final ParticipantMapper participantMapper;
     private final BCryptPasswordEncoder passwordEncoder;
     private final JwtTokenProvider jwtTokenProvider;
+    private final QnaPresenceService qnaPresenceService;
 
     @Override
     // 입장 코드에 해당하는 참가자용 방 정보 응답 생성
@@ -95,12 +98,11 @@ public class EntryServiceImpl implements EntryService {
             }
         }
 
-        //현인원(카운트)이 capacity보다 많은경우 불가
-        if(roomMapper.countPresentRoomPeople(room.getNo()) >= room.getCapacity()){
+        //현인원이 capacity보다 많은경우 불가
+        ParticipantPresenceResponse active = qnaPresenceService.getActiveParticipantSnapshot(room.getNo());
+        if(active.getParticipantCount() >= room.getCapacity()){
             throw new AccessDeniedException("현재 정원이 다 찼습니다.");
         }
-
-
 
         Participant participant = Participant.builder()
                 .roomNo(dto.getRoomNo())
