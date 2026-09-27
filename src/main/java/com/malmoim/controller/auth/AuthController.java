@@ -56,7 +56,7 @@ public class AuthController {
     }
 
     @GetMapping("/check-duplicate")
-    public ResponseEntity<?> checkEmailDuplicate(@RequestBody @Valid CheckEmailDuplicateRequest dto){
+    public ResponseEntity<?> checkEmailDuplicate(@RequestParam @Valid CheckEmailDuplicateRequest dto){
 
         log.info("check-duplicate 진입");
 
