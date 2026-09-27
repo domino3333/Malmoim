@@ -43,7 +43,7 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public void checkEmailDuplicate(String email) {
+    public void checkEmailAvailability(String email) {
 
         Integer emailCount = memberMapper.selectEmailCount(email);
         if(emailCount >= 1) {

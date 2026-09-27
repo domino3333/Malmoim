@@ -7,5 +7,5 @@ public interface MemberService {
 
     void signUp(SignUpRequest dto);
 
-    void checkEmailDuplicate(String email);
+    void checkEmailAvailability(String email);
 }

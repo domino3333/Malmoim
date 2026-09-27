@@ -1,7 +1,6 @@
 package com.malmoim.controller.auth;
 
 
-import com.malmoim.dto.auth.CheckEmailDuplicateRequest;
 import com.malmoim.dto.auth.LoginRequest;
 import com.malmoim.dto.auth.LoginResponse;
 import com.malmoim.dto.auth.SignUpRequest;
@@ -55,12 +54,12 @@ public class AuthController {
         return ResponseEntity.ok("가입완료");
     }
 
-    @GetMapping("/check-duplicate")
-    public ResponseEntity<?> checkEmailDuplicate(@RequestParam @Valid String email){
+    @GetMapping("/email-availability")
+    public ResponseEntity<?> checkEmailAvailability(@RequestParam @Valid String email){
 
-        log.info("check-duplicate 진입");
+        log.info("email-availability 진입");
 
-        memberService.checkEmailDuplicate(email);
+        memberService.checkEmailAvailability(email);
 
         return ResponseEntity.ok("사용 가능한 이메일입니다.");
     }

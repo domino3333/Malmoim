@@ -8,7 +8,7 @@ import java.util.List;
 
 @Data
 @AllArgsConstructor
-public class AnsweringResultResponse {
+public class RevealResultsResponse {
     private QnaPhaseResponse qnaPhaseResponse;
     private List<QuestionResponse> questions;
 }

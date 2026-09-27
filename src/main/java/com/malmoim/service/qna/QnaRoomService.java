@@ -1,7 +1,7 @@
 package com.malmoim.service.qna;
 
 import com.malmoim.domain.QnaPhase;
-import com.malmoim.dto.qna.phase.AnsweringResultResponse;
+import com.malmoim.dto.qna.phase.RevealResultsResponse;
 import com.malmoim.dto.qna.phase.QnaPhaseResponse;
 import com.malmoim.dto.qna.room.CreateQnaRoomRequest;
 import com.malmoim.dto.qna.room.QnaRoomInfoResponse;
@@ -28,7 +28,7 @@ public interface QnaRoomService {
     QnaPhaseResponse updateQnaPhase(String hostEmail, long roomNo, QnaPhase status);
 
     // 결과 공개 단계 전환 및 정렬된 질문 목록 반환
-    AnsweringResultResponse revealResults(String hostEmail, long roomNo);
+    RevealResultsResponse revealResults(String hostEmail, long roomNo);
 
     QnaRoomInfoResponse getParticipantQnaRoom(Long participantNo, Long roomNo);
 

@@ -9,11 +9,11 @@ import java.util.stream.Collectors;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-class AnsweringResultResponseTest {
+class RevealResultsResponseTest {
 
     @Test
     void usesQuestionsAsTheResultListField() {
-        Set<String> fieldNames = Arrays.stream(AnsweringResultResponse.class.getDeclaredFields())
+        Set<String> fieldNames = Arrays.stream(RevealResultsResponse.class.getDeclaredFields())
                 .map(field -> field.getName())
                 .collect(Collectors.toSet());
 

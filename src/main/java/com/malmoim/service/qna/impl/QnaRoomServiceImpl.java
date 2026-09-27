@@ -4,7 +4,7 @@ import com.malmoim.domain.Member;
 import com.malmoim.domain.QnaPhase;
 import com.malmoim.domain.QnaRoom;
 import com.malmoim.domain.Room;
-import com.malmoim.dto.qna.phase.AnsweringResultResponse;
+import com.malmoim.dto.qna.phase.RevealResultsResponse;
 import com.malmoim.dto.qna.phase.QnaPhaseResponse;
 import com.malmoim.dto.qna.room.CreateQnaRoomRequest;
 import com.malmoim.dto.qna.room.QnaRoomInfoResponse;
@@ -161,7 +161,7 @@ public class QnaRoomServiceImpl implements QnaRoomService {
 
     @Override
     @Transactional
-    public AnsweringResultResponse revealResults(String hostEmail, long roomNo) {
+    public RevealResultsResponse revealResults(String hostEmail, long roomNo) {
         roomService.validateRoomOwnership(roomNo, hostEmail);
 
         // 방의 현재 상태가 투표 종료인지 검사
@@ -173,7 +173,7 @@ public class QnaRoomServiceImpl implements QnaRoomService {
         QnaPhaseResponse qnaPhaseResponse = updateQnaPhase(hostEmail, roomNo, QnaPhase.ANSWERING);
         List<QuestionResponse> list = questionService.getRankedQuestionsByRoomNo(roomNo);
 
-        return new AnsweringResultResponse(qnaPhaseResponse, list);
+        return new RevealResultsResponse(qnaPhaseResponse, list);
     }
 
     @Override
