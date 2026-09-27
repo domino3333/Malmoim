@@ -41,4 +41,17 @@ public class MemberServiceImpl implements MemberService {
                 .build()
         );
     }
+
+    @Override
+    public void checkEmailDuplicate(String email) {
+
+        Integer emailCount = memberMapper.selectEmailCount(email);
+        if(emailCount >= 1) {
+            throw new ResponseStatusException(
+                    HttpStatus.CONFLICT,
+                    "이미 존재하는 이메일입니다."
+            );
+        }
+
+    }
 }

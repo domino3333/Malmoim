@@ -7,6 +7,10 @@
         select * from member where email=#{email}
     </select>
 
+    <select id="selectEmailCount" resultType="integer">
+        select COUNT(*) from member where email=#{email}
+    </select>
+
 
     <!-- member 테이블에 회원 추가 -->
     <insert id="insertMember">

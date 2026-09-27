@@ -9,4 +9,5 @@ public interface MemberMapper {
     // member 테이블에 회원 추가
     void insertMember(Member member);
 
+    Integer selectEmailCount(String email);
 }

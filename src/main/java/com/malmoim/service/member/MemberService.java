@@ -6,4 +6,6 @@ import com.malmoim.dto.auth.SignUpRequest;
 public interface MemberService {
 
     void signUp(SignUpRequest dto);
+
+    void checkEmailDuplicate(String email);
 }

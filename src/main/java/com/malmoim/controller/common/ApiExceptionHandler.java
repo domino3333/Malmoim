@@ -1,5 +1,6 @@
 package com.malmoim.controller.common;
 
+import org.apache.ibatis.javassist.bytecode.DuplicateMemberException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
@@ -29,4 +30,5 @@ public class ApiExceptionHandler {
     public ResponseEntity<String> handleAccessDenied(AccessDeniedException exception) {
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body(exception.getMessage());
     }
+
 }
