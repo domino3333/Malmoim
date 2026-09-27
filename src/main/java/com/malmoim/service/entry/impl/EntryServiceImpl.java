@@ -40,10 +40,13 @@ public class EntryServiceImpl implements EntryService {
 
         Room room = roomMapper.selectRoomByCode(code);
 
+        int participantCount = qnaPresenceService.getActiveParticipantSnapshot(room.getNo()).getParticipantCount();
+
         return RoomEntryInfoResponse.builder()
                 .roomNo(room.getNo())
                 .title(room.getTitle())
                 .code(room.getCode())
+                .activeParticipantCount(participantCount)
                 .capacity(room.getCapacity())
                 .hasPassword(room.getPassword() != null)
                 .build();
