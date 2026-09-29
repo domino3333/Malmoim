@@ -76,7 +76,6 @@ public class StompJwtChannelInterceptor implements ChannelInterceptor {
             authorizeSend(accessor);
         }
 
-
         //검사가 끝난 connect 메시지를 다음 처리단계로 통과시킴
         return message;
 
