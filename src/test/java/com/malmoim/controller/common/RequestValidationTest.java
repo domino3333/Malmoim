@@ -74,7 +74,7 @@ class RequestValidationTest {
         tokenProvider = mock(JwtTokenProvider.class);
         messagingTemplate = mock(SimpMessagingTemplate.class);
         passwordEncoder = spy(new BCryptPasswordEncoder(4));
-        room = Room.builder().no(43L).visibility("PRIVATE").password(passwordEncoder.encode("")).build();
+        room = Room.builder().no(43L).capacity(10).visibility("PRIVATE").password(passwordEncoder.encode("")).build();
         clearInvocations(passwordEncoder);
         when(roomMapper.selectRoomByRoomNo(43L)).thenReturn(room);
         when(qnaRoomMapper.selectQnaRoomByRoomNo(43L)).thenReturn(QnaRoom.builder()
@@ -103,8 +103,10 @@ class RequestValidationTest {
         QuestionServiceImpl questionService = new QuestionServiceImpl(questionMapper, qnaRoomMapper, roomService);
         QnaRoomServiceImpl qnaRoomService = new QnaRoomServiceImpl(qnaRoomMapper, memberMapper,
                 participantMapper, roomMapper, passwordEncoder, roomService, questionService);
-        EntryServiceImpl entryService = new EntryServiceImpl(roomMapper, participantMapper, passwordEncoder, tokenProvider);
         QnaPresenceService presenceService = mock(QnaPresenceService.class);
+        when(presenceService.getActiveParticipantSnapshot(43L))
+                .thenReturn(new com.malmoim.dto.qna.presence.ParticipantPresenceResponse(0, List.of()));
+        EntryServiceImpl entryService = new EntryServiceImpl(roomMapper, participantMapper, passwordEncoder, tokenProvider, presenceService);
         mvc = MockMvcBuilders.standaloneSetup(
                         new EntryController(entryService),
                         new HostQnaController(qnaRoomService, messagingTemplate, presenceService, questionService),

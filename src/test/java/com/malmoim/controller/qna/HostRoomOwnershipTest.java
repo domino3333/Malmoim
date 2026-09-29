@@ -73,7 +73,7 @@ class HostRoomOwnershipTest {
         questionMapper = mock(QuestionMapper.class);
         messagingTemplate = mock(SimpMessagingTemplate.class);
         registry = spy(new QnaPresenceRegistry());
-        registry.connect("session-1", ROOM_NO, 99L, "guest");
+        registry.admit("session-1", ROOM_NO, 99L, "guest", 10);
         clearInvocations(registry);
 
         when(memberMapper.selectMemberByEmail(OWNER))
