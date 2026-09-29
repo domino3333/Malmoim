@@ -52,13 +52,6 @@ public class QnaPresenceEventListener {
 
         log.info("참여자 연결 성공 웹소켓 세션아이디:{}", sessionId);
 
-        qnaPresenceRegistry.connect(
-                sessionId,
-                participantPrincipal.getRoomNo(),
-                participantPrincipal.getParticipantNo(),
-                participantPrincipal.getNickname()
-        );
-
         Long roomNo = participantPrincipal.getRoomNo();
 
         ParticipantPresenceResponse response = qnaPresenceService.getActiveParticipantSnapshot(roomNo);

@@ -1,10 +1,14 @@
 package com.malmoim.security.websocket;
 
+import com.malmoim.domain.Room;
+import com.malmoim.mapper.ParticipantMapper;
+import com.malmoim.mapper.RoomMapper;
 import com.malmoim.security.MemberPrincipal;
 import com.malmoim.security.MemberUserDetailsService;
 import com.malmoim.security.ParticipantPrincipal;
 import com.malmoim.security.jwt.JwtTokenProvider;
 import com.malmoim.service.room.RoomService;
+import com.malmoim.websocket.qna.QnaPresenceRegistry;
 import lombok.RequiredArgsConstructor;
 import org.jspecify.annotations.Nullable;
 import org.springframework.messaging.Message;
@@ -20,15 +24,20 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import java.util.Objects;
+import java.util.Set;
 
 @Component
 @RequiredArgsConstructor
 public class StompJwtChannelInterceptor implements ChannelInterceptor {
 
+    private static final Set<String> SUPPORTED_STOMP_VERSIONS = Set.of("1.2", "1.1", "1.0");
 
     private final JwtTokenProvider jwtTokenProvider;
     private final MemberUserDetailsService memberUserDetailsService;
     private final RoomService roomService;
+    private final RoomMapper roomMapper;
+    private final ParticipantMapper participantMapper;
+    private final QnaPresenceRegistry qnaPresenceRegistry;
 
 
     @Override
@@ -52,8 +61,11 @@ public class StompJwtChannelInterceptor implements ChannelInterceptor {
             return message;
         }
 
-        if (StompCommand.CONNECT.equals(accessor.getCommand())) {
+        if (StompCommand.CONNECT.equals(accessor.getCommand())
+                || StompCommand.STOMP.equals(accessor.getCommand())) {
             authenticateConnect(accessor);
+            validateAcceptedVersion(accessor);
+            admitParticipant(accessor);
         }
 
         if (StompCommand.SUBSCRIBE.equals(accessor.getCommand())) {
@@ -109,6 +121,54 @@ public class StompJwtChannelInterceptor implements ChannelInterceptor {
         // 현재 STOMP/WebSocket 세션의 사용자 정보로 등록
         // 이후 같은 연결에서 SEND 프레임이 오면 컨트롤러에서 인증정보로부터 사용자를 꺼낼 수 있음
         accessor.setUser(authentication);
+    }
+
+    private void validateAcceptedVersion(StompHeaderAccessor accessor) {
+        if (accessor.getAcceptVersion().stream()
+                .noneMatch(SUPPORTED_STOMP_VERSIONS::contains)) {
+            throw new MessagingException("UNSUPPORTED_STOMP_VERSION");
+        }
+    }
+
+    private void admitParticipant(StompHeaderAccessor accessor) {
+        Authentication authentication = requireAuthentication(accessor);
+        if (!(authentication.getPrincipal() instanceof ParticipantPrincipal participant)) {
+            return; // 호스트는 참여자 정원에 포함하지 않는다.
+        }
+
+        Long roomNo = participant.getRoomNo();
+        Long participantNo = participant.getParticipantNo();
+        Integer exists = participantMapper.existsByParticipantNoAndRoomNo(participantNo, roomNo);
+        if (exists == null || exists == 0) {
+            throw new MessagingException("ROOM_ACCESS_DENIED");
+        }
+
+        Room room = roomMapper.selectRoomByRoomNo(roomNo);
+        if (room == null || room.getCapacity() == null) {
+            throw new MessagingException("ROOM_NOT_FOUND");
+        }
+
+        qnaPresenceRegistry.admit(
+                accessor.getSessionId(), roomNo, participantNo,
+                participant.getNickname(), room.getCapacity()
+        );
+    }
+
+    @Override
+    public void afterSendCompletion(Message<?> message, MessageChannel channel, boolean sent, Exception ex) {
+        if (sent && ex == null) {
+            return;
+        }
+
+        StompHeaderAccessor accessor = MessageHeaderAccessor.getAccessor(message, StompHeaderAccessor.class);
+        if (accessor == null || (accessor.getCommand() != StompCommand.CONNECT
+                && accessor.getCommand() != StompCommand.STOMP)) {
+            return;
+        }
+        if (accessor.getUser() instanceof Authentication authentication
+                && authentication.getPrincipal() instanceof ParticipantPrincipal) {
+            qnaPresenceRegistry.disconnect(accessor.getSessionId());
+        }
     }
 
     private Authentication requireAuthentication(StompHeaderAccessor accessor) {

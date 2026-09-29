@@ -2,13 +2,15 @@ package com.malmoim.websocket.qna;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import org.springframework.security.core.parameters.P;
+import org.springframework.messaging.MessagingException;
 import org.springframework.stereotype.Component;
 
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
@@ -17,23 +19,39 @@ public class QnaPresenceRegistry {
 
     private final Map<String, PresenceSession> sessions = new ConcurrentHashMap<>();
 
-    public void connect(
+    // 연결 승인 시 정원 확인과 세션 등록을 함께 처리한다.
+    public synchronized void admit(
             String sessionId,
             Long roomNo,
             Long participantNo,
-            String nickname
+            String nickname,
+            int capacity
     ) {
-        PresenceSession session = new PresenceSession(
-                sessionId,
-                roomNo,
-                participantNo,
-                nickname
-        );
+        if (sessionId == null) {
+            throw new MessagingException("SESSION_ID_MISSING");
+        }
+        if (sessions.containsKey(sessionId)) {
+            return;
+        }
 
-        sessions.put(sessionId, session);
+        Set<Long> activeParticipantNos = new HashSet<>();
+        for (PresenceSession session : sessions.values()) {
+            if (Objects.equals(session.getRoomNo(), roomNo)) {
+                activeParticipantNos.add(session.getParticipantNo());
+            }
+        }
+
+        if (!activeParticipantNos.contains(participantNo)
+                && activeParticipantNos.size() >= capacity) {
+            throw new MessagingException("ROOM_FULL");
+        }
+
+        sessions.put(sessionId, new PresenceSession(
+                sessionId, roomNo, participantNo, nickname
+        ));
     }
 
-    public PresenceSession disconnect(String sessionId) {
+    public synchronized PresenceSession disconnect(String sessionId) {
         return sessions.remove(sessionId);
     }
 
