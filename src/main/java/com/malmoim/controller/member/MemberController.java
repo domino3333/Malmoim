@@ -13,10 +13,4 @@ import org.springframework.web.bind.annotation.RestController;
 public class MemberController {
 
 
-    @GetMapping
-    public ResponseEntity dasf(){
-
-        //todo memberController 구현
-        return ResponseEntity.ok("");
-    }
 }
