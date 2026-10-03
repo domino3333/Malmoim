@@ -101,9 +101,9 @@ public class QuestionServiceImpl implements QuestionService {
 
         roomService.validateRoomOwnership(roomNo, hostEmail);
 
-        Integer exist = questionMapper.existsByRoomNoAndQuestionNo(roomNo, questionNo);
+        Integer questionExists = questionMapper.existsByRoomNoAndQuestionNo(roomNo, questionNo);
 
-        if (exist == null||exist == 0) {
+        if (questionExists == null||questionExists == 0) {
             throw new AccessDeniedException("roomNo와 questionNo가 교차하는 row가 존재하지 않습니다.");
         }
 
