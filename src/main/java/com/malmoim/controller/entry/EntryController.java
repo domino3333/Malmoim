@@ -40,7 +40,7 @@ public class EntryController {
     }
 
 
-    @PostMapping("/insert-participant")
+    @PostMapping("/join-room")
     // 참가자 정보 저장 및 방 입장 처리
     public ResponseEntity<?> joinRoom(@RequestBody @Valid JoinRoomRequest dto){
 
