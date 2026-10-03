@@ -138,7 +138,7 @@ class HostRoomOwnershipTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = {"host", "participant-list", "question-list", "start-timer",
+    @ValueSource(strings = {"host", "participant-list", "question-list", "start-question-phase",
             "start-voting", "update-status", "start-answering"})
     void otherHostIsRejectedBeforeReadingOrChangingRoomData(String endpoint) throws Exception {
         mvc.perform(hostRequest(endpoint).principal(host(OTHER_HOST)))
@@ -150,7 +150,7 @@ class HostRoomOwnershipTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = {"host", "participant-list", "question-list", "start-timer",
+    @ValueSource(strings = {"host", "participant-list", "question-list", "start-question-phase",
             "start-voting", "update-status", "start-answering"})
     void missingMemberIsRejectedWithoutDereferencingNull(String endpoint) throws Exception {
         mvc.perform(hostRequest(endpoint).principal(host("missing@example.test")))
@@ -161,7 +161,7 @@ class HostRoomOwnershipTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = {"host", "participant-list", "question-list", "start-timer",
+    @ValueSource(strings = {"host", "participant-list", "question-list", "start-question-phase",
             "start-voting", "update-status", "start-answering"})
     void ownerKeepsExistingSuccessfulResponseShape(String endpoint) throws Exception {
         if (endpoint.equals("start-voting")) {
@@ -175,7 +175,7 @@ class HostRoomOwnershipTest {
             case "participant-list" -> result.andExpect(jsonPath("$.participantCount").value(1))
                     .andExpect(jsonPath("$.participants[0].nickname").value("guest"));
             case "question-list" -> result.andExpect(jsonPath("$[0].questionNo").value(10));
-            case "start-timer" -> result.andExpect(jsonPath("$.status").value("QUESTION_OPEN"));
+            case "start-question-phase" -> result.andExpect(jsonPath("$.status").value("QUESTION_OPEN"));
             case "start-voting" -> result.andExpect(jsonPath("$.status").value("VOTING_OPEN"));
             case "update-status" -> result.andExpect(jsonPath("$.status").value("QUESTION_CLOSED"));
             case "start-answering" -> result.andExpect(jsonPath("$.qnaPhaseResponse.status").value("ANSWERING"))
@@ -215,7 +215,7 @@ class HostRoomOwnershipTest {
     private MockHttpServletRequestBuilder hostRequest(String endpoint) {
         String url = "/api/host/qna/" + ROOM_NO + "/" + endpoint;
         return switch (endpoint) {
-            case "start-timer", "start-voting" -> post(url).contentType(MediaType.APPLICATION_JSON)
+            case "start-question-phase", "start-voting" -> post(url).contentType(MediaType.APPLICATION_JSON)
                     .content("{\"durationSeconds\":300}");
             case "update-status" -> post(url).contentType(MediaType.APPLICATION_JSON)
                     .content("{\"status\":\"QUESTION_CLOSED\"}");

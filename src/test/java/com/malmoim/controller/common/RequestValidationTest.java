@@ -44,7 +44,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class RequestValidationTest {
 
     private static final String CREATE = "/api/host/qna/create";
-    private static final String JOIN = "/api/entry/insert-participant";
+    private static final String JOIN = "/api/entry/join-room";
     private static final String VERIFY = "/api/entry/check-password";
     private static final String QUESTION = "/api/participant/qna/questions";
     private static final String OWNER = "owner@example.test";
