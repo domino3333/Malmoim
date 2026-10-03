@@ -53,7 +53,7 @@ public class HostQnaController {
     }
 
     // 호스트가 설정한 시간으로 질문 접수 단계 시작
-    @PostMapping("/{roomNo}/start-timer")
+    @PostMapping("/{roomNo}/start-question-phase")
     public ResponseEntity<?> startQuestionPhase(Authentication authentication, @RequestBody @Valid StartQnaPhaseRequest dto, @PathVariable long roomNo) {
 
         String hostEmail = authentication.getName();
