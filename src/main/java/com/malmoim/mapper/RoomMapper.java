@@ -30,8 +30,8 @@ public interface RoomMapper {
 
     Room selectRoomByRoomNo(Long roomNo);
 
-    //방의 현재 인원 수
-    Integer countPresentRoomPeople(Long roomNo);
+    // 방에 저장된 참여자 수
+    Integer countParticipantsByRoomNo(Long roomNo);
 
 
     List<MyRoomResponse> selectRecentRoomsByHostNo(long hostNo);
