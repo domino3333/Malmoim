@@ -16,9 +16,9 @@ public class QnaRoom {
 
     private Long roomNo;
     private LocalDateTime questionStartedAt;
-    private LocalDateTime questionEndedAt;
+    private LocalDateTime questionEndsAt;
     private LocalDateTime votingStartedAt;
-    private LocalDateTime votingEndedAt;
+    private LocalDateTime votingEndsAt;
     private QnaPhase status;
 
 }
