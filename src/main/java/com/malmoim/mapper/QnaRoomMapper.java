@@ -20,7 +20,7 @@ public interface QnaRoomMapper {
     QnaRoomInfoResponse selectQnaRoomInfoByRoomNo(@Param("roomNo") Long roomNo);
 
     // 질문 접수 시작 시간과 종료 시간 수정
-    void updateQuestionPeriod(@Param("roomNo") long roomNo, @Param("startedAt") LocalDateTime startedAt, @Param("endedAt") LocalDateTime endedAt);
+    void updateQuestionPeriod(@Param("roomNo") long roomNo, @Param("startedAt") LocalDateTime startedAt, @Param("endsAt") LocalDateTime endsAt);
 
     // 방 번호 기준 질문 타이머 정보 조회
     QnaPhaseResponse selectQuestionPhaseByRoomNo(long roomNo);
@@ -31,7 +31,7 @@ public interface QnaRoomMapper {
 
     QnaRoom selectQnaRoomByRoomNo(long roomNo);
 
-    void updateVotingPeriod(long roomNo, LocalDateTime startedAt, LocalDateTime endedAt);
+    void updateVotingPeriod(long roomNo, LocalDateTime startedAt, LocalDateTime endsAt);
 
     /**
     *  시간이 만료된 방을 db에서 검증해서 내려주기 위해 추가한 매퍼
