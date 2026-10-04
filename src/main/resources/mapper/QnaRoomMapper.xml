@@ -36,7 +36,7 @@
                        then Q.voting_ended_at
                    else null
                    end
-                   as phase_ended_at
+                   as phase_ends_at
         from room R
                  join qna_room Q on R.no = Q.room_no
         where Q.room_no = #{roomNo}
@@ -44,7 +44,7 @@
 
     <!-- 질문 접수 시작 시간과 종료 시간 수정 -->
     <update id="updateQuestionPeriod">
-        update qna_room set question_started_at=#{startedAt},question_ended_at=#{endedAt}  where room_no =#{roomNo}
+        update qna_room set question_started_at=#{startedAt},question_ended_at=#{endsAt}  where room_no =#{roomNo}
     </update>
 
 
@@ -60,7 +60,7 @@
         select R.no as room_no,
                Q.status,
                Q.question_started_at as phase_started_at,
-               Q.question_ended_at as phase_ended_at
+               Q.question_ended_at as phase_ends_at
         from room R join qna_room Q
         on R.no = Q.room_no
         where Q.room_no = #{roomNo}
@@ -71,7 +71,7 @@
         select R.no as room_no,
                Q.status,
                Q.voting_started_at as phase_started_at,
-               Q.voting_ended_at as phase_ended_at
+               Q.voting_ended_at as phase_ends_at
         from room R join qna_room Q
         on R.no = Q.room_no
         where Q.room_no = #{roomNo}
@@ -80,14 +80,14 @@
     <select id="selectQnaRoomByRoomNo" resultType="QnaRoom">
         select room_no,
                question_started_at,
-               question_ended_at,
+               question_ended_at as question_ends_at,
                voting_started_at,
-               voting_ended_at,
+               voting_ended_at as voting_ends_at,
                status from qna_room where room_no = #{roomNo}
     </select>
 
     <update id="updateVotingPeriod">
-        update qna_room set voting_started_at=#{startedAt}, voting_ended_at=#{endedAt}
+        update qna_room set voting_started_at=#{startedAt}, voting_ended_at=#{endsAt}
         where room_no = #{roomNo}
     </update>
 
