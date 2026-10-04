@@ -18,8 +18,8 @@ class QnaPhaseResponseTest {
                 .collect(Collectors.toSet());
 
         assertTrue(fieldNames.contains("phaseStartedAt"));
-        assertTrue(fieldNames.contains("phaseEndedAt"));
+        assertTrue(fieldNames.contains("phaseEndsAt"));
         assertFalse(fieldNames.contains("questionStartedAt"));
-        assertFalse(fieldNames.contains("questionEndedAt"));
+        assertFalse(fieldNames.contains("questionEndsAt"));
     }
 }

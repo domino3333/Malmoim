@@ -79,7 +79,7 @@ class RequestValidationTest {
         when(roomMapper.selectRoomByRoomNo(43L)).thenReturn(room);
         when(qnaRoomMapper.selectQnaRoomByRoomNo(43L)).thenReturn(QnaRoom.builder()
                 .roomNo(43L).status(QnaPhase.QUESTION_OPEN)
-                .questionEndedAt(LocalDateTime.now().plusMinutes(5)).build());
+                .questionEndsAt(LocalDateTime.now().plusMinutes(5)).build());
         MemberMapper memberMapper = mock(MemberMapper.class);
         when(memberMapper.selectMemberByEmail(OWNER)).thenReturn(Member.builder().no(7L).build());
         doAnswer(invocation -> {

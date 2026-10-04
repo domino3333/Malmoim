@@ -51,7 +51,7 @@ class ParticipantQuestionSubmissionTest {
         qnaRoomMapper = mock(QnaRoomMapper.class);
         messagingTemplate = mock(SimpMessagingTemplate.class);
         room = QnaRoom.builder().roomNo(43L).status(QnaPhase.QUESTION_OPEN)
-                .questionEndedAt(LocalDateTime.now().plusMinutes(5)).build();
+                .questionEndsAt(LocalDateTime.now().plusMinutes(5)).build();
         when(qnaRoomMapper.selectQnaRoomByRoomNo(43L)).thenReturn(room);
         doAnswer(invocation -> {
             Question question = invocation.getArgument(0);
@@ -120,7 +120,7 @@ class ParticipantQuestionSubmissionTest {
 
     @Test
     void expiredQuestionDeadlineDoesNotInsertOrBroadcast() {
-        room.setQuestionEndedAt(LocalDateTime.now().minusSeconds(1));
+        room.setQuestionEndsAt(LocalDateTime.now().minusSeconds(1));
         assertRegistrationRejected();
         verifyNoInteractions(questionMapper, messagingTemplate);
     }

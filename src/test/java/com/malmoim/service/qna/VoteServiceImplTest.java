@@ -31,8 +31,8 @@ class VoteServiceImplTest {
         QnaRoom room = QnaRoom.builder()
                 .roomNo(43L)
                 .status(QnaPhase.VOTING_OPEN)
-                .questionEndedAt(now.minusHours(1))
-                .votingEndedAt(now.plusHours(1))
+                .questionEndsAt(now.minusHours(1))
+                .votingEndsAt(now.plusHours(1))
                 .build();
         when(questionMapper.existsByRoomNoAndQuestionNo(43L, 10L)).thenReturn(1);
         when(qnaRoomMapper.selectQnaRoomByRoomNo(43L)).thenReturn(room);
@@ -49,8 +49,8 @@ class VoteServiceImplTest {
         QnaRoom room = QnaRoom.builder()
                 .roomNo(43L)
                 .status(QnaPhase.VOTING_OPEN)
-                .questionEndedAt(now.minusHours(2))
-                .votingEndedAt(now.minusHours(1))
+                .questionEndsAt(now.minusHours(2))
+                .votingEndsAt(now.minusHours(1))
                 .build();
         when(questionMapper.existsByRoomNoAndQuestionNo(43L, 10L)).thenReturn(1);
         when(qnaRoomMapper.selectQnaRoomByRoomNo(43L)).thenReturn(room);
@@ -107,6 +107,6 @@ class VoteServiceImplTest {
         when(questionMapper.existsByRoomNoAndQuestionNo(43L, 10L)).thenReturn(1);
         when(qnaRoomMapper.selectQnaRoomByRoomNo(43L)).thenReturn(QnaRoom.builder()
                 .roomNo(43L).status(QnaPhase.VOTING_OPEN)
-                .votingEndedAt(LocalDateTime.now().plusHours(1)).build());
+                .votingEndsAt(LocalDateTime.now().plusHours(1)).build());
     }
 }
