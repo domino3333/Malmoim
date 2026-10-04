@@ -17,5 +17,5 @@ public class QnaRoomInfoResponse {
     private String visibility;
     private QnaPhase status;
     private LocalDateTime phaseStartedAt;
-    private LocalDateTime phaseEndedAt;
+    private LocalDateTime phaseEndsAt;
 }
