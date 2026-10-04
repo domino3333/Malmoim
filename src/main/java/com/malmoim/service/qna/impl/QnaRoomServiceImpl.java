@@ -116,10 +116,10 @@ public class QnaRoomServiceImpl implements QnaRoomService {
         roomService.validateRoomOwnership(roomNo, hostEmail);
 
         LocalDateTime startedAt = LocalDateTime.now();
-        LocalDateTime endedAt = startedAt.plusSeconds(durationSeconds);
+        LocalDateTime endsAt = startedAt.plusSeconds(durationSeconds);
         log.info("startQuestionPhase 질문 시작 시간 :{}", startedAt);
 
-        qnaRoomMapper.updateQuestionPeriod(roomNo, startedAt, endedAt);
+        qnaRoomMapper.updateQuestionPeriod(roomNo, startedAt, endsAt);
         qnaRoomMapper.updateQnaPhase(roomNo, QnaPhase.QUESTION_OPEN);
 
         return qnaRoomMapper.selectQuestionPhaseByRoomNo(roomNo);
@@ -132,7 +132,7 @@ public class QnaRoomServiceImpl implements QnaRoomService {
         roomService.validateRoomOwnership(roomNo, hostEmail);
 
         LocalDateTime startedAt = LocalDateTime.now();
-        LocalDateTime endedAt = startedAt.plusSeconds(durationSeconds);
+        LocalDateTime endsAt = startedAt.plusSeconds(durationSeconds);
         log.info("startVotingPhase 투표 시작 시간 :{}", startedAt);
 
         QnaRoom qnaRoom = qnaRoomMapper.selectQnaRoomByRoomNo(roomNo);
@@ -140,7 +140,7 @@ public class QnaRoomServiceImpl implements QnaRoomService {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "현재 질문 종료 페이즈가 아니므로 투표를 시작할 수 없습니다.");
         }
 
-        qnaRoomMapper.updateVotingPeriod(roomNo, startedAt, endedAt);
+        qnaRoomMapper.updateVotingPeriod(roomNo, startedAt, endsAt);
         qnaRoomMapper.updateQnaPhase(roomNo, QnaPhase.VOTING_OPEN);
 
         return qnaRoomMapper.selectVotingPhaseByRoomNo(roomNo);

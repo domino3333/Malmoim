@@ -40,7 +40,7 @@ public class QuestionServiceImpl implements QuestionService {
 
         LocalDateTime now = LocalDateTime.now();
         if (qnaRoom == null || qnaRoom.getStatus() != QnaPhase.QUESTION_OPEN
-                || !now.isBefore(qnaRoom.getQuestionEndedAt())) {
+                || !now.isBefore(qnaRoom.getQuestionEndsAt())) {
             throw new RuntimeException("질문 등록이 가능한 상태가 아닙니다");
         }
 
