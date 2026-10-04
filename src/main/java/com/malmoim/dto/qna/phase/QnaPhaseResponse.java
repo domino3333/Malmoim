@@ -16,5 +16,5 @@ public class QnaPhaseResponse {
     private Long roomNo;
     private QnaPhase status;
     private LocalDateTime phaseStartedAt;
-    private LocalDateTime phaseEndedAt;
+    private LocalDateTime phaseEndsAt;
 }
