@@ -1,9 +1,6 @@
 package com.malmoim.service.qna.impl;
 
-import com.malmoim.domain.QnaPhase;
-import com.malmoim.domain.QnaRoom;
-import com.malmoim.domain.Question;
-import com.malmoim.domain.QuestionStatus;
+import com.malmoim.domain.*;
 import com.malmoim.dto.qna.question.ToggleAnswerStatusResponse;
 import com.malmoim.dto.qna.question.QuestionCreatedMessage;
 import com.malmoim.dto.qna.question.QuestionResponse;
@@ -103,7 +100,7 @@ public class QuestionServiceImpl implements QuestionService {
 
         Integer questionExists = questionMapper.existsByRoomNoAndQuestionNo(roomNo, questionNo);
 
-        if (questionExists == null||questionExists == 0) {
+        if (questionExists == null || questionExists == 0) {
             throw new AccessDeniedException("roomNo와 questionNo가 교차하는 row가 존재하지 않습니다.");
         }
 
@@ -111,6 +108,13 @@ public class QuestionServiceImpl implements QuestionService {
         if (question == null || question.getStatus() == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "질문을 찾을 수 없습니다.");
         }
+
+        QnaRoom qnaRoom = qnaRoomMapper.selectQnaRoomByRoomNo(roomNo);
+        //현재 결과공개 페이즈가 아니면 답변 상태를 못바꾸도록 하기
+        if (qnaRoom.getStatus() != QnaPhase.ANSWERING) {
+            throw new AccessDeniedException("현재 결과공개 페이즈가 아니므로 답변 상태를 변경할 수 없습니다.");
+        }
+
 
         QuestionStatus nextStatus;
         if (QuestionStatus.WAITING.name().equals(question.getStatus())) {
