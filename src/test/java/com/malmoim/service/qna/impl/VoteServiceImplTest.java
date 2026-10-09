@@ -1,4 +1,4 @@
-package com.malmoim;
+package com.malmoim.service.qna.impl;
 
 import com.malmoim.domain.QnaPhase;
 import com.malmoim.domain.QnaRoom;
@@ -19,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
-public class TestPracticeTest {
+public class VoteServiceImplTest {
 
 
     //근데 그냥 임의의 값을 내가 지정해서 그걸 돌려줘라고하는거면 이런 mock은 왜필요한거지? 그냥 0을 넣으면 되잖아
