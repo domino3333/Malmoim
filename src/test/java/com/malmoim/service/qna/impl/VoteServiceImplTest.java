@@ -9,6 +9,7 @@ import com.malmoim.service.qna.impl.VoteServiceImpl;
 import org.apache.coyote.Response;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.web.server.ResponseStatusException;
@@ -77,5 +78,33 @@ public class VoteServiceImplTest {
 
         verifyNoInteractions(voteMapper);
 
+    }
+
+    @Test
+    @DisplayName("이미 추천한 질문을 다시 추천하면 거절")
+    void rejectsDuplicateVote(){
+        QuestionMapper questionMapper = mock(QuestionMapper.class);
+        QnaRoomMapper qnaRoomMapper = mock(QnaRoomMapper.class);
+
+        when(questionMapper.existsByRoomNoAndQuestionNo(10L,43L)).thenReturn(1);
+
+        LocalDateTime deadline = LocalDateTime.now().plusHours(1);
+        QnaRoom room = QnaRoom.builder()
+                .roomNo(10L)
+                .votingEndsAt(deadline)
+                .status(QnaPhase.VOTING_OPEN)
+                .build();
+
+        when(qnaRoomMapper.selectQnaRoomByRoomNo(10L)).thenReturn(room);
+
+        VoteMapper voteMapper = mock(VoteMapper.class);
+
+        doThrow(new DuplicateKeyException("중복 추천")).when(voteMapper).insertVote(43L,10L);
+
+        VoteServiceImpl voteService = new VoteServiceImpl(voteMapper, qnaRoomMapper, questionMapper);
+
+        ResponseStatusException error = assertThrows(ResponseStatusException.class,()->voteService.castVote(10L,43L,10L));
+
+        assertEquals(HttpStatus.CONFLICT,error.getStatusCode());
     }
 }
