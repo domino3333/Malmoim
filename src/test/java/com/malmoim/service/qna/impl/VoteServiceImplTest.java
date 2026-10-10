@@ -6,6 +6,7 @@ import com.malmoim.mapper.QnaRoomMapper;
 import com.malmoim.mapper.QuestionMapper;
 import com.malmoim.mapper.VoteMapper;
 import com.malmoim.service.qna.impl.VoteServiceImpl;
+import net.bytebuddy.utility.dispatcher.JavaDispatcher;
 import org.apache.coyote.Response;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -174,6 +175,29 @@ public class VoteServiceImplTest {
 
         verify(voteMapper, never()).insertVote(10L, 10L);
         verify(questionMapper, never()).incrementVoteCount(10L);
+
+    }
+
+    @Test
+    @DisplayName("방 정보를 찾지 못하면 추천을 거절한다")
+    void rejectsVoteWhenQnaRoomIsMissing(){
+        QuestionMapper questionMapper = mock(QuestionMapper.class);
+        when(questionMapper.existsByRoomNoAndQuestionNo(10L,43L)).thenReturn(1);
+
+        //근데 roomno로 이미 question존재유무를 찾았는데 qnaroom이 없을수있나
+        QnaRoomMapper qnaRoomMapper = mock(QnaRoomMapper.class);
+        when(qnaRoomMapper.selectQnaRoomByRoomNo(10L)).thenReturn(null);
+
+        VoteMapper voteMapper = mock(VoteMapper.class);
+
+        VoteServiceImpl voteService = new VoteServiceImpl(voteMapper, qnaRoomMapper, questionMapper);
+
+        ResponseStatusException error = assertThrows(ResponseStatusException.class,()->voteService.castVote(10L,43L,10L));
+
+        assertEquals(HttpStatus.NOT_FOUND,error.getStatusCode());
+
+        verify(voteMapper,never()).insertVote(43L,10L);
+        verify(questionMapper,never()).incrementVoteCount(43L);
 
     }
 
