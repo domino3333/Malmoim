@@ -32,7 +32,7 @@ public class VoteServiceImplIntegrationTest {
     }
 
     @Test
-    @DisplayName("중복 투표가 실제로 db에서 어떻게 되는지")
+    @DisplayName("중복 투표 테스트")
     void rejectsDuplicateVoteInDatabase() {
 
         assertEquals("malmoim_test", jdbcTemplate.queryForObject("SELECT DATABASE()", String.class));
@@ -78,8 +78,15 @@ public class VoteServiceImplIntegrationTest {
                         Long questionNo = jdbcTemplate.queryForObject(
                                 "select no from question where participant_no = ? and room_no = ?"
                                 , Long.class, participantNo, roomNo);
-                        
+
                         voteService.castVote(roomNo, questionNo, participantNo);
+
+                        Integer voteRecordCount = jdbcTemplate
+                                .queryForObject("select COUNT(*) from vote where question_no = ? and participant_no = ?",
+                                Integer.class,questionNo,participantNo
+                                );
+
+                        assertEquals(1,voteRecordCount);
 
                     } finally {
 
