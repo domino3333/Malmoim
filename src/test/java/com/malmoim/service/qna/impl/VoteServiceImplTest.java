@@ -9,6 +9,8 @@ import com.malmoim.service.qna.impl.VoteServiceImpl;
 import org.apache.coyote.Response;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.EnumSource;
 import org.springframework.cglib.core.Local;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
@@ -75,7 +77,7 @@ public class VoteServiceImplTest {
 
         ResponseStatusException error = assertThrows(ResponseStatusException.class, () -> voteService.castVote(10L, 43L, 10L));
 
-        assertEquals(HttpStatus.CONFLICT,error.getStatusCode());
+        assertEquals(HttpStatus.CONFLICT, error.getStatusCode());
 
         verifyNoInteractions(voteMapper);
 
@@ -83,11 +85,11 @@ public class VoteServiceImplTest {
 
     @Test
     @DisplayName("이미 추천한 질문을 다시 추천하면 거절")
-    void rejectsDuplicateVote(){
+    void rejectsDuplicateVote() {
         QuestionMapper questionMapper = mock(QuestionMapper.class);
         QnaRoomMapper qnaRoomMapper = mock(QnaRoomMapper.class);
 
-        when(questionMapper.existsByRoomNoAndQuestionNo(10L,43L)).thenReturn(1);
+        when(questionMapper.existsByRoomNoAndQuestionNo(10L, 43L)).thenReturn(1);
 
         LocalDateTime deadline = LocalDateTime.now().plusHours(1);
         QnaRoom room = QnaRoom.builder()
@@ -100,24 +102,24 @@ public class VoteServiceImplTest {
 
         VoteMapper voteMapper = mock(VoteMapper.class);
 
-        doThrow(new DuplicateKeyException("중복 추천")).when(voteMapper).insertVote(43L,10L);
+        doThrow(new DuplicateKeyException("중복 추천")).when(voteMapper).insertVote(43L, 10L);
 
         VoteServiceImpl voteService = new VoteServiceImpl(voteMapper, qnaRoomMapper, questionMapper);
 
-        ResponseStatusException error = assertThrows(ResponseStatusException.class,()->voteService.castVote(10L,43L,10L));
+        ResponseStatusException error = assertThrows(ResponseStatusException.class, () -> voteService.castVote(10L, 43L, 10L));
 
-        assertEquals(HttpStatus.CONFLICT,error.getStatusCode());
+        assertEquals(HttpStatus.CONFLICT, error.getStatusCode());
 
         //never = 호출횟수가 0이어야 함
-        verify(questionMapper,never()).incrementVoteCount(43L);
+        verify(questionMapper, never()).incrementVoteCount(43L);
     }
 
     @Test
     @DisplayName("추천 가능한 질문을 처음 추천하면 정상처리 한다")
-    void acceptsFirstVote(){
+    void acceptsFirstVote() {
 
         QuestionMapper questionMapper = mock(QuestionMapper.class);
-        when(questionMapper.existsByRoomNoAndQuestionNo(10L,43L)).thenReturn(1);
+        when(questionMapper.existsByRoomNoAndQuestionNo(10L, 43L)).thenReturn(1);
 
         LocalDateTime deadline = LocalDateTime.now().plusHours(1);
 
@@ -133,31 +135,32 @@ public class VoteServiceImplTest {
 
         VoteServiceImpl voteService = new VoteServiceImpl(voteMapper, qnaRoomMapper, questionMapper);
 
-        voteService.castVote(10L,43L,10L);
+        voteService.castVote(10L, 43L, 10L);
 
-        verify(voteMapper).insertVote(43L,10L);
+        verify(voteMapper).insertVote(43L, 10L);
         verify(questionMapper).incrementVoteCount(43L);
 
     }
 
 
-    @Test
+    // VOTING_OPEN 을 제외한 모든 name를 파라미터로 넘기는 테스트
+    @ParameterizedTest
+    @EnumSource(value = QnaPhase.class, names = "VOTING_OPEN", mode = EnumSource.Mode.EXCLUDE)
     @DisplayName("마김시간이 남아 있어도 추천 단계가 아니면 거절한다")
-    void rejectsVoteWhenVotingIsNotOpen(){
+    void rejectsVoteWhenVotingIsNotOpen(QnaPhase qnaPhase) {
 
         QuestionMapper questionMapper = mock(QuestionMapper.class);
         VoteMapper voteMapper = mock(VoteMapper.class);
         QnaRoomMapper qnaRoomMapper = mock(QnaRoomMapper.class);
 
-        when(questionMapper.existsByRoomNoAndQuestionNo(43L,10L)).thenReturn(1);
+        when(questionMapper.existsByRoomNoAndQuestionNo(43L, 10L)).thenReturn(1);
 
         LocalDateTime deadline = LocalDateTime.now().plusHours(1);
 
         QnaRoom qnaRoom = QnaRoom.builder()
                 .roomNo(43L)
                 .votingEndsAt(deadline)
-                //qna페이즈의 votingopen을 반대로 걸어야하는데
-                .status(QnaPhase.QUESTION_CLOSED)
+                .status(qnaPhase)
                 .build();
 
         when(qnaRoomMapper.selectQnaRoomByRoomNo(43L)).thenReturn(qnaRoom);
@@ -165,12 +168,12 @@ public class VoteServiceImplTest {
         VoteServiceImpl voteService = new VoteServiceImpl(voteMapper, qnaRoomMapper, questionMapper);
 
 
-        ResponseStatusException error = assertThrows(ResponseStatusException.class,()->voteService.castVote(43L,10L,10L));
+        ResponseStatusException error = assertThrows(ResponseStatusException.class, () -> voteService.castVote(43L, 10L, 10L));
 
-        assertEquals(HttpStatus.CONFLICT,error.getStatusCode());
+        assertEquals(HttpStatus.CONFLICT, error.getStatusCode());
 
-        verify(voteMapper,never()).insertVote(10L,10L);
-        verify(questionMapper,never()).incrementVoteCount(10L);
+        verify(voteMapper, never()).insertVote(10L, 10L);
+        verify(questionMapper, never()).incrementVoteCount(10L);
 
     }
 
