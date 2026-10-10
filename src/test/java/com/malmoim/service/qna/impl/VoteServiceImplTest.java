@@ -9,6 +9,7 @@ import com.malmoim.service.qna.impl.VoteServiceImpl;
 import org.apache.coyote.Response;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.cglib.core.Local;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -136,6 +137,40 @@ public class VoteServiceImplTest {
 
         verify(voteMapper).insertVote(43L,10L);
         verify(questionMapper).incrementVoteCount(43L);
+
+    }
+
+
+    @Test
+    @DisplayName("마김시간이 남아 있어도 추천 단계가 아니면 거절한다")
+    void rejectsVoteWhenVotingIsNotOpen(){
+
+        QuestionMapper questionMapper = mock(QuestionMapper.class);
+        VoteMapper voteMapper = mock(VoteMapper.class);
+        QnaRoomMapper qnaRoomMapper = mock(QnaRoomMapper.class);
+
+        when(questionMapper.existsByRoomNoAndQuestionNo(43L,10L)).thenReturn(1);
+
+        LocalDateTime deadline = LocalDateTime.now().plusHours(1);
+
+        QnaRoom qnaRoom = QnaRoom.builder()
+                .roomNo(43L)
+                .votingEndsAt(deadline)
+                //qna페이즈의 votingopen을 반대로 걸어야하는데
+                .status(QnaPhase.QUESTION_CLOSED)
+                .build();
+
+        when(qnaRoomMapper.selectQnaRoomByRoomNo(43L)).thenReturn(qnaRoom);
+
+        VoteServiceImpl voteService = new VoteServiceImpl(voteMapper, qnaRoomMapper, questionMapper);
+
+
+        ResponseStatusException error = assertThrows(ResponseStatusException.class,()->voteService.castVote(43L,10L,10L));
+
+        assertEquals(HttpStatus.CONFLICT,error.getStatusCode());
+
+        verify(voteMapper).insertVote(10L,10L);
+        verify(questionMapper).incrementVoteCount(10L);
 
     }
 
