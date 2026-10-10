@@ -74,6 +74,11 @@ public class VoteServiceImplIntegrationTest {
                             participantNo, "중복 추천 테스트 질문", roomNo, 0, "WAITING"
                     );
 
+                    Long questionNo = jdbcTemplate.queryForObject(
+                            "select no from question where participant_no = ? and room_no = ?"
+                            , Long.class, participantNo, roomNo);
+                    
+
                     try {
 
                     } finally {
