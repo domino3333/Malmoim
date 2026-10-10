@@ -103,6 +103,19 @@ public class VoteServiceImplIntegrationTest {
                         ResponseStatusException error = assertThrows(ResponseStatusException.class,()->voteService.castVote(roomNo, questionNo, participantNo));
                         assertEquals(HttpStatus.CONFLICT,error.getStatusCode());
 
+
+                        //다시 한번 db에 문제 없는지 검사
+                        voteRecordCount = jdbcTemplate
+                                .queryForObject("select COUNT(*) from vote where question_no = ? and participant_no = ?",
+                                        Integer.class,questionNo,participantNo
+                                );
+
+                        voteCount = jdbcTemplate
+                                .queryForObject("select vote_count from question where no = ?",Integer.class,questionNo);
+
+                        assertEquals(1,voteRecordCount);
+                        assertEquals(1,voteCount);
+
                     } finally {
 
                         jdbcTemplate.update(
