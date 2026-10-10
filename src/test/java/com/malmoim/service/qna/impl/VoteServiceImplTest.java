@@ -184,7 +184,6 @@ public class VoteServiceImplTest {
         QuestionMapper questionMapper = mock(QuestionMapper.class);
         when(questionMapper.existsByRoomNoAndQuestionNo(10L,43L)).thenReturn(1);
 
-        //근데 roomno로 이미 question존재유무를 찾았는데 qnaroom이 없을수있나
         QnaRoomMapper qnaRoomMapper = mock(QnaRoomMapper.class);
         when(qnaRoomMapper.selectQnaRoomByRoomNo(10L)).thenReturn(null);
 
