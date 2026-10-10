@@ -45,7 +45,7 @@ public class VoteServiceImplIntegrationTest {
 
         try {
 
-            Long hostNo = jdbcTemplate.queryForObject("select on from member where email = ? ", Long.class, hostEmail);
+            Long hostNo = jdbcTemplate.queryForObject("select no from member where email = ? ", Long.class, hostEmail);
             String roomCode = "TEST-CODE";
 
             jdbcTemplate.update("insert into room(host_no,title,code,capacity) values(?,?,?,?)",
@@ -58,7 +58,7 @@ public class VoteServiceImplIntegrationTest {
                 LocalDateTime deadline = LocalDateTime.now().plusHours(1);
 
                 jdbcTemplate.update("insert into qna_room(room_no,status,voting_ended_at) values(?,?,?)",
-                        roomNo, QnaPhase.VOTING_OPEN, deadline);
+                        roomNo, "VOTING_OPEN", deadline);
 
                 String nickname = "테스트 참여자";
 
@@ -74,12 +74,12 @@ public class VoteServiceImplIntegrationTest {
                             participantNo, "중복 추천 테스트 질문", roomNo, 0, "WAITING"
                     );
 
-                    Long questionNo = jdbcTemplate.queryForObject(
-                            "select no from question where participant_no = ? and room_no = ?"
-                            , Long.class, participantNo, roomNo);
-                    
-
                     try {
+                        Long questionNo = jdbcTemplate.queryForObject(
+                                "select no from question where participant_no = ? and room_no = ?"
+                                , Long.class, participantNo, roomNo);
+                        
+                        voteService.castVote(roomNo, questionNo, participantNo);
 
                     } finally {
 
