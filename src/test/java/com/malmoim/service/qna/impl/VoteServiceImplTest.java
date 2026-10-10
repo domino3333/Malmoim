@@ -106,5 +106,7 @@ public class VoteServiceImplTest {
         ResponseStatusException error = assertThrows(ResponseStatusException.class,()->voteService.castVote(10L,43L,10L));
 
         assertEquals(HttpStatus.CONFLICT,error.getStatusCode());
+
+        verify(questionMapper,never()).incrementVoteCount(43L);
     }
 }
