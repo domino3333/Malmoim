@@ -107,6 +107,36 @@ public class VoteServiceImplTest {
 
         assertEquals(HttpStatus.CONFLICT,error.getStatusCode());
 
+        //never = 호출횟수가 0이어야 함
         verify(questionMapper,never()).incrementVoteCount(43L);
     }
+
+    @Test
+    @DisplayName("추천 가능한 질문을 처음 추천하면 정상처리 한다")
+    void acceptsFirstVote(){
+
+        QuestionMapper questionMapper = mock(QuestionMapper.class);
+        when(questionMapper.existsByRoomNoAndQuestionNo(10L,43L)).thenReturn(1);
+
+        LocalDateTime deadline = LocalDateTime.now().plusHours(1);
+
+        QnaRoom room = QnaRoom.builder()
+                .roomNo(10L)
+                .votingEndsAt(deadline)
+                .status(QnaPhase.VOTING_OPEN)
+                .build();
+
+        QnaRoomMapper qnaRoomMapper = mock(QnaRoomMapper.class);
+        VoteMapper voteMapper = mock(VoteMapper.class);
+        when(qnaRoomMapper.selectQnaRoomByRoomNo(10L)).thenReturn(room);
+
+        VoteServiceImpl voteService = new VoteServiceImpl(voteMapper, qnaRoomMapper, questionMapper);
+
+        voteService.castVote(10L,43L,10L);
+
+        verify(voteMapper).insertVote(43L,10L);
+        verify(questionMapper).incrementVoteCount(43L);
+
+    }
+
 }
