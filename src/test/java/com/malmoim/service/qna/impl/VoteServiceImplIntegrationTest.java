@@ -7,12 +7,15 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpStatus;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest
 @ActiveProfiles("test")
@@ -86,12 +89,19 @@ public class VoteServiceImplIntegrationTest {
                                 Integer.class,questionNo,participantNo
                                 );
 
+                        //실제 레코드가 1줄만 생겼는지 검사
                         assertEquals(1,voteRecordCount);
+
 
                         Integer voteCount = jdbcTemplate
                                 .queryForObject("select vote_count from question where no = ?",Integer.class,questionNo);
 
+                        // question에 대해 voteCount가 1만 증가했는지 검사
                         assertEquals(1,voteCount);
+
+                        //같은 사람이 다시 추천했을 때를 가정
+                        ResponseStatusException error = assertThrows(ResponseStatusException.class,()->voteService.castVote(roomNo, questionNo, participantNo));
+                        assertEquals(HttpStatus.CONFLICT,error.getStatusCode());
 
                     } finally {
 
