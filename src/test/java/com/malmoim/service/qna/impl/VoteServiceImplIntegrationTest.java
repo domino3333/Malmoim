@@ -88,6 +88,11 @@ public class VoteServiceImplIntegrationTest {
 
                         assertEquals(1,voteRecordCount);
 
+                        Integer voteCount = jdbcTemplate
+                                .queryForObject("select vote_count from question where no = ?",Integer.class,questionNo);
+
+                        assertEquals(1,voteCount);
+
                     } finally {
 
                         jdbcTemplate.update(
