@@ -169,8 +169,8 @@ public class VoteServiceImplTest {
 
         assertEquals(HttpStatus.CONFLICT,error.getStatusCode());
 
-        verify(voteMapper).insertVote(10L,10L);
-        verify(questionMapper).incrementVoteCount(10L);
+        verify(voteMapper,never()).insertVote(10L,10L);
+        verify(questionMapper,never()).incrementVoteCount(10L);
 
     }
 
