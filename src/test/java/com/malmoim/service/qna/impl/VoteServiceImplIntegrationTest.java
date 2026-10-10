@@ -1,7 +1,6 @@
 package com.malmoim.service.qna.impl;
 
 
-import com.malmoim.domain.QnaPhase;
 import com.malmoim.service.qna.VoteService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -99,12 +98,12 @@ public class VoteServiceImplIntegrationTest {
                         // question에 대해 voteCount가 1만 증가했는지 검사
                         assertEquals(1,voteCount);
 
-                        //같은 사람이 다시 추천했을 때를 가정
+                        //같은 참여자가 같은 질문을 다시 추천
                         ResponseStatusException error = assertThrows(ResponseStatusException.class,()->voteService.castVote(roomNo, questionNo, participantNo));
                         assertEquals(HttpStatus.CONFLICT,error.getStatusCode());
 
 
-                        //다시 한번 db에 문제 없는지 검사
+                        //중복 추천 거절 후 추천 기록과 추천 수가 각각 1인지 재확인
                         voteRecordCount = jdbcTemplate
                                 .queryForObject("select COUNT(*) from vote where question_no = ? and participant_no = ?",
                                         Integer.class,questionNo,participantNo
