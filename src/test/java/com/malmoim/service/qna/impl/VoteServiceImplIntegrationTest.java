@@ -91,35 +91,35 @@ public class VoteServiceImplIntegrationTest {
 
                         Integer voteRecordCount = jdbcTemplate
                                 .queryForObject("select COUNT(*) from vote where question_no = ? and participant_no = ?",
-                                Integer.class,questionNo,participantNo
+                                        Integer.class, questionNo, participantNo
                                 );
 
                         //실제 레코드가 1줄만 생겼는지 검사
-                        assertEquals(1,voteRecordCount);
+                        assertEquals(1, voteRecordCount);
 
 
                         Integer voteCount = jdbcTemplate
-                                .queryForObject("select vote_count from question where no = ?",Integer.class,questionNo);
+                                .queryForObject("select vote_count from question where no = ?", Integer.class, questionNo);
 
                         // question에 대해 voteCount가 1만 증가했는지 검사
-                        assertEquals(1,voteCount);
+                        assertEquals(1, voteCount);
 
                         //같은 참여자가 같은 질문을 다시 추천
-                        ResponseStatusException error = assertThrows(ResponseStatusException.class,()->voteService.castVote(roomNo, questionNo, participantNo));
-                        assertEquals(HttpStatus.CONFLICT,error.getStatusCode());
+                        ResponseStatusException error = assertThrows(ResponseStatusException.class, () -> voteService.castVote(roomNo, questionNo, participantNo));
+                        assertEquals(HttpStatus.CONFLICT, error.getStatusCode());
 
 
                         //중복 추천 거절 후 추천 기록과 추천 수가 각각 1인지 재확인
                         voteRecordCount = jdbcTemplate
                                 .queryForObject("select COUNT(*) from vote where question_no = ? and participant_no = ?",
-                                        Integer.class,questionNo,participantNo
+                                        Integer.class, questionNo, participantNo
                                 );
 
                         voteCount = jdbcTemplate
-                                .queryForObject("select vote_count from question where no = ?",Integer.class,questionNo);
+                                .queryForObject("select vote_count from question where no = ?", Integer.class, questionNo);
 
-                        assertEquals(1,voteRecordCount);
-                        assertEquals(1,voteCount);
+                        assertEquals(1, voteRecordCount);
+                        assertEquals(1, voteCount);
 
                     } finally {
 
@@ -189,14 +189,21 @@ public class VoteServiceImplIntegrationTest {
 
                         doThrow(new RuntimeException("추천 수 증가 실패")).when(questionMapper).incrementVoteCount(questionNo);
 
-                        RuntimeException error = assertThrows(RuntimeException.class,()->voteService.castVote(roomNo, questionNo, participantNo));
-                        assertEquals("추천 수 증가 실패",error.getMessage());
+                        RuntimeException error = assertThrows(RuntimeException.class, () -> voteService.castVote(roomNo, questionNo, participantNo));
+                        assertEquals("추천 수 증가 실패", error.getMessage());
 
                         //추천 기록이 실제로 롤백됐는지 확인
                         Integer voteRecordCount = jdbcTemplate
                                 .queryForObject("select COUNT(*) from vote where question_no = ? and participant_no =?"
-                                        , Integer.class,questionNo,participantNo);
-                        assertEquals(voteRecordCount,0);
+                                        , Integer.class, questionNo, participantNo);
+                        assertEquals(0, voteRecordCount);
+
+                        // 추천 수도 그대로인지 검사
+                        Integer questionRecordVoteCount =
+                                jdbcTemplate.queryForObject("select vote_count from question where no = ? and participant_no =?"
+                                        , Integer.class, questionNo, participantNo);
+
+                        assertEquals(0,questionRecordVoteCount);
 
 
                     } finally {
