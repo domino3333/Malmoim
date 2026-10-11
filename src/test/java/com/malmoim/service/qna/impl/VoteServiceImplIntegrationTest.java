@@ -5,6 +5,7 @@ import com.malmoim.mapper.QuestionMapper;
 import com.malmoim.service.qna.VoteService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
@@ -15,8 +16,9 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.when;
 
 @SpringBootTest
 @ActiveProfiles("test")
@@ -185,7 +187,13 @@ public class VoteServiceImplIntegrationTest {
                                 "select no from question where participant_no = ? and room_no = ?",
                                 Long.class, participantNo, roomNo);
 
-                        voteService.castVote(roomNo, questionNo, participantNo);
+                        doThrow(new RuntimeException("추천 수 증가 실패")).when(questionMapper).incrementVoteCount(questionNo);
+
+                        RuntimeException error = assertThrows(RuntimeException.class,()->voteService.castVote(roomNo, questionNo, participantNo));
+                        assertEquals("추천 수 증가 실패 ",error.getMessage());
+
+
+
 
                     } finally {
                         jdbcTemplate.update(
