@@ -1,6 +1,7 @@
 package com.malmoim.service.qna.impl;
 
 
+import com.malmoim.mapper.QuestionMapper;
 import com.malmoim.service.qna.VoteService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -9,6 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.bean.override.mockito.MockitoSpyBean;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
@@ -26,6 +28,9 @@ public class VoteServiceImplIntegrationTest {
     @Autowired
     VoteService voteService;
 
+    @MockitoSpyBean
+    QuestionMapper questionMapper;
+
     @Test
     @DisplayName("테스트 DB에 연결한다")
     void connectsToTestDatabase() {
@@ -40,7 +45,6 @@ public class VoteServiceImplIntegrationTest {
         assertEquals("malmoim_test", jdbcTemplate.queryForObject("SELECT DATABASE()", String.class));
 
         String hostEmail = "test@example.com";
-
 
         jdbcTemplate.update("insert into member(email,password,name,role) values(?,?,?,?)",
                 hostEmail, "unused", "테스트유저1", "NORMAL");
@@ -122,24 +126,86 @@ public class VoteServiceImplIntegrationTest {
                                 roomNo, participantNo
                         );
                     }
-
-
                 } finally {
-
                     jdbcTemplate.update("delete from participant where nickname = ? and room_no = ?", nickname, roomNo);
                 }
-
-
             } finally {
                 jdbcTemplate.update("delete from room where code = ? ", roomCode);
             }
+        } finally {
+            jdbcTemplate.update("delete from member where email = ?", hostEmail);
+        }
+    }
 
+    @Test
+    @DisplayName("추천이 insert되었다고 해도 추천 수 증가에 실패하면 롤백한다")
+    void rollsBackVoteWhenCountUpdateFails() {
+
+        assertEquals("malmoim_test", jdbcTemplate.queryForObject("select database()", String.class));
+
+        String hostEmail = "host@example.com";
+
+        jdbcTemplate.update("insert into member(email,password,name,role) values(?,?,?,?)",
+                hostEmail, "password", "홍길동", "NORMAL");
+
+        try {
+            Long hostNo = jdbcTemplate.queryForObject(
+                    "select no from member where email = ?", Long.class, hostEmail);
+
+            String roomCode = "ROLLBACK_ROOM";
+            jdbcTemplate.update("insert into room(host_no,title,code,capacity) values(?,?,?,?)",
+                    hostNo, "타이틀", roomCode, 10);
+
+            try {
+                Long roomNo = jdbcTemplate.queryForObject(
+                        "select no from room where code = ?", Long.class, roomCode);
+
+                // 추천 가능한 Q&A 상태와 마감시간을 준비
+                LocalDateTime deadline = LocalDateTime.now().plusHours(1);
+                jdbcTemplate.update("insert into qna_room(room_no,status,voting_ended_at) values(?,?,?)",
+                        roomNo, "VOTING_OPEN", deadline);
+
+                String nickname = "참여자닉네임";
+                jdbcTemplate.update("insert into participant(nickname,room_no) values(?,?)",
+                        nickname, roomNo);
+
+                try {
+                    // 번호 조회에 실패해도 참여자 정리를 실행할 수 있도록 try 안에서 조회
+                    Long participantNo = jdbcTemplate.queryForObject(
+                            "select no from participant where nickname = ? and room_no = ?",
+                            Long.class, nickname, roomNo);
+
+                    jdbcTemplate.update(
+                            "insert into question(participant_no,content,room_no,vote_count,status) values(?,?,?,?,?)",
+                            participantNo, "컨텐트", roomNo, 0, "WAITING");
+
+                    try {
+                        // 번호 조회에 실패해도 질문 정리를 실행할 수 있도록 try 안에서 조회
+                        Long questionNo = jdbcTemplate.queryForObject(
+                                "select no from question where participant_no = ? and room_no = ?",
+                                Long.class, participantNo, roomNo);
+
+                        voteService.castVote(roomNo, questionNo, participantNo);
+
+                    } finally {
+                        jdbcTemplate.update(
+                                "delete from question where room_no = ? and participant_no = ?",
+                                roomNo, participantNo);
+                    }
+
+                } finally {
+                    jdbcTemplate.update("delete from participant where nickname = ? and room_no = ?",
+                            nickname, roomNo);
+                }
+
+            } finally {
+                jdbcTemplate.update("delete from room where code = ? and host_no = ?",
+                        roomCode, hostNo);
+            }
 
         } finally {
             jdbcTemplate.update("delete from member where email = ?", hostEmail);
         }
-
     }
-
 
 }
