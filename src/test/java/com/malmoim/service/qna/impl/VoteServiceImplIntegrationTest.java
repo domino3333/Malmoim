@@ -190,9 +190,13 @@ public class VoteServiceImplIntegrationTest {
                         doThrow(new RuntimeException("추천 수 증가 실패")).when(questionMapper).incrementVoteCount(questionNo);
 
                         RuntimeException error = assertThrows(RuntimeException.class,()->voteService.castVote(roomNo, questionNo, participantNo));
-                        assertEquals("추천 수 증가 실패 ",error.getMessage());
+                        assertEquals("추천 수 증가 실패",error.getMessage());
 
-
+                        //추천 기록이 실제로 롤백됐는지 확인
+                        Integer voteRecordCount = jdbcTemplate
+                                .queryForObject("select COUNT(*) from vote where question_no = ? and participant_no =?"
+                                        , Integer.class,questionNo,participantNo);
+                        assertEquals(voteRecordCount,0);
 
 
                     } finally {
