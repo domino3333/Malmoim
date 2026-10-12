@@ -325,9 +325,11 @@ public class VoteServiceImplIntegrationTest {
                             assertEquals(1,questionVoteCount);
                             assertEquals(1,voteRecordCount);
                             assertEquals(1,successCount);
-                            
+
                             ResponseStatusException error
                                     = assertInstanceOf(ResponseStatusException.class,failureCause);
+
+                            assertEquals(HttpStatus.CONFLICT,error.getStatusCode());
 
 
                         }finally {
