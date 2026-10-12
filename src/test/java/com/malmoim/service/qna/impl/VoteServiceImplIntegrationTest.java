@@ -292,38 +292,42 @@ public class VoteServiceImplIntegrationTest {
                             Future<?> result1 = executor.submit(task1);
                             Future<?> result2 = executor.submit(task2);
 
+                            //서비스 호출이 정상 완료되면 ++;
+                            int successCount = 0;
+                            Throwable failureCause = null;
+
                             try {
                                 result1.get();
+                                successCount++;
 
                             }catch (ExecutionException e) {
-                                //이 실패가 중복으로 거절됐을 때 오는건가?
-                                System.out.println("task1 실패");
+                                System.out.println("task1 실패: " );
+                                failureCause = e.getCause();
+
                             }
 
                             try {
                                 result2.get();
+                                successCount++;
 
                             }catch (ExecutionException e) {
-                                System.out.println("task2 실패");
+                                System.out.println("task2 실패: ");
+                                failureCause = e.getCause();
                             }
 
                             Integer questionVoteCount = jdbcTemplate
-                                    .queryForObject("select vote_count from question" +
-                                                    "where no = ? and participant_no = ?"
+                                    .queryForObject("select vote_count from question where no = ? and participant_no = ?"
                                     ,Integer.class,questionNo,participantNo);
-                            Integer voteRecordCount = jdbcTemplate.queryForObject("select COUNT(*) from vote" +
-                                    "where question_no =? and participant_no = ?",
+                            Integer voteRecordCount = jdbcTemplate.queryForObject("select COUNT(*) from vote where question_no =? and participant_no = ?",
                                     Integer.class,questionNo,participantNo);
 
-                            //좋아요 수는 오르지 않고, 좋아요 기록은 하나만 남아야 함
-                            assertEquals(0,questionVoteCount);
+                            //좋아요 수는 1, 좋아요 기록은 하나만 남아야 함
+                            assertEquals(1,questionVoteCount);
                             assertEquals(1,voteRecordCount);
+                            assertEquals(1,successCount);
                             
-
-
-
-
-
+                            ResponseStatusException error
+                                    = assertInstanceOf(ResponseStatusException.class,failureCause);
 
 
                         }finally {
