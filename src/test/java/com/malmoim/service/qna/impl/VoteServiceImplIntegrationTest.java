@@ -16,8 +16,10 @@ import org.springframework.test.context.bean.override.mockito.MockitoSpyBean;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.doThrow;
@@ -233,7 +235,7 @@ public class VoteServiceImplIntegrationTest {
 
     @Test
     @DisplayName("같은 참여자가 동시에 중복 추천해도 한 번만 저장한다")
-    void rejectsConcurrentDuplicateVotesInDatabase() {
+    void rejectsConcurrentDuplicateVotesInDatabase() throws InterruptedException{
 
 
         assertEquals("malmoim_test", jdbcTemplate.queryForObject("select database()", String.class));
@@ -261,68 +263,86 @@ public class VoteServiceImplIntegrationTest {
 
 
                 String nickname = "참여자닉네임";
-                jdbcTemplate.update("insert into participant(nickname,room_no) values(?,?)",nickname,roomNo);
+                jdbcTemplate.update("insert into participant(nickname,room_no) values(?,?)", nickname, roomNo);
 
-                try{
+                try {
 
                     Long participantNo = jdbcTemplate.queryForObject("select no from participant where room_no =? and nickname=?"
-                            ,Long.class,roomNo,nickname);
+                            , Long.class, roomNo, nickname);
 
                     jdbcTemplate.update("insert into question(participant_no,room_no,content,vote_count,status) values(?,?,?,?,?)"
-                            ,participantNo,roomNo,"content",0,"WAITING");
+                            , participantNo, roomNo, "content", 0, "WAITING");
 
-                    try{
+                    try {
 
                         Long questionNo = jdbcTemplate.queryForObject("select no from question where room_no = ? and participant_no = ?",
-                                Long.class, roomNo,participantNo);
-
+                                Long.class, roomNo, participantNo);
 
                         ExecutorService executor = Executors.newFixedThreadPool(2);
+                        try{
+                            Runnable task1 = () -> {
+                                voteService.castVote(roomNo, questionNo, participantNo);
+                                System.out.println("task1 실행");
+                            };
+                            Runnable task2 = () -> {
+                                voteService.castVote(roomNo, questionNo, participantNo);
+                                System.out.println("task2 실행");
+                            };
 
-                        Runnable task1 = ()->{
-                            voteService.castVote(roomNo,questionNo,participantNo);
-                            System.out.println("task1 실행");
-                        };
-                        Runnable task2 = ()->{
-                            voteService.castVote(roomNo,questionNo,participantNo);
-                            System.out.println("task2 실행");
-                        };
+                            Future<?> result1 = executor.submit(task1);
+                            Future<?> result2 = executor.submit(task2);
+
+                            try {
+                                result1.get();
+
+                            }catch (ExecutionException e) {
+                                //이 실패가 중복으로 거절됐을 때 오는건가?
+                                System.out.println("task1 실패");
+                            }
+
+                            try {
+                                result2.get();
+
+                            }catch (ExecutionException e) {
+                                System.out.println("task2 실패");
+                            }
+
+                            Integer questionVoteCount = jdbcTemplate
+                                    .queryForObject("select vote_count from question" +
+                                                    "where no = ? and participant_no = ?"
+                                    ,Integer.class,questionNo,participantNo);
+                            Integer voteRecordCount = jdbcTemplate.queryForObject("select COUNT(*) from vote" +
+                                    "where question_no =? and participant_no = ?",
+                                    Integer.class,questionNo,participantNo);
+
+                            //좋아요 수는 오르지 않고, 좋아요 기록은 하나만 남아야 함
+                            assertEquals(0,questionVoteCount);
+                            assertEquals(1,voteRecordCount);
+                            
 
 
 
 
 
 
-                    }finally {
 
-                        jdbcTemplate.update("delete from question where participant_no = ? and room_no = ?",participantNo,roomNo);
+                        }finally {
+                            executor.shutdown();
+                        }
 
 
 
+                    } finally {
+
+                        jdbcTemplate.update("delete from question where participant_no = ? and room_no = ?", participantNo, roomNo);
                     }
-
-
-
-
-                }finally {
-                    jdbcTemplate.update("delete from participant where room_no = ? and nickname= ?",roomNo,nickname);
-
+                } finally {
+                    jdbcTemplate.update("delete from participant where room_no = ? and nickname= ?", roomNo, nickname);
                 }
-
-
-
-
-
-
             } finally {
-
                 jdbcTemplate.update("delete from room where code = ?", code);
-
             }
-
-
         } finally {
-
             jdbcTemplate.update("delete from member where email=?", hostEmail);
         }
 
