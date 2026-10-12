@@ -203,7 +203,7 @@ public class VoteServiceImplIntegrationTest {
                                 jdbcTemplate.queryForObject("select vote_count from question where no = ? and participant_no =?"
                                         , Integer.class, questionNo, participantNo);
 
-                        assertEquals(0,questionRecordVoteCount);
+                        assertEquals(0, questionRecordVoteCount);
 
 
                     } finally {
@@ -226,5 +226,59 @@ public class VoteServiceImplIntegrationTest {
             jdbcTemplate.update("delete from member where email = ?", hostEmail);
         }
     }
+
+
+    @Test
+    @DisplayName("같은 참여자가 동시에 중복 추천해도 한 번만 저장한다")
+    void rejectsConcurrentDuplicateVotesInDatabase() {
+
+
+        assertEquals("malmoim_test", jdbcTemplate.queryForObject("select database()", String.class));
+
+        String hostEmail = "concurrent-vote@example.com";
+
+        jdbcTemplate.update("insert into member(email,password,name,role) values(?,?,?,?)"
+                , hostEmail, "password", "동시추천호스트", "NORMAL");
+
+
+        try {
+
+            Long hostNo = jdbcTemplate.queryForObject("select no from where email =?", Long.class, hostEmail);
+            String code = "concurrentCode";
+
+
+            jdbcTemplate.update("insert into room(host_no,title,code,capacity) values(?,?,?,?)", hostNo, "타이틀", code, 10);
+
+            try {
+                Long roomNo = jdbcTemplate.queryForObject("select no from room where code = ?", Long.class, code);
+
+                LocalDateTime deadline = LocalDateTime.now().plusHours(1);
+                jdbcTemplate.update("insert into qna_room(room_no,status,voting_ended_at) values(?,?,?)",
+                        roomNo, "VOTING_OPEN", deadline);
+
+                try{
+
+
+
+                }finally {
+                    // qna room은 room 지울때 알아서 삭제됨
+                }
+
+
+            } finally {
+
+                jdbcTemplate.update("delete from room where code = ?", code);
+
+            }
+
+
+        } finally {
+
+            jdbcTemplate.update("delete from member where email=?", hostEmail);
+        }
+
+
+    }
+
 
 }
