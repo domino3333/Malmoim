@@ -1,6 +1,7 @@
 package com.malmoim.service.qna.impl;
 
 
+import ch.qos.logback.core.net.SyslogOutputStream;
 import com.malmoim.mapper.QuestionMapper;
 import com.malmoim.service.qna.VoteService;
 import org.junit.jupiter.api.DisplayName;
@@ -15,6 +16,8 @@ import org.springframework.test.context.bean.override.mockito.MockitoSpyBean;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.doThrow;
@@ -235,7 +238,7 @@ public class VoteServiceImplIntegrationTest {
 
         assertEquals("malmoim_test", jdbcTemplate.queryForObject("select database()", String.class));
 
-        String hostEmail = "concurrent-vote@example.com";
+        String hostEmail = "concurrent@example.com";
 
         jdbcTemplate.update("insert into member(email,password,name,role) values(?,?,?,?)"
                 , hostEmail, "password", "동시추천호스트", "NORMAL");
@@ -243,8 +246,8 @@ public class VoteServiceImplIntegrationTest {
 
         try {
 
-            Long hostNo = jdbcTemplate.queryForObject("select no from where email =?", Long.class, hostEmail);
-            String code = "concurrentCode";
+            Long hostNo = jdbcTemplate.queryForObject("select no from member where email =?", Long.class, hostEmail);
+            String code = "code";
 
 
             jdbcTemplate.update("insert into room(host_no,title,code,capacity) values(?,?,?,?)", hostNo, "타이틀", code, 10);
@@ -256,13 +259,59 @@ public class VoteServiceImplIntegrationTest {
                 jdbcTemplate.update("insert into qna_room(room_no,status,voting_ended_at) values(?,?,?)",
                         roomNo, "VOTING_OPEN", deadline);
 
+
+                String nickname = "참여자닉네임";
+                jdbcTemplate.update("insert into participant(nickname,room_no) values(?,?)",nickname,roomNo);
+
                 try{
+
+                    Long participantNo = jdbcTemplate.queryForObject("select no from participant where room_no =? and nickname=?"
+                            ,Long.class,roomNo,nickname);
+
+                    jdbcTemplate.update("insert into question(participant_no,room_no,content,vote_count,status) values(?,?,?,?,?)"
+                            ,participantNo,roomNo,"content",0,"WAITING");
+
+                    try{
+
+                        Long questionNo = jdbcTemplate.queryForObject("select no from question where room_no = ? and participant_no = ?",
+                                Long.class, roomNo,participantNo);
+
+
+                        ExecutorService executor = Executors.newFixedThreadPool(2);
+
+                        Runnable task1 = ()->{
+                            voteService.castVote(roomNo,questionNo,participantNo);
+                            System.out.println("task1 실행");
+                        };
+                        Runnable task2 = ()->{
+                            voteService.castVote(roomNo,questionNo,participantNo);
+                            System.out.println("task2 실행");
+                        };
+
+
+
+
+
+
+                    }finally {
+
+                        jdbcTemplate.update("delete from question where participant_no = ? and room_no = ?",participantNo,roomNo);
+
+
+
+                    }
+
 
 
 
                 }finally {
-                    // qna room은 room 지울때 알아서 삭제됨
+                    jdbcTemplate.update("delete from participant where room_no = ? and nickname= ?",roomNo,nickname);
+
                 }
+
+
+
+
 
 
             } finally {
