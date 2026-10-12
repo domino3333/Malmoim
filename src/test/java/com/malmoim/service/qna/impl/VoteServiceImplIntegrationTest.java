@@ -330,6 +330,7 @@ public class VoteServiceImplIntegrationTest {
                                     = assertInstanceOf(ResponseStatusException.class,failureCause);
 
                             assertEquals(HttpStatus.CONFLICT,error.getStatusCode());
+                            assertEquals("이미 투표한 질문입니다.",error.getReason());
 
 
                         }finally {
