@@ -294,6 +294,7 @@ public class VoteServiceImplIntegrationTest {
 
                             //서비스 호출이 정상 완료되면 ++;
                             int successCount = 0;
+                            //실패한 이유를 담을 변수
                             Throwable failureCause = null;
 
                             try {
