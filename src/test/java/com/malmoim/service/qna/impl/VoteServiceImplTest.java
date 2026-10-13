@@ -32,7 +32,7 @@ public class VoteServiceImplTest {
 
     @Test
     @DisplayName("없는 질문을 추천하면 거절한다")
-    void requestsMissingQuestion() {
+    void rejectsVoteWhenQuestionIsMissing() {
 
         QuestionMapper questionMapper = mock(QuestionMapper.class);
         when(questionMapper.existsByRoomNoAndQuestionNo(10L, 43L)).thenReturn(0);
