@@ -44,7 +44,7 @@ public class RoomController {
         log.info("searchRooms 진입");
 
         String hostEmail = authentication.getName();
-        MyRoomsResponse dto = roomService.getSearchedRooms(hostEmail, keyword, page, size);
+        MyRoomsResponse dto = roomService.searchRooms(hostEmail, keyword, page, size);
 
         return ResponseEntity.ok(dto);
     }

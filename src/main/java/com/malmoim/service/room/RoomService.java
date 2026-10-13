@@ -14,5 +14,5 @@ public interface RoomService {
 
     List<MyRoomResponse> getMyRecentRooms(String hostEmail);
 
-    MyRoomsResponse getSearchedRooms(String hostEmail, String keyword,int page, int size);
+    MyRoomsResponse searchRooms(String hostEmail, String keyword,int page, int size);
 }

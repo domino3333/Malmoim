@@ -39,7 +39,7 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
-    public MyRoomsResponse getSearchedRooms(String hostEmail, String keyword, int page, int size) {
+    public MyRoomsResponse searchRooms(String hostEmail, String keyword, int page, int size) {
         Member host = memberMapper.selectMemberByEmail(hostEmail);
 
         MyRoomsResponse dto = new MyRoomsResponse();
