@@ -49,4 +49,8 @@
     <select id="selectQuestionByQuestionNo" resultType="Question">
         select * from question where no = #{questionNo}
     </select>
+    
+    <select id="selectQuestionNoForUpdate">
+        select no from question where room_no = #{roomNo} and no = #{questionNo} for update
+    </select>
 </mapper>

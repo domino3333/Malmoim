@@ -22,4 +22,6 @@ public interface QuestionMapper {
     Integer updateQuestionStatus(Long questionNo, QuestionStatus status);
 
     Question selectQuestionByQuestionNo(Long questionNo);
+
+    Long selectQuestionNoForUpdate(Long roomNo,Long questionNo);
 }
