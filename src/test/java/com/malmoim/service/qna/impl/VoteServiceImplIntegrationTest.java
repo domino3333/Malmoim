@@ -302,7 +302,7 @@ public class VoteServiceImplIntegrationTest {
                                 successCount++;
 
                             }catch (ExecutionException e) {
-                                System.out.println("task1 실패: " );
+                                System.out.println("task1 실패: "+e.getCause() );
                                 failureCause = e.getCause();
 
                             }
@@ -312,7 +312,7 @@ public class VoteServiceImplIntegrationTest {
                                 successCount++;
 
                             }catch (ExecutionException e) {
-                                System.out.println("task2 실패: ");
+                                System.out.println("task2 실패: "+e.getCause());
                                 failureCause = e.getCause();
                             }
 
