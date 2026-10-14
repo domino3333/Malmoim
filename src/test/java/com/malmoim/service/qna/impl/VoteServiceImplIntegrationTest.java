@@ -232,7 +232,7 @@ public class VoteServiceImplIntegrationTest {
 
     @Test
     @DisplayName("같은 참여자가 동시에 중복 추천해도 한 번만 저장한다")
-    void rejectsConcurrentDuplicateVotesInDatabase() throws InterruptedException{
+    void rejectsConcurrentDuplicateVotesInDatabase() throws InterruptedException {
 
 
         assertEquals("malmoim_test", jdbcTemplate.queryForObject("select database()", String.class));
@@ -277,15 +277,17 @@ public class VoteServiceImplIntegrationTest {
 
                         ExecutorService executor = Executors.newFixedThreadPool(2);
                         CountDownLatch startSignal = new CountDownLatch(1);
+                        CountDownLatch readySignal = new CountDownLatch(2);
 
-                        try{
+                        try {
                             Runnable task1 = () -> {
 
-                                try{
+                                try {
                                     //카운트가 0이 될 때까지 가디리기
+                                    readySignal.countDown();
                                     startSignal.await();
 
-                                }catch(InterruptedException e){
+                                } catch (InterruptedException e) {
                                     Thread.currentThread().interrupt();
                                     throw new RuntimeException(e);
                                 }
@@ -294,9 +296,10 @@ public class VoteServiceImplIntegrationTest {
                             };
                             Runnable task2 = () -> {
 
-                                try{
+                                try {
+                                    readySignal.countDown();
                                     startSignal.await();
-                                }catch(InterruptedException e){
+                                } catch (InterruptedException e) {
                                     Thread.currentThread().interrupt();
                                     throw new RuntimeException(e);
                                 }
@@ -308,6 +311,9 @@ public class VoteServiceImplIntegrationTest {
                             Future<?> result1 = executor.submit(task1);
                             Future<?> result2 = executor.submit(task2);
 
+
+                            //readySignal이 0이 될 때를 기다리고 start
+                            readySignal.await();
                             startSignal.countDown();
 
                             //서비스 호출이 정상 완료되면 ++;
@@ -319,8 +325,8 @@ public class VoteServiceImplIntegrationTest {
                                 result1.get();
                                 successCount++;
 
-                            }catch (ExecutionException e) {
-                                System.out.println("task1 실패: "+e.getCause() );
+                            } catch (ExecutionException e) {
+                                System.out.println("task1 실패: " + e.getCause());
                                 failureCause = e.getCause();
                             }
 
@@ -328,33 +334,32 @@ public class VoteServiceImplIntegrationTest {
                                 result2.get();
                                 successCount++;
 
-                            }catch (ExecutionException e) {
-                                System.out.println("task2 실패: "+e.getCause());
+                            } catch (ExecutionException e) {
+                                System.out.println("task2 실패: " + e.getCause());
                                 failureCause = e.getCause();
                             }
 
                             Integer questionVoteCount = jdbcTemplate
                                     .queryForObject("select vote_count from question where no = ? and participant_no = ?"
-                                    ,Integer.class,questionNo,participantNo);
+                                            , Integer.class, questionNo, participantNo);
                             Integer voteRecordCount = jdbcTemplate.queryForObject("select COUNT(*) from vote where question_no =? and participant_no = ?",
-                                    Integer.class,questionNo,participantNo);
+                                    Integer.class, questionNo, participantNo);
 
                             //좋아요 수는 1, 좋아요 기록은 하나만 남아야 함
-                            assertEquals(1,questionVoteCount);
-                            assertEquals(1,voteRecordCount);
-                            assertEquals(1,successCount);
+                            assertEquals(1, questionVoteCount);
+                            assertEquals(1, voteRecordCount);
+                            assertEquals(1, successCount);
 
                             ResponseStatusException error
-                                    = assertInstanceOf(ResponseStatusException.class,failureCause);
+                                    = assertInstanceOf(ResponseStatusException.class, failureCause);
 
-                            assertEquals(HttpStatus.CONFLICT,error.getStatusCode());
-                            assertEquals("이미 투표한 질문입니다.",error.getReason());
+                            assertEquals(HttpStatus.CONFLICT, error.getStatusCode());
+                            assertEquals("이미 투표한 질문입니다.", error.getReason());
 
 
-                        }finally {
+                        } finally {
                             executor.shutdown();
                         }
-
 
 
                     } finally {
