@@ -35,7 +35,7 @@ public class VoteServiceImplTest {
     void rejectsVoteWhenQuestionIsMissing() {
 
         QuestionMapper questionMapper = mock(QuestionMapper.class);
-        when(questionMapper.existsByRoomNoAndQuestionNo(10L, 43L)).thenReturn(0);
+        when(questionMapper.selectQuestionNoForUpdate(10L, 43L)).thenReturn(null);
 
         VoteMapper voteMapper = mock(VoteMapper.class);
         QnaRoomMapper qnaRoomMapper = mock(QnaRoomMapper.class);
@@ -57,7 +57,7 @@ public class VoteServiceImplTest {
     void rejectsVoteAfterDeadline() {
 
         QuestionMapper questionMapper = mock(QuestionMapper.class);
-        when(questionMapper.existsByRoomNoAndQuestionNo(10L, 43L)).thenReturn(1);
+        when(questionMapper.selectQuestionNoForUpdate(10L, 43L)).thenReturn(43L);
 
         QnaRoomMapper qnaRoomMapper = mock(QnaRoomMapper.class);
 
@@ -90,7 +90,7 @@ public class VoteServiceImplTest {
         QuestionMapper questionMapper = mock(QuestionMapper.class);
         QnaRoomMapper qnaRoomMapper = mock(QnaRoomMapper.class);
 
-        when(questionMapper.existsByRoomNoAndQuestionNo(10L, 43L)).thenReturn(1);
+        when(questionMapper.selectQuestionNoForUpdate(10L, 43L)).thenReturn(43L);
 
         LocalDateTime deadline = LocalDateTime.now().plusHours(1);
         QnaRoom room = QnaRoom.builder()
@@ -154,7 +154,7 @@ public class VoteServiceImplTest {
         VoteMapper voteMapper = mock(VoteMapper.class);
         QnaRoomMapper qnaRoomMapper = mock(QnaRoomMapper.class);
 
-        when(questionMapper.existsByRoomNoAndQuestionNo(43L, 10L)).thenReturn(1);
+        when(questionMapper.selectQuestionNoForUpdate(43L, 10L)).thenReturn(10L);
 
         LocalDateTime deadline = LocalDateTime.now().plusHours(1);
 
@@ -182,7 +182,7 @@ public class VoteServiceImplTest {
     @DisplayName("방 정보를 찾지 못하면 추천을 거절한다")
     void rejectsVoteWhenQnaRoomIsMissing(){
         QuestionMapper questionMapper = mock(QuestionMapper.class);
-        when(questionMapper.existsByRoomNoAndQuestionNo(10L,43L)).thenReturn(1);
+        when(questionMapper.selectQuestionNoForUpdate(10L,43L)).thenReturn(43L);
 
         QnaRoomMapper qnaRoomMapper = mock(QnaRoomMapper.class);
         when(qnaRoomMapper.selectQnaRoomByRoomNo(10L)).thenReturn(null);
