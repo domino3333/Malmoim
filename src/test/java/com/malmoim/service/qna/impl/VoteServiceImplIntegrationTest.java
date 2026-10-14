@@ -308,6 +308,8 @@ public class VoteServiceImplIntegrationTest {
                             Future<?> result1 = executor.submit(task1);
                             Future<?> result2 = executor.submit(task2);
 
+                            startSignal.countDown();
+
                             //서비스 호출이 정상 완료되면 ++;
                             int successCount = 0;
                             //실패한 이유를 담을 변수
