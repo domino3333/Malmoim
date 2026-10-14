@@ -311,7 +311,6 @@ public class VoteServiceImplIntegrationTest {
                             Future<?> result1 = executor.submit(task1);
                             Future<?> result2 = executor.submit(task2);
 
-
                             //readySignal이 0이 될 때를 기다리고 start
                             readySignal.await();
                             startSignal.countDown();
