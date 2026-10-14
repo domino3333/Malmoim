@@ -120,7 +120,7 @@ public class VoteServiceImplTest {
     void acceptsFirstVote() {
 
         QuestionMapper questionMapper = mock(QuestionMapper.class);
-        when(questionMapper.existsByRoomNoAndQuestionNo(10L, 43L)).thenReturn(1);
+        when(questionMapper.selectQuestionNoForUpdate(10L, 43L)).thenReturn(43L);
 
         LocalDateTime deadline = LocalDateTime.now().plusHours(1);
 
