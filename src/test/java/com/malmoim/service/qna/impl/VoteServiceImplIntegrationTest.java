@@ -16,10 +16,7 @@ import org.springframework.test.context.bean.override.mockito.MockitoSpyBean;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
+import java.util.concurrent.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.doThrow;
@@ -279,12 +276,31 @@ public class VoteServiceImplIntegrationTest {
                                 Long.class, roomNo, participantNo);
 
                         ExecutorService executor = Executors.newFixedThreadPool(2);
+                        CountDownLatch startSignal = new CountDownLatch(1);
+
                         try{
                             Runnable task1 = () -> {
+
+                                try{
+                                    //카운트가 0이 될 때까지 가디리기
+                                    startSignal.await();
+
+                                }catch(InterruptedException e){
+                                    Thread.currentThread().interrupt();
+                                    throw new RuntimeException(e);
+                                }
                                 voteService.castVote(roomNo, questionNo, participantNo);
                                 System.out.println("task1 실행");
                             };
                             Runnable task2 = () -> {
+
+                                try{
+                                    startSignal.await();
+                                }catch(InterruptedException e){
+                                    Thread.currentThread().interrupt();
+                                    throw new RuntimeException(e);
+                                }
+
                                 voteService.castVote(roomNo, questionNo, participantNo);
                                 System.out.println("task2 실행");
                             };
@@ -304,7 +320,6 @@ public class VoteServiceImplIntegrationTest {
                             }catch (ExecutionException e) {
                                 System.out.println("task1 실패: "+e.getCause() );
                                 failureCause = e.getCause();
-
                             }
 
                             try {
