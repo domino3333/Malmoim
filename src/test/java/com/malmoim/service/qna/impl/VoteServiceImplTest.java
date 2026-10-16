@@ -5,17 +5,12 @@ import com.malmoim.domain.QnaRoom;
 import com.malmoim.mapper.QnaRoomMapper;
 import com.malmoim.mapper.QuestionMapper;
 import com.malmoim.mapper.VoteMapper;
-import com.malmoim.service.qna.impl.VoteServiceImpl;
-import net.bytebuddy.utility.dispatcher.JavaDispatcher;
-import org.apache.coyote.Response;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
-import org.springframework.cglib.core.Local;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
@@ -26,8 +21,6 @@ import static org.mockito.Mockito.*;
 
 public class VoteServiceImplTest {
 
-
-    //근데 그냥 임의의 값을 내가 지정해서 그걸 돌려줘라고하는거면 이런 mock은 왜필요한거지? 그냥 0을 넣으면 되잖아
 
 
     @Test
@@ -196,6 +189,7 @@ public class VoteServiceImplTest {
         assertEquals(HttpStatus.NOT_FOUND,error.getStatusCode());
 
         verify(voteMapper,never()).insertVote(43L,10L);
+
         verify(questionMapper,never()).incrementVoteCount(43L);
 
     }
