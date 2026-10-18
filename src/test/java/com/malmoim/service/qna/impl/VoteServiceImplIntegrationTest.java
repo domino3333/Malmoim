@@ -16,6 +16,7 @@ import org.springframework.test.context.bean.override.mockito.MockitoSpyBean;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 import java.util.concurrent.*;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -240,7 +241,9 @@ public class VoteServiceImplIntegrationTest {
         //아직 db작업 중인지 판단하는 플래그
         boolean canCleanUp = true;
 
-        String hostEmail = "concurrent@example.com";
+        String runId = UUID.randomUUID().toString();
+
+        String hostEmail = runId +"@example.com";
 
         jdbcTemplate.update("insert into member(email,password,name,role) values(?,?,?,?)"
                 , hostEmail, "password", "동시추천호스트", "NORMAL");
@@ -249,7 +252,7 @@ public class VoteServiceImplIntegrationTest {
         try {
 
             Long hostNo = jdbcTemplate.queryForObject("select no from member where email =?", Long.class, hostEmail);
-            String code = "code";
+            String code = runId.substring(0,20);
 
 
             jdbcTemplate.update("insert into room(host_no,title,code,capacity) values(?,?,?,?)", hostNo, "타이틀", code, 10);
