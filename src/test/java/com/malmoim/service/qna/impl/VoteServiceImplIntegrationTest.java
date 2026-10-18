@@ -234,7 +234,7 @@ public class VoteServiceImplIntegrationTest {
     }
 
 
-    @Test
+    @RepeatedTest(5)
     @DisplayName("같은 참여자가 동시에 중복 추천해도 한 번만 저장한다")
     void rejectsConcurrentDuplicateVotesInDatabase() throws InterruptedException,TimeoutException {
 
