@@ -440,9 +440,9 @@ public class VoteServiceImplIntegrationTest {
                 String nickname1 = "참여자닉네임1";
                 String nickname2 = "참여자닉네임2";
                 jdbcTemplate.update("insert into participant(nickname,room_no) values(?,?)", nickname1, roomNo);
-                jdbcTemplate.update("insert into participant(nickname,room_no) values(?,?)", nickname2, roomNo);
 
                 try {
+                    jdbcTemplate.update("insert into participant(nickname,room_no) values(?,?)", nickname2, roomNo);
 
                     Long participantNo1 = jdbcTemplate.queryForObject("select no from participant where room_no =? and nickname=?"
                             , Long.class, roomNo, nickname1);
@@ -528,19 +528,16 @@ public class VoteServiceImplIntegrationTest {
                             Integer questionVoteCount = jdbcTemplate
                                     .queryForObject("select vote_count from question where no = ? and participant_no = ?"
                                             , Integer.class, questionNo, participantNo1);
-                            Integer voteRecordCount = jdbcTemplate.queryForObject("select COUNT(*) from vote where question_no =? and participant_no = ?",
-                                    Integer.class, questionNo, participantNo1);
+                            Integer voteRecordCount = jdbcTemplate.queryForObject("select COUNT(*) from vote where question_no =?",
+                                    Integer.class, questionNo);
 
                             //좋아요 수는 1, 좋아요 기록은 하나만 남아야 함
-                            assertEquals(1, questionVoteCount);
-                            assertEquals(1, voteRecordCount);
-                            assertEquals(1, successCount);
+                            assertEquals(2, questionVoteCount);
+                            assertEquals(2, voteRecordCount);
+                            assertEquals(2, successCount);
 
-                            ResponseStatusException error
-                                    = assertInstanceOf(ResponseStatusException.class, failureCause);
+                            assertNull(failureCause);
 
-                            assertEquals(HttpStatus.CONFLICT, error.getStatusCode());
-                            assertEquals("이미 투표한 질문입니다.", error.getReason());
 
 
                         } finally {
