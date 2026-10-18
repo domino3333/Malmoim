@@ -5,6 +5,7 @@ import ch.qos.logback.core.net.SyslogOutputStream;
 import com.malmoim.mapper.QuestionMapper;
 import com.malmoim.service.qna.VoteService;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -403,7 +404,7 @@ public class VoteServiceImplIntegrationTest {
     }
 
 
-    @Test
+    @RepeatedTest(5)
     @DisplayName("서로 다른 참여자가 같은 질문에 동시에 추천하면 모두 저장한다")
     void acceptsConcurrentVotesFromDifferentParticipants() throws InterruptedException,TimeoutException {
 
