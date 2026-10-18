@@ -237,6 +237,8 @@ public class VoteServiceImplIntegrationTest {
 
         assertEquals("malmoim_test", jdbcTemplate.queryForObject("select database()", String.class));
 
+        boolean canCleanUp = true;
+
         String hostEmail = "concurrent@example.com";
 
         jdbcTemplate.update("insert into member(email,password,name,role) values(?,?,?,?)"
@@ -308,6 +310,7 @@ public class VoteServiceImplIntegrationTest {
                                 System.out.println("task2 실행");
                             };
 
+                            canCleanUp = false;
                             Future<?> result1 = executor.submit(task1);
                             Future<?> result2 = executor.submit(task2);
 
@@ -360,9 +363,10 @@ public class VoteServiceImplIntegrationTest {
 
                         } finally {
                             executor.shutdownNow();
-                            
-                            boolean terminated = executor.awaitTermination(5,TimeUnit.SECONDS);
-                            assertTrue(terminated,"작업 스레드가 제한 시간 내에 종료되지 않았습니다.");
+
+                            //5초 내에 종료되면 작업을 정리해도 된다는 플래그에 true 대입
+                            canCleanUp = executor.awaitTermination(5,TimeUnit.SECONDS);
+                            assertTrue(canCleanUp,"작업 스레드가 제한 시간 내에 종료되지 않았습니다.");
 
                         }
 
