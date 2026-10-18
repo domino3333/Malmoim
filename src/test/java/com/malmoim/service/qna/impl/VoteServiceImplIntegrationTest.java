@@ -312,7 +312,9 @@ public class VoteServiceImplIntegrationTest {
                             Future<?> result2 = executor.submit(task2);
 
                             //readySignal이 0이 될 때를 기다리고 start
-                            readySignal.await();
+                            // 5초가 지나도 카운트가 남아 있으면 false반환
+                            boolean ready = readySignal.await(5,TimeUnit.SECONDS);
+                            assertTrue(ready," 두 작업이 제한 시간 내에 준비되지 않았습니다.");
                             startSignal.countDown();
 
                             //서비스 호출이 정상 완료되면 ++;
