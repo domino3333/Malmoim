@@ -360,6 +360,10 @@ public class VoteServiceImplIntegrationTest {
 
                         } finally {
                             executor.shutdownNow();
+                            
+                            boolean terminated = executor.awaitTermination(5,TimeUnit.SECONDS);
+                            assertTrue(terminated,"작업 스레드가 제한 시간 내에 종료되지 않았습니다.");
+
                         }
 
 
