@@ -359,7 +359,7 @@ public class VoteServiceImplIntegrationTest {
 
 
                         } finally {
-                            executor.shutdown();
+                            executor.shutdownNow();
                         }
 
 
