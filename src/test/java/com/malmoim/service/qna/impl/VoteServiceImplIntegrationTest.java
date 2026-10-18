@@ -373,16 +373,24 @@ public class VoteServiceImplIntegrationTest {
 
                     } finally {
 
-                        jdbcTemplate.update("delete from question where participant_no = ? and room_no = ?", participantNo, roomNo);
+                        if (canCleanUp) {
+                            jdbcTemplate.update("delete from question where participant_no = ? and room_no = ?", participantNo, roomNo);
+                        }
                     }
                 } finally {
-                    jdbcTemplate.update("delete from participant where room_no = ? and nickname= ?", roomNo, nickname);
+                    if (canCleanUp) {
+                        jdbcTemplate.update("delete from participant where room_no = ? and nickname= ?", roomNo, nickname);
+                    }
                 }
             } finally {
-                jdbcTemplate.update("delete from room where code = ?", code);
+                if (canCleanUp) {
+                    jdbcTemplate.update("delete from room where code = ?", code);
+                }
             }
         } finally {
-            jdbcTemplate.update("delete from member where email=?", hostEmail);
+            if (canCleanUp) {
+                jdbcTemplate.update("delete from member where email=?", hostEmail);
+            }
         }
 
 
