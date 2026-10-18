@@ -41,7 +41,7 @@ public class VoteServiceImplTest {
         assertEquals(HttpStatus.NOT_FOUND, error.getStatusCode());
 
         //실제로 voteMapper가 호출되지 않았는지 검사
-        verifyNoInteractions(voteMapper);
+        verifyNoInteractions(voteMapper,qnaRoomMapper);
     }
 
 
