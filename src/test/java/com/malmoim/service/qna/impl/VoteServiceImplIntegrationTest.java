@@ -232,11 +232,12 @@ public class VoteServiceImplIntegrationTest {
 
     @Test
     @DisplayName("같은 참여자가 동시에 중복 추천해도 한 번만 저장한다")
-    void rejectsConcurrentDuplicateVotesInDatabase() throws InterruptedException {
+    void rejectsConcurrentDuplicateVotesInDatabase() throws InterruptedException,TimeoutException {
 
 
         assertEquals("malmoim_test", jdbcTemplate.queryForObject("select database()", String.class));
 
+        //아직 db작업 중인지 판단하는 플래그
         boolean canCleanUp = true;
 
         String hostEmail = "concurrent@example.com";
@@ -326,7 +327,7 @@ public class VoteServiceImplIntegrationTest {
                             Throwable failureCause = null;
 
                             try {
-                                result1.get();
+                                result1.get(5,TimeUnit.SECONDS);
                                 successCount++;
 
                             } catch (ExecutionException e) {
@@ -335,7 +336,7 @@ public class VoteServiceImplIntegrationTest {
                             }
 
                             try {
-                                result2.get();
+                                result2.get(5,TimeUnit.SECONDS);
                                 successCount++;
 
                             } catch (ExecutionException e) {
