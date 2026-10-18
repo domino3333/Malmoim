@@ -49,7 +49,8 @@ public class VoteServiceImplIntegrationTest {
 
         assertEquals("malmoim_test", jdbcTemplate.queryForObject("SELECT DATABASE()", String.class));
 
-        String hostEmail = "test@example.com";
+        String runId = UUID.randomUUID().toString();
+        String hostEmail = runId + "@example.com";
 
         jdbcTemplate.update("insert into member(email,password,name,role) values(?,?,?,?)",
                 hostEmail, "unused", "테스트유저1", "NORMAL");
@@ -57,7 +58,7 @@ public class VoteServiceImplIntegrationTest {
         try {
 
             Long hostNo = jdbcTemplate.queryForObject("select no from member where email = ? ", Long.class, hostEmail);
-            String roomCode = "TEST-CODE";
+            String roomCode = runId.substring(0, 20);
 
             jdbcTemplate.update("insert into room(host_no,title,code,capacity) values(?,?,?,?)",
                     hostNo, "중복 추천 테스트 방", roomCode, 10);
@@ -148,7 +149,8 @@ public class VoteServiceImplIntegrationTest {
 
         assertEquals("malmoim_test", jdbcTemplate.queryForObject("select database()", String.class));
 
-        String hostEmail = "host@example.com";
+        String runId = UUID.randomUUID().toString();
+        String hostEmail = runId + "@example.com";
 
         jdbcTemplate.update("insert into member(email,password,name,role) values(?,?,?,?)",
                 hostEmail, "password", "홍길동", "NORMAL");
@@ -157,7 +159,7 @@ public class VoteServiceImplIntegrationTest {
             Long hostNo = jdbcTemplate.queryForObject(
                     "select no from member where email = ?", Long.class, hostEmail);
 
-            String roomCode = "ROLLBACK_ROOM";
+            String roomCode = runId.substring(0, 20);
             jdbcTemplate.update("insert into room(host_no,title,code,capacity) values(?,?,?,?)",
                     hostNo, "타이틀", roomCode, 10);
 
