@@ -31,9 +31,9 @@ public class VoteServiceImpl implements VoteService {
 
         // questionNo를 받았을 때 그 질문이 실제로 넘겨받은 roomNo에 있는지 검증
         // 질문을 처음 조회할 때 X잠금을 획득하도로 변경
-        Long questionExists = questionMapper.selectQuestionNoForUpdate(roomNo, questionNo);
+        Long lockedQuestionNo = questionMapper.selectQuestionNoForUpdate(roomNo, questionNo);
 
-        if (questionExists == null) {
+        if (lockedQuestionNo == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND,
                     "%d번 질문이 %d번 방에 존재하지 않습니다".formatted(questionNo, roomNo));
         }
